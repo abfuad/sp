@@ -1,0 +1,61 @@
+{{ form_start(form) }}
+{{ form_errors(form) }}
+
+<div class="row ">
+	<div class="form-group mt-2 col-md-4 col-sm-6 ">
+		{{form_label(form.firstName)}}
+		{{ form_widget(form.firstName,{'attr':{'class':form_errors(form.firstName)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+		<div class="help-block text-danger">{{form_errors(form.firstName)}}</div>
+	</div>
+	<div class="form-group mt-2 col-md-4 col-sm-6 ">
+		{{form_label(form.middleName)}}
+		{{ form_widget(form.middleName,{'attr':{'class':form_errors(form.middleName)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+		<div class="help-block text-danger">{{form_errors(form.middleName)}}</div>
+	</div>
+	<div class="form-group mt-2 col-md-4 col-sm-6 ">
+		{{form_label(form.lastName)}}
+		{{ form_widget(form.lastName,{'attr':{'class':form_errors(form.lastName)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+		<div class="help-block text-danger">{{form_errors(form.lastName)}}</div>
+	</div>
+	<div class="form-group mt-2 col-md-4 col-sm-6 ">
+		{{form_label(form.sex)}}
+		{{ form_widget(form.sex,{'attr':{'class':form_errors(form.sex)? 'form-control is-invalid select2bs4':'form-control select2bs4','placeholder':"Enter..."}}) }}
+		<div class="help-block text-danger">{{form_errors(form.sex)}}</div>
+	</div>
+	{# <div class="form-group mt-2 col-md-4 col-sm-6 ">
+					{{form_label(form.birthDate)}}
+					{{ form_widget(form.birthDate,{'attr':{'class':form_errors(form.birthDate)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+					<div class="help-block text-danger">{{form_errors(form.birthDate)}}</div>
+				</div> #}
+
+	<div class="form-group mt-2 col-md-4 col-sm-6 ">
+		{{form_label(form.phone)}}
+		{{ form_widget(form.phone,{'attr':{'class':form_errors(form.phone)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+		<div class="help-block text-danger">{{form_errors(form.phone)}}</div>
+	</div>
+
+		<div class="form-group mt-2 ">
+			{{form_label(form.username)}}
+			{{ form_widget(form.username,{'attr':{'class':form_errors(form.username)? 'form-control  is-invalid':'form-control ','placeholder':"Enter..."}}) }}
+			<div class="help-block text-danger">{{form_errors(form.username)}}</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="form-group mt-2 ">
+			{{form_label(form.password.first)}}
+			{{ form_widget(form.password.first,{'attr':{'class':form_errors(form.password.first)? 'form-control  is-invalid':'form-control ','placeholder':"Enter..."}}) }}
+			<div class="help-block text-danger">{{form_errors(form.password.first)}}</div>
+		</div>
+		<div class="form-group mt-2 ">
+			{{form_label(form.password.second)}}
+			{{ form_widget(form.password.second,{'attr':{'class':form_errors(form.password.second)? 'form-control  is-invalid':'form-control ','placeholder':"Enter..."}}) }}
+			<div class="help-block text-danger">{{form_errors(form.password.second)}}</div>
+		</div>
+	</div>
+
+	<div class="card-footer float-right">
+		<a href="{{app.request.headers.get('referer')}}" class="btn btn-info ">back</a>
+		<button class="btn  btn-success ">{{ button_label|default('Register') }}</button>
+	</div>
+</div>
+{{ form_end(form,{render_rest: false}) }}

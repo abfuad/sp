@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PaymentSetting index{% endblock %}
+
+{% block body %}
+    <h1>PaymentSetting index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for payment_setting in payment_settings %}
+            <tr>
+                <td>{{ payment_setting.id }}</td>
+                <td>{{ payment_setting.name }}</td>
+                <td>{{ payment_setting.code }}</td>
+                <td>{{ payment_setting.description }}</td>
+                <td>{{ payment_setting.amount }}</td>
+                <td>{{ payment_setting.createdAt ? payment_setting.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ payment_setting.updatedAt ? payment_setting.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_payment_setting_show', {'id': payment_setting.id}) }}">show</a>
+                    <a href="{{ path('app_payment_setting_edit', {'id': payment_setting.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_payment_setting_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<title>{{app.request.server.get("SYSTEM_SHORT_NAME")}} | Top Navigation</title>
+
+		<!-- Font Awesome Icons -->
+		<link
+		rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
+		<!-- Theme style -->
+		<link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+
+		<link
+		href="{{asset('assets/plugins/fontface/OpenSans.css')}}" rel="stylesheet">
+		<!-- Google Font: Source Sans Pro -->
+		{% block stylesheets %}{% endblock %}
+		<style>
+			.btn {
+				color: #fff;
+				padding: 0.5rem;
+				font-size: 1.2rem;
+				word-wrap: break-word
+			}
+		</style>
+	</head>
+	<body class="hold-transition layout-top-nav">
+		<div
+			class="wrapper">
+
+			<!-- Navbar -->
+			<nav class="main-header navbar navbar-expand-md navbar-lightblue navbar-light bg-primary">
+				<div class="container">
+					<a href="#" class="navbar-brand">
+						<img src="{{ asset('image/' ~ app.request.server.get("LOGO_NAME") )}}" alt="{{app.request.server.get("SYSTEM_SHORT_NAME")}} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+
+						<span class="brand-text font-weight-bold text-white">
+							<strong>{{app.request.server.get("SYSTEM_NAME")}}</strong>
+						</span>
+					</a>
+
+					<button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div
+						class="collapse navbar-collapse order-3" id="navbarCollapse">
+						<!-- Left navbar links -->
+						<ul class="navbar-nav ml-auto">
+							{% if app.user %}
+								{# <li class="nav-item "> #}
+
+								<li class="nav-item">
+									<a href="{{ path('app_home')}}" class="nav-link ">
+										<i class="fa fa-home"></i>
+										Home
+									</a>
+								</li>
+
+								<li class="nav-item">
+
+									<a href="{{ path('app_logout') }}" class="nav-link mr-2">{% trans %}Logout{% endtrans %}
+										<i class="fa  fa-sign-in-alt"></i>
+									</a>
+								</li>
+								{# <li class="nav-item">
+									<a href="{{ path('app_product_home') }}" class="nav-link btn  badge badge-pill badge-light bg-light  text-center ml-5   font-weight-bold float-right">
+
+										{% trans %}Available Product{% endtrans %}
+
+									</a>
+								</li> #}
+							{% else %}
+
+								<li class="nav-item">
+									<a href="{{ path('app_login')}}" class="nav-link btn  btn-outline-info text-white">
+										{% trans %}Login{% endtrans %}
+										<i class="fa fa-sign-in"></i>
+									</a>
+
+
+								</li>
+
+
+							{% endif %}
+
+
+							
+
+
+						</ul>
+
+						<!-- SEARCH FORM -->
+
+					</div>
+
+					<!-- Right navbar links -->
+
+				</div>
+			</nav>
+			<!-- /.navbar -->
+
+			<!-- Content Wrapper. Contains page content -->
+			<div
+				class="content-wrapper">
+				<!-- Content Header (Page header) -->
+				<div class="content-header">
+					<div class="container">
+						<div class="row mb-2">
+							<div class="col-sm-6">
+								<h1 class="m-0 text-dark">
+								{{app.request.server.get("SYSTEM_NAME")}}
+									<small>({{app.request.server.get("SYSTEM_SHORT_NAME")}})</small>
+								</h1>
+							</div>
+							<!-- /.col -->
+
+						</div>
+						<!-- /.row -->
+					</div>
+					<!-- /.container-fluid -->
+				</div>
+				<!-- /.content-header -->
+
+				<!-- Main content -->
+				<div class="content">
+					<div class="container">
+						{% block body %}
+							<div class="row">
+
+								<div class="col-lg-12">
+									<div class="card">
+										<div class="card-body">
+											<h5 class="card-title"></h5>
+
+											<p class="card-text">
+												Welcome To 	{{app.request.server.get("SYSTEM_NAME")|title}}  
+											</p>
+
+
+										</div>
+									</div>
+
+
+								</div>
+
+
+							</div>
+						{% endblock %}
+						<!-- /.row -->
+					</div>
+					<!-- /.container-fluid -->
+				</div>
+				<!-- /.content -->
+			</div>
+
+
+			<!-- Main Footer -->
+			<footer class="main-footer">
+				<div class="float-right d-none d-sm-block">
+					<b>Version</b>
+					1.0
+				</div>
+				<strong>Copyright &copy;
+					{{"now"|date('Y')}}
+
+					<a href="/">	{{app.request.server.get("SYSTEM_NAME")|title}}</a>.</strong>
+				All rights reserved.
+			</footer>
+		</div>
+		<!-- ./wrapper -->
+
+		<!-- REQUIRED SCRIPTS -->
+		<script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+		<!-- Bootstrap 4 -->
+		<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+		<!-- jquery-validation -->
+		{# <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+																																																																																						<script src="{{asset('assets/plugins/jquery-validation/additional-methods.min.js"></script> #}
+		<!-- AdminLTE App --><script src="{{asset('assets/dist/js/adminlte.min.js')}}"> </script>
+	</body>
+</html>

@@ -1,0 +1,228 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	User index
+
+{% endblock %}
+{% block maintitle %}
+
+	{% trans %}
+	User
+	{% endtrans %}
+{% endblock %}
+{% block breadcrumb %}
+
+	<li class="breadcrumb-item ">
+		<a href="{{ path('app_user_info_index') }}">
+			{% trans %}
+			User
+			{% endtrans %}
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{% trans %}
+		User List
+		{% endtrans %}
+	</li>
+{% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="card col-md card-primary card-outline">
+
+			<div class="card ">
+				<div class="card-header">
+
+					<form class="form-inline card-title" method="POST">
+						<div class="input-group ">
+							<input class="form-control" autocomplete="off" name="name" type="search" placeholder="Search" aria-label="Search">
+							<div class="input-group-append">
+								<button class=" input-group-text btn btn-navbar " type="submit">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+
+					<div class="card-tools">
+						<button type="button" class="btn btn-tool" data-card-widget="collapse">
+							<i class="fas fa-minus"></i>
+						</button>
+					</div>
+					<!-- /.card-tools -->
+				</div>
+				<!-- /.card-header -->
+				<div class="card-body mb-0 pb-0">
+					{{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
+					) }}
+
+					<div class="row m-0 p-0">
+
+						<div class="form-group col-md-2">
+							<label class="col-sm-5 control-label no-padding-right">
+								{{ form_label(form.gender) }}
+							</label>
+							{{ form_widget(form.gender,{'attr':{'class':'select2' }}
+							) }}
+
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group col-md-3">
+							<label class="col-sm-5 control-label no-padding-right">
+								{{ form_label(form.status) }}
+							</label>
+							<div class="row">
+								<div class="col-md-8">
+									{{ form_widget(form.status,{'attr':{'class':'select2' }}
+									) }}
+
+								</div>
+								<div class="col-md-4">
+									<button class="btn btn-info btn-flat" type="submit">
+										Filter
+									</button>
+								</div>
+							</div>
+							<div class="help-block with-errors"></div>
+
+						</div>
+
+					</div>
+
+					{{ form_end(form) }}
+
+				</div>
+				<!-- /.card-body -->
+			</div>
+
+			<div class="card-body">
+				<div class="row">
+					Total :
+
+					{{ users.getTotalItemCount }}
+					Users
+
+					<table class="table table-hover table-condensed">
+						<thead>
+							<tr>
+								<td>
+									#
+
+								</td>
+								<th>
+									{% trans %}
+									Full Name
+									{% endtrans %}
+								</th>
+								<th>
+									{% trans %}
+									Phone
+									{% endtrans %}
+								</th>
+
+								<th>
+									{% trans %}
+									Status
+									{% endtrans %}
+								</th>
+
+								<th>
+									{% trans %}
+									Role
+									{% endtrans %}
+								</th>
+								<th>
+									{% trans %}
+									Action
+									{% endtrans %}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% set i =1 %}
+							{% for user in users %}
+								<tr>
+									<td class="">
+
+										<img class="img-circle img-sm" src="{{ asset('image') }}/{{ 'user.png' }}" alt="IM"></td>
+
+									<td>
+										{{ user.firstName|title }}
+										{{ user.middleName|title }}
+										{{ user.lastName|title }}
+
+									</td>
+									<td>
+										{{ user.phone }}
+									</td>
+									<td>
+										{% if is_granted("edt_usr") %}
+											<form class="d-inline" method="post" action="{{ path('user_action',{'id':user.user.id}) }}" onsubmit="return confirm('Are you sure you want to {{ user.user.isActive ? 'DeActivate':'Activate' }} this User Group?');">
+												<input name="activateUser" value="{{ user.user.isActive ? 0 : 1 }}" hidden>
+												{{ user.user.isActive ?  '<button class=" btn badge badge-danger m-l-10 hidden-sm-down">Deactivate</button>': '<button class="btn badge badge-success m-l-10 hidden-sm-down">Activate</button>' }}
+											</form>
+										{% endif %}
+									</td>
+
+									<td>
+										<span class="">
+											{% for role in user.user.roles %}
+												{% if  role != "ROLE_USER"  or user.user.roles|length ==1 %}
+													<span class="badge badge-default">
+														{{ role }}
+													</span>
+
+												{% endif %}
+
+											{% endfor %}
+
+										</span>
+									</td>
+
+									<td>
+
+
+										{% if is_granted("edt_usr") %}
+
+											<a href="{{ path('app_user_info_edit', {'id': user.id}) }}" title="Edit This User" class="btn btn-sm btn-outline-primary">
+												<i class="fa fa-edit"></i>
+											</a>
+										{% endif %}
+										{% if is_granted("prnt_usr_pswrd") %}
+
+											<form class="d-inline" method="post">
+												<input type="hidden" name="cred" value="{{ user.id }}">
+												<button class="btn btn-sm btn-info" title="print password">
+													<i class="fa fa-print"></i>
+												</button>
+											</form>
+										{% endif %}
+									</td>
+
+								</tr>
+								{% set i = i+1 %}
+							{% else %}
+								<tr>
+									<td colspan="8">
+										no records found
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<div class="float-right" id="custompaginator">
+						{{ knp_pagination_render(users) }}
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2({theme: 'bootstrap4'});
+});
+	</script>
+
+{% endblock %}

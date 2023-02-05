@@ -1,0 +1,84 @@
+{{ form_start(form) }}
+{{ form_errors(form) }}
+{{ form_row(form._token) }}
+
+<div class="card">
+	<div class="card-header">
+
+		<div class="card-header">
+			<h5 class="card-title">{% trans %}User Information{% endtrans %}</h5>
+
+			<div class="card-tools">
+				<a href="{{path('app_user_info_index')}}" class="btn btn-info btn-sm">{% trans %}back to list{% endtrans %}</a>
+
+
+			</div>
+		</div>
+
+
+		<div class="card-body">
+			<div class="row ">
+
+				<div class="form-group mt-2 col-md-4 col-sm-6 ">
+					{{form_label(form.firstName)}}
+					{{ form_widget(form.firstName,{'attr':{'class':form_errors(form.firstName)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+					<div class="help-block text-danger">{{form_errors(form.firstName)}}</div>
+				</div>
+				<div class="form-group mt-2 col-md-4 col-sm-6 ">
+					{{form_label(form.middleName)}}
+					{{ form_widget(form.middleName,{'attr':{'class':form_errors(form.middleName)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+					<div class="help-block text-danger">{{form_errors(form.middleName)}}</div>
+				</div>
+				<div class="form-group mt-2 col-md-4 col-sm-6 ">
+					{{form_label(form.lastName)}}
+					{{ form_widget(form.lastName,{'attr':{'class':form_errors(form.lastName)? 'form-control is-invalid':'form-control','placeholder':"Enter..."}}) }}
+					<div class="help-block text-danger">{{form_errors(form.lastName)}}</div>
+				</div>
+				
+				<div class="form-group mt-2 col-md-4 col-sm-6 ">
+					{{form_label(form.sex)}}
+					{{ form_widget(form.sex,{'attr':{'class':form_errors(form.sex)? 'form-control is-invalid select2bs4':'form-control select2bs4','placeholder':"Enter..."}}) }}
+					<div class="help-block text-danger">{{form_errors(form.sex)}}</div>
+				</div>
+                <div class="form-group mt-2 col-md-4 col-sm-6 ">
+                {{form_label(form.age)}}
+                {{ form_widget(form.age,{'attr':{'class':form_errors(form.age)? 'form-control is-invalid user_age':'form-control user_age','placeholder':"Enter..."}}) }}
+                <div class="help-block text-danger">{{form_errors(form.age)}}</div>
+            </div>
+
+
+				<div class="form-group mt-2 col-md-4 col-sm-6 ">
+					{{form_label(form.phone)}}
+					{{ form_widget(form.phone,{'attr':{'class':form_errors(form.phone)? 'form-control is-invalid user_phone':'form-control user_phone','placeholder':"Enter..."}}) }}
+					<div class="help-block text-danger">{{form_errors(form.phone)}}</div>
+				</div>
+                
+
+				
+				
+                
+                <div class="form-group mt-2 col-md-4 col-sm-6 ">
+                {{form_label(form.kebele)}}
+                {{ form_widget(form.kebele,{'attr':{'class':form_errors(form.kebele)? 'form-control is-invalid user_kebele':'form-control user_kebele','placeholder':"Enter..."}}) }}
+                <div class="help-block text-danger">{{form_errors(form.kebele)}}</div>
+            </div>
+
+				<div class="form-group mt-2 col-md-4 col-sm-6">
+					{{form_label(form.roles)}}
+					{{ form_widget(form.roles,{'attr':{'class':form_errors(form.roles)? 'form-control select2bs4 is-invalid roles':'form-control select2bs4 roles','placeholder':"Select..."}}) }}
+					<div class="help-block text-danger">{{form_errors(form.roles)}}</div>
+				</div>
+				
+
+
+			</div>
+		</div>
+		<div class="card-footer float-right">
+			<a href="{{app.request.headers.get('referer')}}" class="btn btn-info ">back</a>
+			<button class="btn  btn-success ">{{ button_label|default('Register') }}</button>
+
+		</div>
+	</div>
+
+
+	{{ form_end(form,{render_rest: false}) }}

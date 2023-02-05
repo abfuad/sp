@@ -1,0 +1,26 @@
+{% extends 'security/login.html.twig' %}
+{% block fullbody %}
+	<div class="row">
+		<div class="card col-8 m-auto">
+			<div class="card-body login-card-body">
+				<p class="login-box-msg">Create Adminstrator Account</p>
+
+				{{ include('user/_form.html.twig') }}
+			</div>
+		</div>
+
+
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2()
+
+// Initialize Select2 Elements
+$('.select2bs4').select2({theme: 'bootstrap4'})
+$('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
+});
+	</script>
+
+{% endblock %}

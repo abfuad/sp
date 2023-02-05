@@ -1,0 +1,42 @@
+{% extends 'print.html.twig' %}
+
+{% block title %}{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block maintitle %}{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block body %}
+				<center>
+					<u>User Credential</u>
+				</center>
+				<br>
+				<center>
+				<div style="display:block; width:100%">
+					 Full Name
+					<u>{{ user.firstname }}
+						{{ user.middleName }}
+						{{ user.lastname }}</u>
+					<br>
+					Sex
+					<u>{{user.sex }}</u>
+					<br>
+					
+					<br>
+					Username
+					<u>{{user.user.username }}</u>
+					<br>
+					<br>
+					Password
+					<u>{{password }}</u>
+					
+				</div>
+
+
+				<br>
+                
+				<div class='sign'>
+					Printed By: &nbsp;<u>{{ app.user }}&nbsp;&nbsp;</u><br>
+					<br>
+					<span class="mt">Signiture: ______________________</span>
+					</div>
+				</center>
+		{% endblock %}

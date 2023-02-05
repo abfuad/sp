@@ -1,0 +1,57 @@
+{% if is_granted("ad_usr") or is_granted("vw_usr_lst") or is_granted("vw_usr_grp")  %}
+    <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-user text-primary"></i>
+            <p>
+                {% trans %}
+                User Management
+                {% endtrans %}
+                <i class="right fa fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+           
+            {% if is_granted("ad_usr") %}
+                <li class="nav-item">
+                    <a href="{{ path('app_user_info_new') }}" class="nav-link">
+
+                        <i class="fa fa-user-plus nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            New User
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted("vw_usr_lst") %}
+
+                <li class="nav-item">
+                    <a href="{{ path('app_user_info_index') }}" class="nav-link">
+
+                        <i class="fa fa-tasks nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            User List
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted("vw_usr_grp") %}
+                <li class="nav-item">
+                    <a href="{{ path('app_user_group_index') }}" class="nav-link">
+                        <i class="far fa-users nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            User Group
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </li>
+{% endif %}
+</li>

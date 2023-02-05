@@ -1,0 +1,60 @@
+<div class="row">
+	<div class="card col-md card-primary card-outline">
+
+		<div class="card ">
+			<div class="card-header">
+
+				<form class="form-inline card-title" method="POST">
+					<div class="input-group ">
+						<input class="form-control" autocomplete="off" name="name" type="search" placeholder="Search" aria-label="Search">
+						<div class="input-group-append">
+							<button class=" input-group-text btn btn-navbar " type="submit">
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool" data-card-widget="collapse">
+						<i class="fas fa-minus"></i>
+					</button>
+				</div>
+				<!-- /.card-tools -->
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body mb-0 pb-0">
+				{# {{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
+				) }} #}
+
+				<div class="row m-0 p-0"> {% block filter_form %}{% endblock %}
+
+					</div>
+
+					{# {{ form_end(form) }} #}
+
+				</div>
+				<!-- /.card-body -->
+			</div>
+
+			<div class="card-body">
+				<div class="row">
+					Total :
+
+					{{ datas.getTotalItemCount }}
+					{% block name %}{% endblock %}
+					<div class="table-responsive">
+						<table class="table table-hover table-striped projects table-bordered">
+						{% block table %}
+                            
+                        {% endblock %}
+							</table>
+							<div class="float-right" id="custompaginator">
+								{{ knp_pagination_render(datas) }}
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>

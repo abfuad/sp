@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';">
+
+		<title>
+			{% block title %}
+				Home
+			{% endblock %}
+			{{app.request.server.get("SYSTEM_SHORT_NAME")}}
+		</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+		<link rel="stylesheet" href="{{asset('assets/plugins/fontawesome/css/all.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/dist/css/adminlte.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/select2/css/select2.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/datepicker/css/datepicker.css')}}">
+
+		<link rel="stylesheet" href="{{asset('assets/plugins/toastr/toastr.min.css')}}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+		<link rel="stylesheet" href="{{asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/tooltipster.bundle.min.css')}}"/>
+
+		<link
+		rel="stylesheet" href="{{asset('assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+		{#
+																																																																										    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> #}
+		<link href="{{asset('assets/plugins/fontface/OpenSans.css')}}" rel="stylesheet"> {% block stylesheets %}{% endblock %}
+		<style>
+			.tooltip {
+				position: relative;
+				display: inline-block;
+				border-bottom: 1px dotted black;
+			}
+
+			.tooltip .tooltiptext {
+				visibility: hidden;
+				width: 120px;
+				background-color: black;
+				color: #fff;
+				text-align: center;
+				border-radius: 6px;
+				padding: 5px 0;
+				position: absolute;
+				z-index: 1;
+				bottom: 150%;
+				left: 50%;
+				margin-left: -60px;
+			}
+
+			.tooltip .tooltiptext::after {
+				content: "";
+				position: absolute;
+				top: 100%;
+				left: 50%;
+				margin-left: -5px;
+				border-width: 5px;
+				border-style: solid;
+				border-color: black transparent transparent transparent;
+			}
+
+			.tooltip:hover .tooltiptext {
+				visibility: visible;
+			}
+			.autocomplete-suggestions {
+				border: 1px solid #999;
+				background: #FFF;
+				overflow: auto;
+			}
+			.autocomplete-suggestion {
+				padding: 2px 5px;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+			.autocomplete-selected {
+				background: #F0F0F0;
+			}
+			.autocomplete-suggestions strong {
+				font-weight: normal;
+				color: #3399FF;
+			}
+			.autocomplete-group {
+				padding: 2px 5px;
+			}
+			.autocomplete-group strong {
+				display: block;
+				border-bottom: 1px solid #000;
+			}
+			.loader,
+			.loader:before,
+			.loader:after {
+				border-radius: 50%;
+				width: 2.5em;
+				height: 2.5em;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+				-webkit-animation: load7 1.8s infinite ease-in-out;
+				animation: load7 1.8s infinite ease-in-out;
+			}
+			.loader {
+				color: #3C8DBC;
+				font-size: 10px;
+				text-indent: -9999em;
+				-webkit-transform: translateZ(0);
+				-ms-transform: translateZ(0);
+				transform: translateZ(0);
+				-webkit-animation-delay: -0.16s;
+				animation-delay: -0.16s;
+			}
+			.loader:before,
+			.loader:after {}
+			.loader:before {
+				left: -3.5em;
+				-webkit-animation-delay: -0.32s;
+				animation-delay: -0.32s;
+			}
+			.loader:after {
+				left: 3.5em;
+			}
+			@-webkit-keyframes load7 {
+				0,
+				80%,
+				100% {
+					box-shadow: 0 2.5em 0 -1.3em;
+				}
+				40% {
+					box-shadow: 0 2.5em 0 0;
+				}
+			}
+			@keyframes load7 {
+				0,
+				80%,
+				100% {
+					box-shadow: 0 2.5em 0 -1.3em;
+				}
+				40% {
+					box-shadow: 0 2.5em 0 0;
+				}
+			}
+		</style>
+	</head>
+
+	<body class="hold-transition sidebar-mini">
+		<div
+			class="wrapper">
+			<!-- Navbar -->
+			{% include "menus/topnav.html.twig" %}
+			<!-- /.navbar -->
+
+			<!-- Main Sidebar Container -->
+				<aside
+				class="main-sidebar sidebar-white     sidebar-light-blue"> <!-- Brand Logo -->
+				<a href="#" class="brand-link navbar-lightblue bg-success">
+					<img src="{{ asset('image/'~ app.request.server.get("LOGO_NAME"))}}" alt="{{app.request.server.get("SYSTEM_SHORT_NAME")}} Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+					<span class="brand-text font-weight-bold text-white">	{{app.request.server.get("SYSTEM_SHORT_NAME")}}</span>
+				</a>
+
+				<!-- Sidebar -->
+				<div
+					class="sidebar">
+					<!-- Sidebar user (optional) -->
+					{% if app.user %}
+						<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+							<div class="image">
+								<img src="{{ asset('image/user.png')}}" class="img-circle elevation-2" alt="User Image">
+							</div>
+							<div class="info">
+								<a href="#" class="d-block">{{app.user.userInfo.firstName}}
+									{{app.user.userInfo.middleName}}</a>
+							</div>
+						</div>
+					{% endif %}
+					<!-- Sidebar Menu -->
+					{% include "menus/sidebarmenu.html.twig" %}
+					<!-- /.sidebar-menu -->
+				</div>
+				<!-- /.sidebar -->
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div
+				class="content-wrapper ">
+				<!-- Content Header (Page header) -->
+				<section class="content-header ">
+					<div class="container-fluid">
+						<div class="row">
+
+							<div class="col-sm-12 ">
+								<div id="loader" style="line-height: 115px; text-align: center;">
+									<img src="{{asset('ajax-loader.gif')}}" id="loading-image" style="display:none"/>
+
+								</div>
+							</div>
+							<div class="col-sm-12 ">
+
+								<h3>
+									{% block maintitle %}
+										Home
+									{% endblock %}
+								</h3>
+							</div>
+							{% block noBreadcrumb %}
+
+
+								<div class="col-sm-12 ">
+									<ol class="breadcrumb float-sm-right ">
+										<li class="breadcrumb-item ">
+											<a href="#">Home</a>
+										</li>
+										{% block breadcrumb %}{% endblock %}
+									</ol>
+								</div>
+							{% endblock %}
+						</div>
+					</div>
+					<!-- /.container-fluid -->
+				</section>
+
+				<!-- Main content -->
+				<section class="content">
+					<div class="row">
+						<div class="col-md-12 col-12 mx-auto">
+							{% set toast = "" %}
+							{% for label, messages in app.flashes %}
+								{% if label == "success" or label == "warning" or label == "danger"  %}
+
+									{% for message in messages %}
+										<div class="row alert alert-{{ label }} alert-dismissible">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+											<h4 class="mr-4">
+												<i class="icon fa fa-{% if label=='success' %}check {% else %}ban {% endif %}"></i>
+											</h4>
+											{{ message }}
+
+										</div>
+
+
+									{% endfor %}
+
+								{% else %}
+									{% for message in messages %}
+										{% set toast = toast ~ 'toastIt("'~ (label | trim('t')) ~'","'~ message ~'","top-right");' %}
+									{% endfor %}
+
+								{% endif %}
+							{% endfor %}
+
+						</div>
+					</div>
+					<div class="container-fluid">
+						<div
+							class="row">
+							<!-- left column -->
+							<div class="col-md-12">
+								{% block body %}
+									<h1>Body yyyyyyyyyyy</h1>
+								{% endblock %}
+							</div>
+							<!--/.col (left) -->
+							<!-- right column -->
+							<div class="col-md-6"></div>
+							<!--/.col (right) -->
+						</div>
+						<!-- /.row -->
+					</div>
+					<!-- /.container-fluid -->
+
+				</section>
+				<!-- /.content -->
+			</div>
+
+			<!-- /.content-wrapper -->
+			<footer class="main-footer">
+				<div class="float-right d-none d-sm-block">
+					<b>Version</b>
+					1.0
+				</div>
+				<strong>Copyright &copy;
+					{{"now"|date('Y')}}
+					<a href="#">	{{app.request.server.get("SYSTEM_NAME")|title}}
+				</a>.</strong>
+				All rights reserved.
+			</footer>
+
+
+			<!-- Control Sidebar -->
+			{# <aside class="control-sidebar control-sidebar-dark">
+																																																																																																																			    <!-- Control sidebar content goes here -->
+																																																																																																																			  </aside> #}
+			<!-- /.control-sidebar --><div id="temp-modal"> </div>
+		</div>
+		<!-- ./wrapper -->
+
+		<!-- jQuery -->
+
+
+		<script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+		<script src="{{asset('assets/plugins/toastr/toastr.min.js')}}"></script>
+		<!-- Bootstrap 4 -->
+		<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+		<!-- jquery-validation -->
+		{# <script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+																																																																																<script src="{{asset('assets/plugins/jquery-validation/additional-methods.min.js"></script> #}
+		<!-- AdminLTE App --><script src="{{asset('assets/dist/js/adminlte.min.js')}}"> </script>
+		<script src="{{asset('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+
+		<script>
+
+
+			toastr.options = {
+"closeButton": true,
+"debug": false,
+"newestOnTop": true,
+"progressBar": false,
+"positionClass": "toast-top-right",
+"preventDuplicates": true,
+"onclick": null,
+"showDuration": "300",
+"hideDuration": "1000",
+"timeOut": "5000",
+"extendedTimeOut": "1000",
+"showEasing": "swing",
+"hideEasing": "linear",
+"showMethod": "fadeIn",
+"hideMethod": "fadeOut"
+}
+function toastIt(context, msg, pos) { // $('.btn-toastr').on('click', function() {
+if (context == "danger") 
+context = "error"
+
+
+
+
+
+$context = context;
+$message = msg;
+$position = pos;
+
+if ($context === '') {
+$context = 'info';
+}
+
+if ($position === '') {
+$positionClass = 'toast-top-right';
+} else {
+$positionClass = 'toast-' + $position;
+}
+
+
+toastr[$context]($message, '', {positionClass: $positionClass});
+// });
+}
+		</script>
+		<script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+		<script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+		<script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+		<script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+		<script src="{{asset('assets/jquery.autocomplete.min.js')}}"></script>
+		<script type="text/javascript" src="{{ asset('assets/js/tooltipster.bundle.min.js')}}"></script>
+		<script type="text/javascript" src="{{ asset('assets/js/caret.js')}}"></script>
+		<script src="{{ asset('assets/plugins/inputmask/jquery.inputmask.js') }}"></script>
+		{% block javascripts %}{% endblock %}
+
+
+		<script>
+
+			var url = "{{ app.request.requestUri }}";
+
+$(`a[href='${url}']`).addClass("active").parent().parent().parent().addClass("menu-open");
+		</script>
+
+		<script>
+			function toastAll() {
+{{ toast | raw }}
+}
+
+setTimeout(function () {
+{{ toast | raw }}
+}, 1000);
+		</script>
+		<script>
+			$(function () {
+$('#language').submit(function (e) {
+e.preventDefault();
+var form = $(this);
+var url = form.attr('action');
+
+
+$.ajax({
+type: "POST",
+url: form.attr('action'),
+data: form.serialize(),
+success: function (response) {
+
+location.reload();
+}
+})
+
+});
+$('#lang').change(function () {
+$('#language').submit();
+})
+})
+		</script>
+	</body>
+</html>
