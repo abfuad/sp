@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +14,21 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/student')]
 class StudentController extends AbstractController
 {
-    #[Route('/', name: 'app_student_index', methods: ['GET'])]
-    public function index(StudentRepository $studentRepository): Response
+       use BaseControllerTrait;
+    #[Route('/', name: 'app_student_index', methods: ['GET',"POST"])]
+    public function index(StudentRepository $studentRepository,Request $request, PaginatorInterface $paginator): Response
     {
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $queryBuilder = $projectRepository->filter($form->getData());
+        // } else
+            $queryBuilder = $studentRepository->filter(['name' => $request->request->get('name')]);
+            $data = $paginator->paginate(
+                $queryBuilder,
+                $request->query->getInt('page', 1),
+                18
+            );
         return $this->render('student/index.html.twig', [
-            'students' => $studentRepository->findAll(),
+            'datas' => $data,
         ]);
     }
 

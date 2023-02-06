@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Grade;
 use App\Form\GradeType;
 use App\Repository\GradeRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,13 +14,75 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/grade')]
 class GradeController extends AbstractController
 {
-    #[Route('/', name: 'app_grade_index', methods: ['GET'])]
-    public function index(GradeRepository $gradeRepository): Response
+    
+    use BaseControllerTrait;
+    #[Route('/', name: 'app_grade_index', methods: ['GET','POST'])]
+    public function index(GradeRepository $gradeRepository,Request $request, PaginatorInterface $paginator): Response
     {
-        return $this->render('grade/index.html.twig', [
-            'grades' => $gradeRepository->findAll(),
-        ]);
+        
+        // $this->denyAccessUnlessGranted('vw_ds');
+            if($request->request->get('edit')){
+              
+
+                $id=$request->request->get('edit');
+                $grade=$gradeRepository->findOneBy(['id'=>$id]);
+                $form = $this->createForm(GradeType::class, $grade);
+                $form->handleRequest($request);
+        
+                if ($form->isSubmitted() && $form->isValid()) {
+                    // $this->denyAccessUnlessGranted('edt_ds');
+                   
+                    $this->em->flush();
+                    $this->addFlash('success', "Updated Successfuly");
+
+        
+                    return $this->redirectToRoute('app_grade_index');
+                }
+                $queryBuilder=$gradeRepository->filter($request->query->get('search'));
+                $data=$paginator->paginate(
+                    $queryBuilder,
+                    $request->query->getInt('page',1),
+                    18
+                );
+                return $this->render('grade/index.html.twig', [
+                    'datas' => $data,
+                    'form' => $form,
+                    'edit'=>$id,
+                    'entity'=>'grade'
+                ]);
+    
+            }
+            $grade = new Grade();
+            $form = $this->createForm(GradeType::class, $grade);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                //  $this->denyAccessUnlessGranted('ad_ds');
+
+                
+               $this->em->persist($grade);
+               $this->em->flush();
+               $this->addFlash('success', "Registered Successfuly");
+
+    
+                return $this->redirectToRoute('app_grade_index');
+            }
+            $queryBuilder=$gradeRepository->filter($request->query->get('search'));
+            $data=$paginator->paginate(
+                $queryBuilder,
+                $request->query->getInt('page',1),
+                18
+            );
+            return $this->render('grade/index.html.twig', [
+                'datas' => $data,
+                'form' => $form,
+                'edit'=>false,
+                'entity'=>'grade'
+            ]);
+        
+       
     }
+
 
     #[Route('/new', name: 'app_grade_new', methods: ['GET', 'POST'])]
     public function new(Request $request, GradeRepository $gradeRepository): Response

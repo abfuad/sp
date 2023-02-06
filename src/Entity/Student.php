@@ -32,14 +32,25 @@ class Student extends UserEntity
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profile = null;
 
-    #[ORM\Column]
-    private ?int $status = null;
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
 
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: StudentRegistration::class)]
     private Collection $studentRegistrations;
 
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Payment::class)]
     private Collection $payments;
+
+    public  const  NEW ='NEW';
+    public  const  TRANSFERED ='TRANSFERED';
+   // public  const  COMPLETED ='COMPLETED';
+    public  const  OTHERSCHOOL ='OTHERSCHOOL';
+
+  public const STATUS=['New'=>Student::NEW,'Other School'=>Student::OTHERSCHOOL];
+
+
+    
+
 
     public function __construct()
     {
@@ -109,12 +120,12 @@ class Student extends UserEntity
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 

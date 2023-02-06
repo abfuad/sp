@@ -67,6 +67,11 @@
 									{{ form_widget(form.grade,{'attr':{'class':form_errors(form.grade)? 'form-control select2bs4 is-invalid grade':'form-control select2bs4 grade','placeholder':"Select..."}}) }}
 									<div class="help-block text-danger">{{form_errors(form.grade)}}</div>
 								</div>
+								<div class="form-group mt-2 col-md-4 col-sm-6">
+									{{form_label(form.status)}}
+									{{ form_widget(form.status,{'attr':{'class':form_errors(form.status)? 'form-control select2bs4 is-invalid status':'form-control select2bs4 status','placeholder':"Select..."}}) }}
+									<div class="help-block text-danger">{{form_errors(form.status)}}</div>
+								</div>
 
 				<div class="form-group mt-2 col-md-4 col-sm-6 ">
 					{{form_label(form.kebele)}}

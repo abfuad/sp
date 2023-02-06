@@ -38,6 +38,19 @@ class PaymentRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function filter($search=null)
+    {
+        $qb=$this->createQueryBuilder('s');
+        if (isset($search['name'])) {
+
+            $qb->andWhere("s.idNumber  LIKE '%".$search."%'");
+        }
+            return 
+            $qb->orderBy('s.id', 'ASC')
+            ->getQuery()
+     
+        ;
+    }
 
 //    /**
 //     * @return Payment[] Returns an array of Payment objects

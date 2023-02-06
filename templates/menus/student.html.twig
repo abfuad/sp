@@ -1,0 +1,61 @@
+{% if is_granted("ad_usr") or is_granted("vw_usr_lst") or is_granted("vw_usr_grp")  %}
+    <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-users text-primary"></i>
+            <p>
+                {% trans %}
+              Student
+                {% endtrans %}
+                <i class="right fa fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+           
+            {% if is_granted("ad_usr") %}
+                <li class="nav-item">
+                    <a href="{{ path('app_student_new') }}" class="nav-link">
+
+                        <i class="fa fa-user-plus nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            New Student
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted("vw_usr_lst") %}
+
+                <li class="nav-item">
+                    <a href="{{ path('app_student_index') }}" class="nav-link">
+
+                        <i class="fa fa-tasks nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            Student List
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted("vw_usr_lst") %}
+
+            <li class="nav-item">
+                <a href="{{ path('app_student_registration_new') }}" class="nav-link">
+
+                    <i class="fa fa-tasks nav-icon"></i>
+                    <p>
+                        {% trans %}
+                        New Registration
+                        {% endtrans %}
+                    </p>
+                </a>
+            </li>
+        {% endif %}
+            
+           
+
+        </ul>
+    </li>
+{% endif %}
+</li>

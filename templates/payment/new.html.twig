@@ -1,11 +1,62 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}New Payment{% endblock %}
+{% block title %}New Payment
+{% endblock %}
+{% block maintitle %}
 
+{% trans %}	New Payment{% endtrans %}
+{% endblock %}
+{% block breadcrumb %}
+
+
+	<li class="breadcrumb-item ">
+		<a href="{{path('app_payment_index')}}">{% trans %}Payment{% endtrans %}</a>
+	</li>
+	<li class="breadcrumb-item active">{% trans %}New Payment{% endtrans %}</li>
+{% endblock %}
 {% block body %}
-    <h1>Create new Payment</h1>
+	<div class="row">
 
-    {{ include('payment/_form.html.twig') }}
+<div class="col-md-12">
+<div class="card card-info card-outline">
+<div class="card-body"><h3 class="d-inline mr-2"><strong class="text-info">Year: {{year}}</strong></h3>
+<h3 class="d-inline mr-3">Yearly Fee:<strong class="text-red"> {{year.amount}}</strong></h3>
+<h3 class="d-inline mr-3"> Month:   <strong class="text-primary">{{month}}</strong></h3>
+   <h3 class="d-inline "> Month Fee:<strong class="text-success"> {{year.amount/10}}</strong></h3>
+<h3 class="d-inline "> Grade:<strong class="text-info"> {{grade.code}}</strong></h3>
 
-    <a href="{{ path('app_payment_index') }}">back to list</a>
+ <div class="float-right">
+ <form action="" method="post" class="float-right mr-2 mb-2 d-inline">
+ <input type="hidden" name="close" value="true">
+ <button type="submit"  class="btn btn-danger"> Exit</button>
+</form>
+</div>
+
+</div>
+</div>
+<div class="col-md-12">
+{{ include('payment/_form.html.twig') }}
+</div>
+
+
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script src="{{asset('assets/plugins/datepicker/js/bootstrap-datepicker.js')}}">
+		<script src="{{ asset('assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
+		<script src="{{ asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
+	</script>
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2()
+
+// Initialize Select2 Elements
+$('.select2bs4').select2({theme: 'bootstrap4'})
+$('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
+$('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
+$(".user_phone").mask("99999?99999");
+});
+	</script>
+
 {% endblock %}

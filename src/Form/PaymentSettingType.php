@@ -10,20 +10,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PaymentSettingType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    {  
+        // BaseFormType::addCommonForm($builder);
         $builder
-            ->add('name')
-            ->add('code')
-            ->add('description')
+           
             ->add('amount')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('createdBy')
-            ->add('updatedBy')
-            ->add('deletedBy')
-            ->add('month')
+           
+            // ->add('month')
             ->add('year')
         ;
+      
     }
 
     public function configureOptions(OptionsResolver $resolver): void

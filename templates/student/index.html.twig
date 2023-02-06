@@ -1,59 +1,106 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Student index{% endblock %}
+{% block title %}
+	Student index
+
+{% endblock %}
+{% block maintitle %}
+
+	{% trans %}
+	Student
+	{% endtrans %}
+{% endblock %}
+{% block breadcrumb %}
+
+	<li class="breadcrumb-item ">
+		<a href="{{ path('app_student_index') }}">
+			{% trans %}
+			Student
+			{% endtrans %}
+		</a>
+	</li>
+
+{% endblock %}
 
 {% block body %}
-    <h1>Student index</h1>
+	{% embed 'common/index.html.twig' %}
+	
+		{% block table %}
+			<thead>
+				<tr>
+					<th>#</th>
+					<th class="align-middle">IDNumber</th>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>FirstName</th>
-                <th>MiddleName</th>
-                <th>LastName</th>
-                <th>Phone</th>
-                <th>Kebele</th>
-                <th>Sex</th>
-                <th>Age</th>
-                <th>IdNumber</th>
-                <th>IsOrphan</th>
-                <th>Profile</th>
-                <th>Status</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for student in students %}
-            <tr>
-                <td>{{ student.id }}</td>
-                <td>{{ student.firstName }}</td>
-                <td>{{ student.middleName }}</td>
-                <td>{{ student.lastName }}</td>
-                <td>{{ student.phone }}</td>
-                <td>{{ student.kebele }}</td>
-                <td>{{ student.sex }}</td>
-                <td>{{ student.age }}</td>
-                <td>{{ student.idNumber }}</td>
-                <td>{{ student.isOrphan ? 'Yes' : 'No' }}</td>
-                <td>{{ student.profile }}</td>
-                <td>{{ student.status }}</td>
-                <td>{{ student.createdAt ? student.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ student.updatedAt ? student.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_student_show', {'id': student.id}) }}">show</a>
-                    <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="15">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+					<th class="align-middle">FullName</th>
+					<th class="align-middle">Sex</th>
+					<th class="align-middle">Age</th>
+					<th class="align-middle">Phone</th>
+                     <th class="align-middle">EntranceYear</th>
+                    <th class="align-middle">StartGrade</th>
 
-    <a href="{{ path('app_student_new') }}">Create new</a>
+
+					
+					<th class="align-middle">Status</th>
+
+				
+                <th class="align-middle">CreatedBy</th>
+			<th class="align-middle">CreatedAt</th>
+
+
+					<th class="align-middle">actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for data in datas %}
+					<tr>
+						<td>
+							{{loop.index}}
+
+						</td>
+						<td class="align-middle text-nowrap">{{ data.idNumber }}</td>
+
+						<td class="align-middle text-nowrap">{{ data.getFullName|upper }}</td>
+						<td class="align-middle">{{ data.sex }}</td>
+						<td class="align-middle">{{ data.age }}</td>
+						<td class="align-middle">{{ data.phone }}</td>
+                    <td class="align-middle">{{ data.entranceYear }}</td>
+
+						<td class="align-middle">{{ data.grade }}</td>
+					<td class="align-middle">{{ data.status }}</td>
+
+						
+
+						
+
+						<td class="align-middle">{{ data.createdBy }}</td>
+						{# <td class="align-middle"><a href="{{ vich_uploader_asset(data, 'documentFile') }}" target="_blank"> document</a></td> #}
+
+						<td class="align-middle">{{ data.createdAt ? data.createdAt|date('Y-m-d') : '' }}</td>
+						<td class="project-actions text-right">
+							<a href="{{ path('app_student_show', {'id': data.id}) }}" title="view" class="btn btn-info btn-sm d-inline text-nowrap">
+								<i class="fa fa-eye mr-1"></i>View</a>
+							<a href="{{ path('app_student_edit', {'id': data.id}) }}" title="edit" class="btn btn-warning btn-sm mt-1">
+								<i class="fa fa-edit mr-1">Edit</i>
+							</a>
+							
+
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="13">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		{% endblock %}
+	{% endembed %}
+
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2({theme: 'bootstrap4'});
+});
+	</script>
+
 {% endblock %}

@@ -4,20 +4,19 @@ namespace App\Entity;
 
 use App\Repository\PaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
+#[UniqueEntity('receiptNumber')]
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
-class Payment
+class Payment extends BaseEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
+  
     #[ORM\ManyToOne(inversedBy: 'payments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Student $student = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,unique:true,nullable:true)]
     private ?string $receiptNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'payments')]
@@ -27,10 +26,17 @@ class Payment
     #[ORM\Column(nullable: true)]
     private ?float $amount = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    #[ORM\ManyToOne(inversedBy: 'payments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?PaymentMonth $month = null;
+
+    #[ORM\ManyToOne(inversedBy: 'payments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?StudentRegistration $registration = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isPaid = null;
+
 
     public function getStudent(): ?Student
     {
@@ -76,6 +82,42 @@ class Payment
     public function setAmount(?float $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getMonth(): ?PaymentMonth
+    {
+        return $this->month;
+    }
+
+    public function setMonth(?PaymentMonth $month): self
+    {
+        $this->month = $month;
+
+        return $this;
+    }
+
+    public function getRegistration(): ?StudentRegistration
+    {
+        return $this->registration;
+    }
+
+    public function setRegistration(?StudentRegistration $registration): self
+    {
+        $this->registration = $registration;
+
+        return $this;
+    }
+
+    public function isIsPaid(): ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(?bool $isPaid): self
+    {
+        $this->isPaid = $isPaid;
 
         return $this;
     }

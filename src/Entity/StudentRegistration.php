@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRegistrationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRegistrationRepository::class)]
@@ -22,6 +24,14 @@ class StudentRegistration extends BaseEntity
 
     #[ORM\Column]
     private ?bool $isFree = null;
+
+    #[ORM\OneToMany(mappedBy: 'registration', targetEntity: Payment::class)]
+    private Collection $payments;
+
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+    }
 
    
 
@@ -69,6 +79,36 @@ class StudentRegistration extends BaseEntity
     public function setIsFree(bool $isFree): self
     {
         $this->isFree = $isFree;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setRegistration($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getRegistration() === $this) {
+                $payment->setRegistration(null);
+            }
+        }
 
         return $this;
     }
