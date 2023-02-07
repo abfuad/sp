@@ -1,4 +1,4 @@
-{% if is_granted("ad_usr") or is_granted("vw_usr_lst") or is_granted("vw_usr_grp")  %}
+{% if is_granted("ad_stdnt") or is_granted("vw_stdnt_lst")   %}
     <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
             <i class="nav-icon fa fa-users text-primary"></i>
@@ -11,7 +11,7 @@
         </a>
         <ul class="nav nav-treeview">
            
-            {% if is_granted("ad_usr") %}
+            {% if is_granted("ad_stdnt") %}
                 <li class="nav-item">
                     <a href="{{ path('app_student_new') }}" class="nav-link">
 
@@ -24,7 +24,7 @@
                     </a>
                 </li>
             {% endif %}
-            {% if is_granted("vw_usr_lst") %}
+            {% if is_granted("vw_stdnt_lst") %}
 
                 <li class="nav-item">
                     <a href="{{ path('app_student_index') }}" class="nav-link">
@@ -38,7 +38,7 @@
                     </a>
                 </li>
             {% endif %}
-            {% if is_granted("vw_usr_lst") %}
+            {% if is_granted("ad_stdnt") %}
 
             <li class="nav-item">
                 <a href="{{ path('app_student_registration_new') }}" class="nav-link">

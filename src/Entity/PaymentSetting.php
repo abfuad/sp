@@ -33,6 +33,9 @@ class PaymentSetting extends BaseEntity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $numberOfMonth = null;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
@@ -128,6 +131,18 @@ public function __toString()
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getNumberOfMonth(): ?int
+    {
+        return $this->numberOfMonth;
+    }
+
+    public function setNumberOfMonth(?int $numberOfMonth): self
+    {
+        $this->numberOfMonth = $numberOfMonth;
 
         return $this;
     }

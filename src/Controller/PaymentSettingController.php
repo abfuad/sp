@@ -24,6 +24,24 @@ class PaymentSettingController extends AbstractController
     {
         
         // $this->denyAccessUnlessGranted('vw_ds');
+        if($request->request->get('status')){
+            $setting=$paymentSettingRepository->findOneBy(['isActive'=>1]);
+            if($setting && $request->request->get('activate')){
+                $this->em->flush();
+                $this->addFlash('danger', "sorry there is other active please first deactivate it");
+                return $this->redirectToRoute('app_payment_setting_index');
+
+
+            }
+            $paymentSetting=$paymentSettingRepository->find($request->request->get('status'));
+            $paymentSetting->setIsActive($request->request->get('activate'));
+            $this->em->flush();
+            $this->addFlash('success', "Updated Successfuly");
+
+        
+            return $this->redirectToRoute('app_payment_setting_index');
+
+        }
             if($request->request->get('edit')){
               
 

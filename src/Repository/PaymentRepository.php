@@ -38,12 +38,47 @@ class PaymentRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function filter($search=null)
+    public function filter($search=null,$year=null)
     {
-        $qb=$this->createQueryBuilder('s');
+        $qb=$this->createQueryBuilder('s')
+        ->join('s.registration','r')
+        ->join('s.student','st')
+        ;
         if (isset($search['name'])) {
 
-            $qb->andWhere("s.idNumber  LIKE '%".$search."%'");
+     
+            $names =  $search['name'];
+            
+                $qb->orWhere("st.firstName LIKE '%" . $names. "%' or st.idNumber LIKE '%" . $names . "%' or st.middleName LIKE '%" . $names . "%' or st.lastName LIKE '%" . $names . "%' ");
+            
+        }
+        if (isset($search['grade'])) {
+
+            $qb->andWhere('r.grade = :grd')
+            ->setParameter('grd',$search['grade']);
+        }
+        if (isset($search['year'])) {
+    
+            $qb->andWhere('r.year = :yr')
+            ->setParameter('yr',$search['year']);
+        }else{
+            $qb->andWhere('r.year = :yr')
+            ->setParameter('yr',$year);
+        }
+        if (isset($search['student'])) {
+    
+            $qb->andWhere('r.student = :st')
+            ->setParameter('st',$search['student']);
+        }
+        if (isset($search['month'])) {
+    
+            $qb->andWhere('s.month = :mon')
+            ->setParameter('mon',$search['month']);
+        }
+        if (isset($search['status'])) {
+    
+            $qb->andWhere('s.isPaid = :pad')
+            ->setParameter('pad',$search['status']);
         }
             return 
             $qb->orderBy('s.id', 'ASC')
@@ -55,17 +90,17 @@ class PaymentRepository extends ServiceEntityRepository
 //    /**
 //     * @return Payment[] Returns an array of Payment objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function getLatest(): array
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.isPaid = 1')
+        //    ->setParameter('val', $value)
+           ->orderBy('p.id', 'DESC')
+           ->setMaxResults(5)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Payment
 //    {

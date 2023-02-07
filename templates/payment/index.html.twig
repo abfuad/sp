@@ -24,6 +24,78 @@
 
 {% block body %}
 	{% embed 'common/index.html.twig' %}
+	{% block filter_form %}
+			{{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
+			) }}
+			<div class="row">
+				<div class="form-group col-md-4">
+					<label class="col-sm-5 control-label no-padding-right">
+						{{ form_label(form.student) }}
+					</label>
+					{{ form_widget(form.student,{'attr':{'class':'select2 form-control' }}
+					) }}
+
+					<div class="help-block with-errors"></div>
+				</div>
+				<div class="form-group col-md-4">
+					<label class="col-sm-5 control-label no-padding-right">
+						{{ form_label(form.year) }}
+					</label>
+					{{ form_widget(form.year,{'attr':{'class':'select2 form-control' }}
+					) }}
+
+					<div class="help-block with-errors"></div>
+				</div>
+				<div class="form-group col-md-4">
+					<label class="col-sm-5 control-label no-padding-right">
+						{{ form_label(form.month) }}
+					</label>
+					{{ form_widget(form.month,{'attr':{'class':'select2 form-control' }}
+					) }}
+
+					<div class="help-block with-errors"></div>
+				</div>
+				<div class="form-group col-md-4">
+					<label class="col-sm-5 control-label no-padding-right">
+						{{ form_label(form.grade) }}
+					</label>
+					{{ form_widget(form.grade,{'attr':{'class':'select2 form-control' }}
+					) }}
+
+					<div class="help-block with-errors"></div>
+				</div>
+			
+			
+				<div class="form-group col-md-4">
+
+					<div class="row">
+						<div class="col-md-8">
+							<label class="col-sm-5 control-label no-padding-right">
+								{{ form_label(form.status) }}
+							</label>
+							{{ form_widget(form.status,{'attr':{'class':'select2 form-control' }}
+							) }}
+
+						</div>
+						<div class="col-md-2 mt-4">
+							<button class="btn btn-info btn-sm  btn-flat mt-3" type="submit">
+								Filter
+							</button>
+						</div>
+						<div class="col-md-2 mt-4">
+							<input type="submit" class="btn btn-warning btn-sm btn-flat mt-3" value="Clear" name="reset"/>
+
+						</div>
+					</div>
+					<div class="help-block with-errors"></div>
+
+				</div>
+				<div class="form-group col-md-2 float-right">
+              <input type="submit" class="btn btn-secondary float-right mt-5 " value="PDF" name="pdf">
+				</div>
+			</div>
+			{{ form_end(form) }}
+		{% endblock %}
 
 		{% block table %}
 			<thead>
@@ -37,6 +109,9 @@
 					<th class="align-middle">Phone</th>
 					<th class="align-middle">Grade</th>
 					<th class="align-middle">Year</th>
+				<th class="align-middle">TotalFee</th>
+			<th class="align-middle">Paid</th>
+					
 
 
 					<th class="align-middle">Month</th>
@@ -48,44 +123,57 @@
                      <th>IsFree</th>
 
 
-					<th class="align-middle">CreatedBy</th>
+					<th class="align-middle">Cashier</th>
 					<th class="align-middle">CreatedAt</th>
 
 
-					<th class="align-middle">actions</th>
+					{# <th class="align-middle">actions</th> #}
 				</tr>
 			</thead>
 			<tbody>
 				{% for data in datas %}
+				{% set len = data.payments|length +1 %}
+				{% set paid = data.payments|filter(v => v.isPaid == 1)|reduce((carry, t) => carry + t.amount) %}
+		        {% set total = data.payments|first %}
+				{% set total = total.priceSetting.amount %}
+                 
 					<tr>
-						<td>
+						<td rowspan="{{len}}">
 							{{loop.index}}
 
 						</td>
-						<td class="align-middle text-nowrap">{{ data.student.idNumber }}</td>
+						<td rowspan="{{len}}" class="align-middle text-nowrap">{{ data.student.idNumber }}</td>
 
-						<td class="align-middle text-nowrap">{{ data.student.getFullName|upper }}</td>
-						<td class="align-middle">{{ data.student.sex }}</td>
-						<td class="align-middle">{{ data.student.age }}</td>
-						<td class="align-middle">{{ data.student.phone }}</td>
-						<td class="align-middle">{{ data.registration.grade }}</td>
+						<td rowspan="{{len}}" class="align-middle text-nowrap">{{ data.student.getFullName|upper }}</td>
+						<td rowspan="{{len}}" class="align-middle">{{ data.student.sex }}</td>
+						<td rowspan="{{len}}" class="align-middle">{{ data.student.age }}</td>
+						<td rowspan="{{len}}" class="align-middle">{{ data.student.phone }}</td>
+						<td rowspan="{{len}}" class="align-middle">{{ data.grade }}</td>
+             
 
+						<td rowspan="{{len}}" class="align-middle">{{ data.year }}</td>
+					<td rowspan="{{len}}" class="align-middle">{{ total }}</td>
+				<td rowspan="{{len}}" class="align-middle">{{ paid }}</td>
 
-						<td class="align-middle">{{ data.priceSetting }}</td>
-                    <td class="align-middle">{{ data.month }}</td>
-						<td class="align-middle">{{ data.receiptNumber }}</td>
-						<td class="align-middle"><span class="badge badge-info">{{ data.amount }}</span></td>
+						
+						</tr>
+						{% for payment in data.payments %}
+							
+						
+                    <td class="align-middle">{{ payment.month }}</td>
+						<td class="align-middle">{{ payment.receiptNumber }}</td>
+						<td class="align-middle"><span class="badge badge-info">{{ payment.amount }}</span></td>
 
-                    <td class="align-middle">{% if data.isPaid and data.registration.isFree == 0 %}
+                    <td class="align-middle">{% if payment.isPaid and payment.registration.isFree == 0 %}
                 <span class="badge badge-success">Paid</span>
-                {% elseif data.registration.isFree %}
+                {% elseif payment.registration.isFree %}
             <span class="badge badge-info">FREE</span>
 
                 {% else %}
             <span class="badge badge-danger">Not Paid</span>
 
                     {% endif %}</td>
-                    <td class="align-middle">{% if data.registration.isFree  %}
+                    <td class="align-middle">{% if payment.registration.isFree  %}
                 <span class="badge badge-info">YES</span>
                 {% else %}
             <span class="badge badge-danger">No</span>
@@ -94,20 +182,13 @@
 
 
 
-						<td class="align-middle">{{ data.createdBy }}</td>
+						<td class="align-middle">{{ payment.createdBy }}</td>
 						{# <td class="align-middle"><a href="{{ vich_uploader_asset(data, 'documentFile') }}" target="_blank"> document</a></td> #}
 
-						<td class="align-middle">{{ data.createdAt ? data.createdAt|date('Y-m-d') : '' }}</td>
-						<td class="project-actions text-right">
-							<a href="{{ path('app_student_show', {'id': data.id}) }}" title="view" class="btn btn-info btn-sm d-inline text-nowrap">
-								<i class="fa fa-eye mr-1"></i>View</a>
-							<a href="{{ path('app_student_edit', {'id': data.id}) }}" title="edit" class="btn btn-warning btn-sm mt-1">
-								<i class="fa fa-edit mr-1">Edit</i>
-							</a>
-
-
-						</td>
+						<td class="align-middle">{{ payment.createdAt ? payment.createdAt|date('Y-m-d') : '' }}</td>
+						
 					</tr>
+				{% endfor %}
 				{% else %}
 					<tr>
 						<td colspan="13">no records found</td>

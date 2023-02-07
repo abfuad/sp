@@ -87,10 +87,10 @@
                                         </th>
                                        
                                             <th>Year</th>
-                                            {# <th>Month</th> #}
+                                            <th>NumberOfMonth</th>
                                                 <th>TotalCost</th>
 
-                                        {# <th>{% trans %}description{% endtrans %}</th> #}
+                                        <th>{% trans %}status{% endtrans %}</th>
 
 
                                         <th>{% trans %}Action{% endtrans %}</th>
@@ -108,13 +108,18 @@
                                             </td>
                                             <td>{{ data.year }}
                                             </td>
-                                            {# <td>{{ data.month }}
+                                            <td>{{ data.numberOfMonth }}
 
-                                            </td> #}
+                                            </td>
                                             <td>{{data.amount}}</td>
 
 
-                                            {# <td>{{ data.description }}</td> #}
+                                            <td><form class="d-inline" method="post" action="{{path('app_payment_setting_index')}}" onsubmit="return confirm('Are you sure you want to {{ data.isActive ? 'DeActivate':'Activate' }} this item?');">
+												<input name="activate" value="{{ data.isActive ? 0 : 1 }}" hidden>
+												<input type="hidden" name="status" value="{{data.id}}">
+
+												{{ data.isActive ?  '<button class=" btn badge badge-danger m-l-10 hidden-sm-down">Deactivate</button>': '<button class="btn badge badge-success m-l-10 hidden-sm-down">Activate</button>' }}
+											</form></td>
 
 
                                             <td>

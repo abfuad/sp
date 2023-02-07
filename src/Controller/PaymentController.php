@@ -6,11 +6,18 @@ use App\Entity\Grade;
 use App\Entity\Payment;
 use App\Entity\PaymentMonth;
 use App\Entity\PaymentSetting;
+use App\Entity\PaymentYear;
+use App\Entity\Student;
 use App\Entity\StudentRegistration;
 use App\Form\PaymentType;
+use App\Helper\PrintHelper;
 use App\Repository\PaymentRepository;
+use App\Repository\PaymentSettingRepository;
+use App\Repository\StudentRegistrationRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +26,60 @@ use Symfony\Component\Routing\Annotation\Route;
 class PaymentController extends AbstractController
 {
     use BaseControllerTrait;
-    #[Route('/', name: 'app_payment_index', methods: ['GET'])]
-    public function index(Request $request,PaymentRepository $paymentRepository,PaginatorInterface $paginator): Response
+    #[Route('/', name: 'app_payment_index', methods: ['GET','POST'])]
+    public function index(PaymentSettingRepository $paymentSettingRepository,PrintHelper $printHelper,Request $request,StudentRegistrationRepository $studentRegistrationRepository,PaymentRepository $paymentRepository,PaginatorInterface $paginator): Response
     {
-        $queryBuilder = $paymentRepository->filter(['name' => $request->request->get('name')]);
+        $setting=$paymentSettingRepository->findOneBy(['isActive'=>1],['id'=>'DESC']);
+        $year=$setting?$setting->getYear():null;
+        if ($request->query->get('reset')) {
+            return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
+
+
+        }
+        $form = $this->createFormBuilder()
+        ->setMethod("GET")
+        ->add('year', EntityType::class, [
+            'class' => PaymentYear::class,
+            'placeholder' => 'Select year',
+            'required' => false
+        ])
+        ->add('month', EntityType::class, [
+            'class' => PaymentMonth::class,
+            'placeholder' => 'Select month',
+            'required' => false
+        ])
+        ->add('grade', EntityType::class, [
+            'class' => Grade::class,
+            'placeholder' => 'Select Grade',
+            'required' => false
+        ])
+        ->add('student', EntityType::class, [
+            'class' => Student::class,
+            'placeholder' => 'Select Student',
+            'choice_label' => 'idNumber',
+            'required' => false
+        ])
+       
+        ->add("status", ChoiceType::class, ["choices" => ["All" => null, "Paid" => Payment::PAID, "UnPaid" => Payment::UNPAID]]);
+    $form = $form->getForm();
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $queryBuilder = $studentRegistrationRepository->filter($form->getData(),$year);
+        $reportQuery =  $paymentRepository->filter($form->getData(),$year);
+       
+    } else{
+        $queryBuilder = $studentRegistrationRepository->filter(['name' => $request->request->get('name')],$year);
+        $reportQuery = $paymentRepository->filter(['name' => $request->request->get('name')],$year);
+
+    }
+
+
+        if ($request->query->get('pdf')) {
+            $printHelper->print('payment/print.html.twig', ["datas" => $reportQuery->getResult()
+            ], 'TOWHID SCHOOL STUDENT PAYMENT REPORT', 'landscape', 'A4');
+
+
+        }
         $data = $paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
@@ -30,6 +87,7 @@ class PaymentController extends AbstractController
         );
         return $this->render('payment/index.html.twig', [
             'datas' => $data,
+            'form'=>$form
         ]);
     }
 
@@ -40,13 +98,28 @@ class PaymentController extends AbstractController
         $paymentSetting=$this->em->getRepository(PaymentSetting::class)->findAll();
         $months=$this->em->getRepository(PaymentMonth::class)->findAll();
         $grades=$this->em->getRepository(Grade::class)->findAll();
-     
+       
         if( $session->get('year') &&  $session->get('month')){
             if($request->request->get('close')){
                
                 $session->remove('year');
                 $session->remove('month');
                 $session->remove('grade');
+
+
+                
+                $this->addFlash('success',' successfuly Exit');
+                return $this->redirectToRoute('app_payment_new', [], Response::HTTP_SEE_OTHER);
+            }
+            if($request->request->get('undo')){
+                $pay=$this->em->getRepository(Payment::class)->find($request->request->get('undo'));
+                 
+                $pay->setIsPaid(true);
+                    $pay->setAmount(0);
+                    // $pay->setCreatedBy($this->getUser());
+                    // $pay->setReceiptNumber(null);
+                    $pay->setIsPaid(false);
+                    $paymentRepository->save($pay, true);
 
 
                 
@@ -94,21 +167,19 @@ class PaymentController extends AbstractController
                 }
                 
 
-                // $payment->setRegistration($reg);
-                // $payment->setPriceSetting($year);
                 
-                // $payment->setMonth($month);
-                // $paymentRepository->save($payment, true);
                 $this->addFlash('success','  payed successfuly');
-                return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_payment_new', [], Response::HTTP_SEE_OTHER);
             }
+            $latest=$paymentRepository->getLatest();
     
             return $this->render('payment/new.html.twig', [
                 'payment' => $payment,
                 'form' => $form,
                 'month'=>$month,
                 'year'=>$year,
-                'grade'=>$grade
+                'grade'=>$grade,
+                'datas'=>$latest
             ]);
         }
         else{

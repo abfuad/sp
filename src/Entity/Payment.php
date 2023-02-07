@@ -38,6 +38,12 @@ class Payment extends BaseEntity
     private ?bool $isPaid = null;
 
 
+    public  const  PAID =1;
+    public  const  UNPAID =0;
+   // public  const  COMPLETED ='COMPLETED';
+    // public  const  OTHERSCHOOL ='OTHERSCHOOL';
+
+  public const STATUS=['Paid'=>Payment::class,'Other School'=>Student::OTHERSCHOOL];
     public function getStudent(): ?Student
     {
         return $this->student;

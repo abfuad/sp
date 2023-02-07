@@ -18,7 +18,7 @@ class PrintHelper
     private $size = [
         "A4" => [
             "portrait" => ["width" => 800, "height" => 100],
-            "landscape" => ["width" => 700, "height" => 50],
+            "landscape" => ["width" => 800, "height" => 50],
         ], 
         "A3" => [
             "portrait" => ["width" => 3000, "height" => 100],

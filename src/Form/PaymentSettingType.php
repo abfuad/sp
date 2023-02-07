@@ -16,7 +16,7 @@ class PaymentSettingType extends AbstractType
            
             ->add('amount')
            
-            // ->add('month')
+            ->add('numberOfMonth')
             ->add('year')
         ;
       
