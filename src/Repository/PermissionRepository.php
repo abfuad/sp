@@ -63,4 +63,22 @@ class PermissionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findForUserGroup($usergroup=null)
+{
+    $qb=$this->createQueryBuilder('p');
+    
+    if (sizeof($usergroup)) {
+
+        $qb->andWhere('p.id not in ( :usergroup )')
+            ->setParameter('usergroup', $usergroup);
+    }
+   
+
+         
+        return $qb->orderBy('p.id', 'ASC')
+        ->getQuery()->getResult()
+ 
+    ;
+  
+}
 }
