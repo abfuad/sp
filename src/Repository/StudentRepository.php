@@ -38,12 +38,51 @@ class StudentRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function getCount()
+    {
+
+        $qb = $this->createQueryBuilder('i');
+        $qb
+            ->select('count(distinct(i.idNumber) ) as item')
+            ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
     public function filter($search=null)
     {
         $qb=$this->createQueryBuilder('s');
         if (isset($search['name'])) {
 
-            $qb->andWhere("s.idNumber  LIKE '%".$search."%'");
+            $names = explode(" ", $search['name']);
+            if (sizeof($names) == 3) {
+
+                $qb->andWhere('s.firstName = :fname')
+                    ->setParameter('fname', $names[0])
+
+                    ->andWhere('s.middleName = :mname')
+                    ->setParameter('mname', $names[1])
+                    ->andWhere('s.lastName = :lname')
+                    ->setParameter('lname', $names[2]);
+            } else if (sizeof($names) == 2) {
+
+                $qb->andWhere('s.firstName = :fname')
+                    ->setParameter('fname', $names[0])
+
+                    ->andWhere('s.middleName = :mname')
+                    ->setParameter('mname', $names[1]);
+            } else if (sizeof($names) == 1) {
+
+                $qb->orWhere("s.firstName LIKE '%" . $names[0] . "%' or s.middleName LIKE '%" . $names[0] . "%' or s.lastName LIKE '%" . $names[0] . "%' or s.idNumber LIKE '%" . $names[0] . "%' ");
+            }
+        }
+
+        if (isset($search['gender'])) {
+            $qb->andWhere('s.sex = :gnd')
+                ->setParameter('gnd', $search['gender']);
+        }
+        if (isset($search['grade'])) {
+
+            $qb->andWhere('s.grade = :grd')
+            ->setParameter('grd',$search['grade']);
         }
             return 
             $qb->orderBy('s.id', 'ASC')

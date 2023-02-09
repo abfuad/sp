@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping\MappedSuperclass;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[MappedSuperclass]
-#[UniqueEntity('phone')]
+// #[UniqueEntity('phone')]
 
 class UserEntity  extends BaseEntity
 {
@@ -55,7 +55,7 @@ class UserEntity  extends BaseEntity
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 255,name:'phone',type:'string',unique:true)]
+    #[ORM\Column(length: 255,name:'phone',type:'string',unique:false,nullable:true)]
     private ?string $phone = null;
 
     

@@ -28,6 +28,9 @@ class StudentRegistration extends BaseEntity
     #[ORM\OneToMany(mappedBy: 'registration', targetEntity: Payment::class)]
     private Collection $payments;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isCompleted = null;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
@@ -109,6 +112,18 @@ class StudentRegistration extends BaseEntity
                 $payment->setRegistration(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsCompleted(): ?bool
+    {
+        return $this->isCompleted;
+    }
+
+    public function setIsCompleted(?bool $isCompleted): self
+    {
+        $this->isCompleted = $isCompleted;
 
         return $this;
     }

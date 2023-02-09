@@ -38,7 +38,7 @@ class PaymentRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function filter($search=null,$year=null)
+    public function filter($search=[],$year=null)
     {
         $qb=$this->createQueryBuilder('s')
         ->join('s.registration','r')
@@ -62,8 +62,8 @@ class PaymentRepository extends ServiceEntityRepository
             $qb->andWhere('r.year = :yr')
             ->setParameter('yr',$search['year']);
         }else{
-            $qb->andWhere('r.year = :yr')
-            ->setParameter('yr',$year);
+            $qb->andWhere('r.year = :yr1')
+            ->setParameter('yr1',$year);
         }
         if (isset($search['student'])) {
     

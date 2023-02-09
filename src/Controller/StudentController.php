@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Grade;
+use App\Entity\PaymentYear;
 use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +21,43 @@ class StudentController extends AbstractController
        use BaseControllerTrait;
     #[Route('/', name: 'app_student_index', methods: ['GET',"POST"])]
     public function index(StudentRepository $studentRepository,Request $request, PaginatorInterface $paginator): Response
-    {
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $queryBuilder = $projectRepository->filter($form->getData());
-        // } else
+    { 
+        if($request->request->get('generate')){
+            $students=$studentRepository->findBy(['idNumber'=>null]);
+            foreach ($students as $student) {
+                $count=$studentRepository->getCount()+1;
+                $idnumber="Ru".$this->generatePin($count,4);
+                $student->setIdNumber($idnumber);
+                $this->em->flush();
+               
+                
+            }
+            $this->addFlash('success','successfuly generated');
+            return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
+
+        }
+        $form = $this->createFormBuilder()
+        ->setMethod("GET")
+        ->add('year', EntityType::class, [
+            'class' => PaymentYear::class,
+            'placeholder' => 'Select Entrance year',
+            'required' => false
+        ])
+       
+        ->add('grade', EntityType::class, [
+            'class' => Grade::class,
+            'placeholder' => 'Select Grade',
+            'required' => false
+        ])
+        ->add("gender", ChoiceType::class, ["choices" => ["All" => null, "Male" => "M", "Female" => "F"]]);
+
+       
+    $form = $form->getForm();
+    $form->handleRequest($request);
+      
+        if ($form->isSubmitted() && $form->isValid()) {
+            $queryBuilder = $studentRepository->filter($form->getData());
+        } else
             $queryBuilder = $studentRepository->filter(['name' => $request->request->get('name')]);
             $data = $paginator->paginate(
                 $queryBuilder,
@@ -29,6 +66,7 @@ class StudentController extends AbstractController
             );
         return $this->render('student/index.html.twig', [
             'datas' => $data,
+            'form'=>$form
         ]);
     }
 
@@ -85,5 +123,13 @@ class StudentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
+    }
+    private function generatePin($number, $max)
+    {
+        $len = strlen($number);
+        while (strlen($number) < $max) {
+            $number = "0" . $number;
+        }
+        return $number;
     }
 }

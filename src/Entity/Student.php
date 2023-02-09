@@ -16,7 +16,7 @@ class Student extends UserEntity
 
    
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true,unique:true)]
     private ?string $idNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'students')]
@@ -26,13 +26,13 @@ class Student extends UserEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?Grade $grade = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isOrphan = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profile = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true)]
     private ?string $status = null;
 
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: StudentRegistration::class)]

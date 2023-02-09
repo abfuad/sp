@@ -57,6 +57,8 @@ class StudentRegistrationController extends AbstractController
 
                }
             }
+            $this->addFlash('success','successfuly registered');
+
             return $this->redirectToRoute('app_student_registration_new', [], Response::HTTP_SEE_OTHER);
         }
 

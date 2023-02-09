@@ -13,6 +13,7 @@ use App\Form\PaymentType;
 use App\Helper\PrintHelper;
 use App\Repository\PaymentRepository;
 use App\Repository\PaymentSettingRepository;
+use App\Repository\PaymentYearRepository;
 use App\Repository\StudentRegistrationRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -27,10 +28,11 @@ class PaymentController extends AbstractController
 {
     use BaseControllerTrait;
     #[Route('/', name: 'app_payment_index', methods: ['GET','POST'])]
-    public function index(PaymentSettingRepository $paymentSettingRepository,PrintHelper $printHelper,Request $request,StudentRegistrationRepository $studentRegistrationRepository,PaymentRepository $paymentRepository,PaginatorInterface $paginator): Response
+    public function index(PaymentYearRepository $paymentYearRepository,PaymentSettingRepository $paymentSettingRepository,PrintHelper $printHelper,Request $request,StudentRegistrationRepository $studentRegistrationRepository,PaymentRepository $paymentRepository,PaginatorInterface $paginator): Response
     {
         $setting=$paymentSettingRepository->findOneBy(['isActive'=>1],['id'=>'DESC']);
-        $year=$setting?$setting->getYear():null;
+        $year=$setting?$paymentYearRepository->find($setting->getYear()->getId()):null;
+   
         if ($request->query->get('reset')) {
             return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
 
@@ -112,14 +114,18 @@ class PaymentController extends AbstractController
                 return $this->redirectToRoute('app_payment_new', [], Response::HTTP_SEE_OTHER);
             }
             if($request->request->get('undo')){
-                $pay=$this->em->getRepository(Payment::class)->find($request->request->get('undo'));
+                $undpay=$this->em->getRepository(Payment::class)->find($request->request->get('undo'));
+                $pay=new Payment();
+                $pay->setIsPaid(false);
+                $pay->setMonth($undpay->getMonth());
+                $pay->setPriceSetting($undpay->getPriceSetting());
+                $pay->setStudent($undpay->getStudent());
+                $pay->setRegistration($undpay->getRegistration());
+
                  
-                $pay->setIsPaid(true);
-                    $pay->setAmount(0);
-                    // $pay->setCreatedBy($this->getUser());
-                    // $pay->setReceiptNumber(null);
-                    $pay->setIsPaid(false);
+              
                     $paymentRepository->save($pay, true);
+                    $paymentRepository->remove($undpay, true);
 
 
                 

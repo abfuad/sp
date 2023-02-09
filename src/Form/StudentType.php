@@ -17,7 +17,9 @@ class StudentType extends AbstractType
     {
         $builder
             
-            ->add('idNumber')
+            ->add('idNumber',null,[
+                'required'=>false
+            ])
             ->add('isOrphan')
             ->add('profile')
             ->add('entranceYear',EntityType::class,[

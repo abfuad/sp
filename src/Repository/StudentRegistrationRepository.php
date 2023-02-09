@@ -63,7 +63,7 @@ class StudentRegistrationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-public function filter($search=null,$year=null)
+public function filter($search=[],$year=null)
 {
     $qb=$this->createQueryBuilder('s')
     ->join('s.payments','p')
@@ -90,8 +90,8 @@ public function filter($search=null,$year=null)
         ->setParameter('yr',$search['year']);
     }
     else{
-        $qb->andWhere('pr.year = :yr')
-        ->setParameter('yr',$year);
+        $qb->andWhere('pr.year = :yr1')
+        ->setParameter('yr1',$year);
     }
     if (isset($search['student'])) {
 

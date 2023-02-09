@@ -23,7 +23,69 @@
 {% endblock %}
 
 {% block body %}
+<div class="">
+  <form  method="post">
+  <input type="hidden" name="generate" value="true">
+  <button type="submit" class="btn btn-success mb-2 ml-5">Generate ID</button>
+</form>
+</div>
 	{% embed 'common/index.html.twig' %}
+	{% block filter_form %}
+			{{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
+			) }}
+			<div class="row">
+				
+				<div class="form-group col-md-4">
+					<label class="col-sm-5 control-label no-padding-right">
+						{{ form_label(form.year) }}
+					</label>
+					{{ form_widget(form.year,{'attr':{'class':'select2 form-control' }}
+					) }}
+
+					<div class="help-block with-errors"></div>
+				</div>
+				
+				<div class="form-group col-md-4">
+					<label class="col-sm-5 control-label no-padding-right">
+						{{ form_label(form.grade) }}
+					</label>
+					{{ form_widget(form.grade,{'attr':{'class':'select2 form-control' }}
+					) }}
+
+					<div class="help-block with-errors"></div>
+				</div>
+			
+			
+				<div class="form-group col-md-4">
+
+					<div class="row">
+						<div class="col-md-8">
+							<label class="col-sm-5 control-label no-padding-right">
+								{{ form_label(form.gender) }}
+							</label>
+							{{ form_widget(form.gender,{'attr':{'class':'select2 form-control' }}
+							) }}
+
+						</div>
+						<div class="col-md-2 mt-4">
+							<button class="btn btn-info btn-sm  btn-flat mt-3" type="submit">
+								Filter
+							</button>
+						</div>
+						<div class="col-md-2 mt-4">
+							<input type="submit" class="btn btn-warning btn-sm btn-flat mt-3" value="Clear" name="reset"/>
+
+						</div>
+					</div>
+					<div class="help-block with-errors"></div>
+
+				</div>
+				<div class="form-group col-md-2 float-right">
+              <input type="submit" class="btn btn-secondary float-right mt-5 " value="PDF" name="pdf">
+				</div>
+			</div>
+			{{ form_end(form) }}
+		{% endblock %}
 	
 		{% block table %}
 			<thead>
@@ -51,10 +113,12 @@
 				</tr>
 			</thead>
 			<tbody>
+				{% set i = 0 %}
 				{% for data in datas %}
+				{% set i = i+1 %}
 					<tr>
 						<td>
-							{{loop.index}}
+							{{i}}
 
 						</td>
 						<td class="align-middle text-nowrap">{{ data.idNumber }}</td>
