@@ -6,6 +6,7 @@ use App\Entity\Grade;
 use App\Entity\PaymentYear;
 use App\Entity\Student;
 use App\Form\StudentType;
+use App\Helper\PrintHelper;
 use App\Repository\StudentRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,7 +21,7 @@ class StudentController extends AbstractController
 {
        use BaseControllerTrait;
     #[Route('/', name: 'app_student_index', methods: ['GET',"POST"])]
-    public function index(StudentRepository $studentRepository,Request $request, PaginatorInterface $paginator): Response
+    public function index(PrintHelper $printHelper,StudentRepository $studentRepository,Request $request, PaginatorInterface $paginator): Response
     { 
         if($request->request->get('generate')){
             $students=$studentRepository->findBy(['idNumber'=>null]);
@@ -57,8 +58,22 @@ class StudentController extends AbstractController
       
         if ($form->isSubmitted() && $form->isValid()) {
             $queryBuilder = $studentRepository->filter($form->getData());
-        } else
+            $reportQuery = $studentRepository->filter($form->getData());
+
+        } else{
             $queryBuilder = $studentRepository->filter(['name' => $request->request->get('name')]);
+            $reportQuery = $studentRepository->filter(['name' => $request->request->get('name')]);
+
+            
+        }
+
+
+        if ($request->query->get('pdf')) {
+            $printHelper->print('student/print.html.twig', ["datas" => $reportQuery->getResult()
+            ], 'TOWHID SCHOOL STUDENT PAYMENT REPORT', 'landscape', 'A4');
+
+
+        }
             $data = $paginator->paginate(
                 $queryBuilder,
                 $request->query->getInt('page', 1),
@@ -111,6 +126,7 @@ class StudentController extends AbstractController
 
             return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->render('student/edit.html.twig', [
             'student' => $student,
