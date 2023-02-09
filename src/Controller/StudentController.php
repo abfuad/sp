@@ -79,9 +79,11 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $studentRepository->save($student, true);
+            $this->addFlash('success','successfuly registered');
 
             return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
+
 
         return $this->renderForm('student/new.html.twig', [
             'student' => $student,
@@ -105,11 +107,12 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $studentRepository->save($student, true);
+            $this->addFlash('success','successfuly Updated');
 
             return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('student/edit.html.twig', [
+        return $this->render('student/edit.html.twig', [
             'student' => $student,
             'form' => $form,
         ]);
