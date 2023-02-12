@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BudgetIncomePlan index{% endblock %}
+
+{% block body %}
+    <h1>BudgetIncomePlan index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>PlanValue</th>
+                <th>ActualValue</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for budget_income_plan in budget_income_plans %}
+            <tr>
+                <td>{{ budget_income_plan.id }}</td>
+                <td>{{ budget_income_plan.name }}</td>
+                <td>{{ budget_income_plan.code }}</td>
+                <td>{{ budget_income_plan.description }}</td>
+                <td>{{ budget_income_plan.planValue }}</td>
+                <td>{{ budget_income_plan.actualValue }}</td>
+                <td>{{ budget_income_plan.createdAt ? budget_income_plan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ budget_income_plan.updatedAt ? budget_income_plan.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_budget_income_plan_show', {'id': budget_income_plan.id}) }}">show</a>
+                    <a href="{{ path('app_budget_income_plan_edit', {'id': budget_income_plan.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_budget_income_plan_new') }}">Create new</a>
+{% endblock %}

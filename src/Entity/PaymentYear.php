@@ -20,11 +20,18 @@ class PaymentYear  extends CommonEntity
     #[ORM\OneToMany(mappedBy: 'year', targetEntity: StudentRegistration::class)]
     private Collection $studentRegistrations;
 
+    #[ORM\OneToOne(mappedBy: 'year', cascade: ['persist', 'remove'])]
+    private ?Budget $budget = null;
+
+    #[ORM\OneToMany(mappedBy: 'year', targetEntity: IncomeSetting::class)]
+    private Collection $incomeSettings;
+
     public function __construct()
     {
         $this->paymentSettings = new ArrayCollection();
         $this->students = new ArrayCollection();
         $this->studentRegistrations = new ArrayCollection();
+        $this->incomeSettings = new ArrayCollection();
     }
 
 
@@ -112,6 +119,58 @@ class PaymentYear  extends CommonEntity
             // set the owning side to null (unless already changed)
             if ($studentRegistration->getYear() === $this) {
                 $studentRegistration->setYear(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBudget(): ?Budget
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?Budget $budget): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($budget === null && $this->budget !== null) {
+            $this->budget->setYear(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($budget !== null && $budget->getYear() !== $this) {
+            $budget->setYear($this);
+        }
+
+        $this->budget = $budget;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, IncomeSetting>
+     */
+    public function getIncomeSettings(): Collection
+    {
+        return $this->incomeSettings;
+    }
+
+    public function addIncomeSetting(IncomeSetting $incomeSetting): self
+    {
+        if (!$this->incomeSettings->contains($incomeSetting)) {
+            $this->incomeSettings->add($incomeSetting);
+            $incomeSetting->setYear($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncomeSetting(IncomeSetting $incomeSetting): self
+    {
+        if ($this->incomeSettings->removeElement($incomeSetting)) {
+            // set the owning side to null (unless already changed)
+            if ($incomeSetting->getYear() === $this) {
+                $incomeSetting->setYear(null);
             }
         }
 

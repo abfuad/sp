@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IncomeSetting{% endblock %}
+
+{% block body %}
+    <h1>IncomeSetting</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ income_setting.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ income_setting.name }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ income_setting.code }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ income_setting.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ income_setting.createdAt ? income_setting.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ income_setting.updatedAt ? income_setting.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_income_setting_index') }}">back to list</a>
+
+    <a href="{{ path('app_income_setting_edit', {'id': income_setting.id}) }}">edit</a>
+
+    {{ include('income_setting/_delete_form.html.twig') }}
+{% endblock %}

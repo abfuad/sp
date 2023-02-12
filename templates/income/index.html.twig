@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Income index{% endblock %}
+
+{% block body %}
+    <h1>Income index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Amount</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for income in incomes %}
+            <tr>
+                <td>{{ income.id }}</td>
+                <td>{{ income.amount }}</td>
+                <td>{{ income.createdAt ? income.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ income.updatedAt ? income.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_income_show', {'id': income.id}) }}">show</a>
+                    <a href="{{ path('app_income_edit', {'id': income.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_income_new') }}">Create new</a>
+{% endblock %}

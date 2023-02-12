@@ -41,6 +41,9 @@ class Student extends UserEntity
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Payment::class)]
     private Collection $payments;
 
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: Income::class)]
+    private Collection $incomes;
+
     public  const  NEW ='NEW';
     public  const  TRANSFERED ='TRANSFERED';
    // public  const  COMPLETED ='COMPLETED';
@@ -56,6 +59,7 @@ class Student extends UserEntity
     {
         $this->studentRegistrations = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->incomes = new ArrayCollection();
     }
 
    
@@ -186,6 +190,36 @@ class Student extends UserEntity
             // set the owning side to null (unless already changed)
             if ($payment->getStudent() === $this) {
                 $payment->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Income>
+     */
+    public function getIncomes(): Collection
+    {
+        return $this->incomes;
+    }
+
+    public function addIncome(Income $income): self
+    {
+        if (!$this->incomes->contains($income)) {
+            $this->incomes->add($income);
+            $income->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncome(Income $income): self
+    {
+        if ($this->incomes->removeElement($income)) {
+            // set the owning side to null (unless already changed)
+            if ($income->getStudent() === $this) {
+                $income->setStudent(null);
             }
         }
 

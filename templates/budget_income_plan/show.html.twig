@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BudgetIncomePlan{% endblock %}
+
+{% block body %}
+    <h1>BudgetIncomePlan</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ budget_income_plan.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ budget_income_plan.name }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ budget_income_plan.code }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ budget_income_plan.description }}</td>
+            </tr>
+            <tr>
+                <th>PlanValue</th>
+                <td>{{ budget_income_plan.planValue }}</td>
+            </tr>
+            <tr>
+                <th>ActualValue</th>
+                <td>{{ budget_income_plan.actualValue }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ budget_income_plan.createdAt ? budget_income_plan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ budget_income_plan.updatedAt ? budget_income_plan.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_budget_income_plan_index') }}">back to list</a>
+
+    <a href="{{ path('app_budget_income_plan_edit', {'id': budget_income_plan.id}) }}">edit</a>
+
+    {{ include('budget_income_plan/_delete_form.html.twig') }}
+{% endblock %}

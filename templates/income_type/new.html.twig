@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New IncomeType{% endblock %}
+
+{% block body %}
+    <h1>Create new IncomeType</h1>
+
+    {{ include('income_type/_form.html.twig') }}
+
+    <a href="{{ path('app_income_type_index') }}">back to list</a>
+{% endblock %}
