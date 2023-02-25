@@ -85,7 +85,9 @@ class StudentRepository extends ServiceEntityRepository
             ->setParameter('grd',$search['grade']);
         }
             return 
-            $qb->orderBy('s.id', 'ASC')
+            $qb
+            // ->orderBy('s.id', 'ASC')
+            ->orderBy('s.firstName','ASC')
             ->getQuery()
      
         ;
