@@ -11,16 +11,8 @@ class IncomeTypeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('name')
-            ->add('code')
-            ->add('description')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('createdBy')
-            ->add('updatedBy')
-            ->add('deletedBy')
-        ;
+        BaseFormType::addCommonForm($builder);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

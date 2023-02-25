@@ -12,17 +12,12 @@ class ExpenseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('code')
-            ->add('description')
+           
             ->add('amount')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('createdBy')
-            ->add('updatedBy')
-            ->add('deletedBy')
+           
             ->add('expensePlan')
         ;
+        BaseFormType::addCommonForm($builder);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

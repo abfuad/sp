@@ -5,20 +5,82 @@ namespace App\Controller;
 use App\Entity\ExpenseType;
 use App\Form\ExpenseTypeType;
 use App\Repository\ExpenseTypeRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/expense/type')]
+#[Route('/expense-type')]
 class ExpenseTypeController extends AbstractController
 {
-    #[Route('/', name: 'app_expense_type_index', methods: ['GET'])]
-    public function index(ExpenseTypeRepository $expenseTypeRepository): Response
+   
+    use BaseControllerTrait;
+    #[Route('/', name: 'app_expense_type_index', methods: ['GET','POST'])]
+    public function index(ExpenseTypeRepository $expenseTypeRepository,Request $request, PaginatorInterface $paginator): Response
     {
-        return $this->render('expense_type/index.html.twig', [
-            'expense_types' => $expenseTypeRepository->findAll(),
-        ]);
+        
+        // $this->denyAccessUnlessGranted('vw_ds');
+            if($request->request->get('edit')){
+              
+
+                $id=$request->request->get('edit');
+                $expenseType=$expenseTypeRepository->findOneBy(['id'=>$id]);
+                $form = $this->createForm(ExpenseTypeType::class, $expenseType);
+                $form->handleRequest($request);
+        
+                if ($form->isSubmitted() && $form->isValid()) {
+                    // $this->denyAccessUnlessGranted('edt_ds');
+                   
+                    $this->em->flush();
+                    $this->addFlash('success', "Updated Successfuly");
+
+        
+                    return $this->redirectToRoute('app_expense_type_index');
+                }
+                $queryBuilder=$expenseTypeRepository->filter($request->query->get('search'));
+                $data=$paginator->paginate(
+                    $queryBuilder,
+                    $request->query->getInt('page',1),
+                    18
+                );
+                return $this->render('expense_type/index.html.twig', [
+                    'datas' => $data,
+                    'form' => $form,
+                    'edit'=>$id,
+                    'entity'=>'expense_type'
+                ]);
+    
+            }
+            $expenseType = new ExpenseType();
+            $form = $this->createForm(ExpenseTypeType::class, $expenseType);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                //  $this->denyAccessUnlessGranted('ad_ds');
+
+                
+               $this->em->persist($expenseType);
+               $this->em->flush();
+               $this->addFlash('success', "Registered Successfuly");
+
+    
+                return $this->redirectToRoute('app_expense_type_index');
+            }
+            $queryBuilder=$expenseTypeRepository->filter($request->query->get('search'));
+            $data=$paginator->paginate(
+                $queryBuilder,
+                $request->query->getInt('page',1),
+                18
+            );
+            return $this->render('expense_type/index.html.twig', [
+                'datas' => $data,
+                'form' => $form,
+                'edit'=>false,
+                'entity'=>'expense_type'
+            ]);
+        
+       
     }
 
     #[Route('/new', name: 'app_expense_type_new', methods: ['GET', 'POST'])]

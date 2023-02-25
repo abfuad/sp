@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[UniqueEntity('receiptNumber')]
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
+
 class Payment extends BaseEntity
 {
   

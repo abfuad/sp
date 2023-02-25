@@ -5,65 +5,82 @@ namespace App\Controller;
 use App\Entity\IncomeSetting;
 use App\Form\IncomeSettingType;
 use App\Repository\IncomeSettingRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/income/setting')]
+#[Route('/income-setting')]
 class IncomeSettingController extends AbstractController
 {
-    #[Route('/', name: 'app_income_setting_index', methods: ['GET'])]
-    public function index(IncomeSettingRepository $incomeSettingRepository): Response
+
+    use BaseControllerTrait;
+    #[Route('/', name: 'app_income_setting_index', methods: ['GET','POST'])]
+    public function index(IncomeSettingRepository $incomeSettingRepository,Request $request, PaginatorInterface $paginator): Response
     {
-        return $this->render('income_setting/index.html.twig', [
-            'income_settings' => $incomeSettingRepository->findAll(),
-        ]);
-    }
+        
+        // $this->denyAccessUnlessGranted('vw_ds');
+            if($request->request->get('edit')){
+              
 
-    #[Route('/new', name: 'app_income_setting_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, IncomeSettingRepository $incomeSettingRepository): Response
-    {
-        $incomeSetting = new IncomeSetting();
-        $form = $this->createForm(IncomeSettingType::class, $incomeSetting);
-        $form->handleRequest($request);
+                $id=$request->request->get('edit');
+                $incomeSetting=$incomeSettingRepository->findOneBy(['id'=>$id]);
+                $form = $this->createForm(IncomeSettingType::class, $incomeSetting);
+                $form->handleRequest($request);
+        
+                if ($form->isSubmitted() && $form->isValid()) {
+                    // $this->denyAccessUnlessGranted('edt_ds');
+                   
+                    $this->em->flush();
+                    $this->addFlash('success', "Updated Successfuly");
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $incomeSettingRepository->save($incomeSetting, true);
+        
+                    return $this->redirectToRoute('app_income_setting_index');
+                }
+                $queryBuilder=$incomeSettingRepository->filter($request->query->get('search'));
+                $data=$paginator->paginate(
+                    $queryBuilder,
+                    $request->query->getInt('page',1),
+                    18
+                );
+                return $this->render('income_setting/index.html.twig', [
+                    'datas' => $data,
+                    'form' => $form,
+                    'edit'=>$id,
+                    'entity'=>'income_setting'
+                ]);
+    
+            }
+            $incomeSetting = new IncomeSetting();
+            $form = $this->createForm(IncomeSettingType::class, $incomeSetting);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                //  $this->denyAccessUnlessGranted('ad_ds');
 
-            return $this->redirectToRoute('app_income_setting_index', [], Response::HTTP_SEE_OTHER);
-        }
+                
+               $this->em->persist($incomeSetting);
+               $this->em->flush();
+               $this->addFlash('success', "Registered Successfuly");
 
-        return $this->renderForm('income_setting/new.html.twig', [
-            'income_setting' => $incomeSetting,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_income_setting_show', methods: ['GET'])]
-    public function show(IncomeSetting $incomeSetting): Response
-    {
-        return $this->render('income_setting/show.html.twig', [
-            'income_setting' => $incomeSetting,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_income_setting_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, IncomeSetting $incomeSetting, IncomeSettingRepository $incomeSettingRepository): Response
-    {
-        $form = $this->createForm(IncomeSettingType::class, $incomeSetting);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $incomeSettingRepository->save($incomeSetting, true);
-
-            return $this->redirectToRoute('app_income_setting_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('income_setting/edit.html.twig', [
-            'income_setting' => $incomeSetting,
-            'form' => $form,
-        ]);
+    
+                return $this->redirectToRoute('app_income_setting_index');
+            }
+            $queryBuilder=$incomeSettingRepository->filter($request->query->get('search'));
+            $data=$paginator->paginate(
+                $queryBuilder,
+                $request->query->getInt('page',1),
+                18
+            );
+            return $this->render('income_setting/index.html.twig', [
+                'datas' => $data,
+                'form' => $form,
+                'edit'=>false,
+                'entity'=>'income_setting'
+            ]);
+        
+       
     }
 
     #[Route('/{id}', name: 'app_income_setting_delete', methods: ['POST'])]

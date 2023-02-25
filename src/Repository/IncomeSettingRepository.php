@@ -37,6 +37,17 @@ class IncomeSettingRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }   public function filter($search=null)
+    {
+        $qb=$this->createQueryBuilder('s');
+        if($search)
+            $qb->andWhere("s.name  LIKE '%".$search."%'");
+    
+            return 
+            $qb->orderBy('s.id', 'ASC')
+            ->getQuery()
+     
+        ;
     }
 
 //    /**

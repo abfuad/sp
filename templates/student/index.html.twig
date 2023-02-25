@@ -91,9 +91,10 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th class="align-middle">IDNumber</th>
+					<th class="align-middle">{{ knp_pagination_sortable(datas, 'IDNumber', 's.idNumber') }}</th>
+				     <th class="align-middle">{{ knp_pagination_sortable(datas, 'FullName', 's.firstName') }}</th>
 
-					<th class="align-middle">FullName</th>
+					{# <th class="align-middle">FullName</th> #}
 					<th class="align-middle">Sex</th>
 					<th class="align-middle">Age</th>
 					<th class="align-middle">Phone</th>

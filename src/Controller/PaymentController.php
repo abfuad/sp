@@ -58,7 +58,7 @@ class PaymentController extends AbstractController
         ->add('student', EntityType::class, [
             'class' => Student::class,
             'placeholder' => 'Select Student',
-            'choice_label' => 'idNumber',
+        //    'choice_label' => 'idNumber',
             'required' => false
         ])
        

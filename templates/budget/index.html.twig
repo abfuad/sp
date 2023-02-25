@@ -1,47 +1,191 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Budget index{% endblock %}
+{% block title %} {{ entity|title }} index
+{% endblock %}
+{% block maintitle %}
 
+{{ entity|title }}
+{% endblock %}
+{% block breadcrumb %}
+
+	<li class="breadcrumb-item active"> {{ entity|title }}</li>
+{% endblock %}
 {% block body %}
-    <h1>Budget index</h1>
+    
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Code</th>
-                <th>Description</th>
-                <th>PlanValue</th>
-                <th>ActualValue</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for budget in budgets %}
-            <tr>
-                <td>{{ budget.id }}</td>
-                <td>{{ budget.name }}</td>
-                <td>{{ budget.code }}</td>
-                <td>{{ budget.description }}</td>
-                <td>{{ budget.planValue }}</td>
-                <td>{{ budget.actualValue }}</td>
-                <td>{{ budget.createdAt ? budget.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ budget.updatedAt ? budget.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_budget_show', {'id': budget.id}) }}">show</a>
-                    <a href="{{ path('app_budget_edit', {'id': budget.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="row">
+		<div class="card col-md">
 
-    <a href="{{ path('app_budget_new') }}">Create new</a>
+			<div class="card-body">
+				<div class="row">
+					<div
+						class="col-md-12">
+						{# {% if is_granted('ad_msr') %} #}
+
+						<div class="card card-info collapsed-card ">
+							<div class="card-header">
+								<h3 class="card-title">
+									{% if edit  %}
+										{% trans %}Edit{% endtrans %}
+									{% else %}
+										{% trans %}Add New{% endtrans %}
+									{% endif %}
+								</h3>
+
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" data-card-widget="collapse" id="collapse">
+										<i class="fas fa-plus"></i>
+									</button>
+								</div>
+								<!-- /.card-tools -->
+							</div>
+							<!-- /.card-header -->
+							<div class="card-body">
+								{% if edit  %}
+									{% set button_label = 'Update' %}
+								{% endif %}
+								{% block form %}
+                                {{ include('budget/_form.html.twig') }}
+                                {% endblock %}
+
+
+							</div>
+							<!-- /.card-body -->
+						</div>
+						{# {% endif %} #}
+					</div>
+
+					<div class="col-md-12">
+						<div class="card ">
+							<div class="card-header">
+								<h3 class="card-title">{% block name %}
+                           {{ entity|title }} List
+                                {% endblock %}</h3>
+								<div class="card-tools">
+									<form class="form-inline ml-3">
+										<div class="input-group ">
+											<input class="form-control" autocomplete="off" name="search" type="search" placeholder="Search" aria-label="Search">
+											<div class="input-group-append">
+												<button class=" input-group-text btn btn-navbar " type="submit">
+													<i class="fas fa-search"></i>
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="card-body">
+
+
+								<table class="table table-hover">
+								{% block table %}
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                    <th>Title</th>
+                                            <th>Year</th>
+                                            <th>Plan</th>
+                                                <th>Accomp</th>
+                                                <th>description</th>
+
+                                       
+
+
+                                        <th>{% trans %}Action{% endtrans %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% set i = 1 %}
+                                    {% for data in datas %}
+                                        <tr>
+                                            <td>
+                                                {{ i }}
+                                                {% set i = i+1 %}
+                                            </td>
+                                           
+                                            </td>
+                                            <td>{{ data.name }}
+                                            </td>
+                                            <td>{{ data.year }}
+                                            </td>
+                                            <td>{{ data.planValue }}
+
+                                            </td>
+                                            <td>{{data.actualValue}}</td>
+                                            <td>{{data.description}}</td>
+
+
+                                           
+
+                                            <td>
+
+
+                                                <form class="d-inline" method="post">
+                                                    <input type="hidden" name="edit" value="{{data.id}}">
+                                                    <button class="btn btn-sm btn-info" title="Edit">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                </form>
+
+
+                                                <form class="d-inline" method="post" action="{{ path('app_' ~ entity ~ '_delete', {'id': data.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    <input
+                                                    type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.id) }}">
+                                                    <button class="btn btn-sm btn-danger" title="Delete">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+
+
+                                            </td>
+
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="5">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% endblock %}
+								</table>
+								<div class="float-right">{{ knp_pagination_render(datas) }}</div>
+
+
+							</div>
+						</div>
+					</div>
+					<!-- /.card-body -->
+				</div>
+			</div>
+
+		</div>
+		<!-- /.card-body -->
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{% if edit %}
+		<script>
+
+
+			$(function () {
+$('#collapse').trigger('click');
+})
+		</script>
+	{% endif %}
+
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2()
+//$('.datepicker').datepicker()
+// Initialize Select2 Elements
+$('.select2bs4').select2({theme: 'bootstrap4'})
+//$('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
+});
+	</script>
+
 {% endblock %}

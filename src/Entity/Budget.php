@@ -6,6 +6,9 @@ use App\Repository\BudgetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+#[UniqueEntity('year')]
 
 #[ORM\Entity(repositoryClass: BudgetRepository::class)]
 class Budget extends CommonEntity
@@ -19,7 +22,7 @@ class Budget extends CommonEntity
     private ?float $planValue = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $actualValue = null;
+    private ?float $actualValue = 0;
 
     #[ORM\OneToMany(mappedBy: 'budget', targetEntity: BudgetIncomePlan::class)]
     private Collection $budgetIncomePlans;

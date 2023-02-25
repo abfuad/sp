@@ -13,11 +13,7 @@ class IncomeType extends AbstractType
     {
         $builder
             ->add('amount')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('createdBy')
-            ->add('updatedBy')
-            ->add('deletedBy')
+         
             ->add('type')
             ->add('student')
             ->add('incomePlan')

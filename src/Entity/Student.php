@@ -63,7 +63,11 @@ class Student extends UserEntity
     }
 
    
-
+    public function __toString()
+    {
+      return $this->getFullName()." | ".$this->idNumber;
+    }
+      
     public function getIdNumber(): ?string
     {
         return $this->idNumber;

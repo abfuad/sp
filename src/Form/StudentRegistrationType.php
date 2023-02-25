@@ -23,7 +23,7 @@ class StudentRegistrationType extends AbstractType
             ])
             ->add('student',EntityType::class,[
                 'class'=>Student::class,
-                'choice_label' => 'idNumber',
+               // 'choice_label' => 'idNumber',
                 'placeholder'=>'choose student id number'
             ])
             ->add('grade',EntityType::class,[

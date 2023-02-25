@@ -38,6 +38,18 @@ class ExpenseTypeRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function filter($search=null)
+    {
+        $qb=$this->createQueryBuilder('s');
+        if($search)
+            $qb->andWhere("s.name  LIKE '%".$search."%'");
+    
+            return 
+            $qb->orderBy('s.id', 'ASC')
+            ->getQuery()
+     
+        ;
+    }
 
 //    /**
 //     * @return ExpenseType[] Returns an array of ExpenseType objects

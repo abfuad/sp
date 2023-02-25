@@ -6,8 +6,14 @@ use App\Repository\StudentRegistrationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: StudentRegistrationRepository::class)]
+#[UniqueEntity(
+    fields: ['student', 'grade','year'],
+    errorPath: 'student',
+    message: 'This Student is already registered.',
+)]
 class StudentRegistration extends BaseEntity
 {
   
@@ -23,7 +29,7 @@ class StudentRegistration extends BaseEntity
     private ?Grade $grade = null;
 
     #[ORM\Column]
-    private ?bool $isFree = null;
+    private ?bool $isFree = false;
 
     #[ORM\OneToMany(mappedBy: 'registration', targetEntity: Payment::class)]
     private Collection $payments;

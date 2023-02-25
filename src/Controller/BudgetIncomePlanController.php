@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/budget/income/plan')]
+#[Route('/income-plan')]
 class BudgetIncomePlanController extends AbstractController
 {
     #[Route('/', name: 'app_budget_income_plan_index', methods: ['GET'])]
