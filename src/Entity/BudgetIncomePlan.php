@@ -23,7 +23,7 @@ class BudgetIncomePlan extends CommonEntity
     private ?float $planValue = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $actualValue = null;
+    private ?float $actualValue = 0;
 
     #[ORM\OneToMany(mappedBy: 'incomePlan', targetEntity: Income::class)]
     private Collection $incomes;

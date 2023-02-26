@@ -35,7 +35,7 @@ class StudentRegistration extends BaseEntity
     private Collection $payments;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $isCompleted = null;
+    private ?bool $isCompleted = false;
 
     public function __construct()
     {

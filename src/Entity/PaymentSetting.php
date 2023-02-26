@@ -28,7 +28,7 @@ class PaymentSetting extends BaseEntity
     private Collection $payments;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $isActive = null;
+    private ?bool $isActive = false;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
