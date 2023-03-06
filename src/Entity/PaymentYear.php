@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PaymentYearRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentYearRepository::class)]
@@ -23,15 +24,25 @@ class PaymentYear  extends CommonEntity
     #[ORM\OneToOne(mappedBy: 'year', cascade: ['persist', 'remove'])]
     private ?Budget $budget = null;
 
-    #[ORM\OneToMany(mappedBy: 'year', targetEntity: IncomeSetting::class)]
-    private Collection $incomeSettings;
+    // #[ORM\OneToMany(mappedBy: 'year', targetEntity: IncomeSetting::class)]
+    // private Collection $incomeSettings;
+
+    #[ORM\OneToMany(mappedBy: 'year', targetEntity: Income::class)]
+    private Collection $incomes;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $startAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $endAt = null;
 
     public function __construct()
     {
         $this->paymentSettings = new ArrayCollection();
         $this->students = new ArrayCollection();
         $this->studentRegistrations = new ArrayCollection();
-        $this->incomeSettings = new ArrayCollection();
+        // $this->incomeSettings = new ArrayCollection();
+        $this->incomes = new ArrayCollection();
     }
 
 
@@ -147,32 +158,69 @@ class PaymentYear  extends CommonEntity
         return $this;
     }
 
+    
+    // public function removeIncomeSetting(IncomeSetting $incomeSetting): self
+    // {
+    //     if ($this->incomeSettings->removeElement($incomeSetting)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($incomeSetting->getYear() === $this) {
+    //             $incomeSetting->setYear(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
+
     /**
-     * @return Collection<int, IncomeSetting>
+     * @return Collection<int, Income>
      */
-    public function getIncomeSettings(): Collection
+    public function getIncomes(): Collection
     {
-        return $this->incomeSettings;
+        return $this->incomes;
     }
 
-    public function addIncomeSetting(IncomeSetting $incomeSetting): self
+    public function addIncome(Income $income): self
     {
-        if (!$this->incomeSettings->contains($incomeSetting)) {
-            $this->incomeSettings->add($incomeSetting);
-            $incomeSetting->setYear($this);
+        if (!$this->incomes->contains($income)) {
+            $this->incomes->add($income);
+            $income->setYear($this);
         }
 
         return $this;
     }
 
-    public function removeIncomeSetting(IncomeSetting $incomeSetting): self
+    public function removeIncome(Income $income): self
     {
-        if ($this->incomeSettings->removeElement($incomeSetting)) {
+        if ($this->incomes->removeElement($income)) {
             // set the owning side to null (unless already changed)
-            if ($incomeSetting->getYear() === $this) {
-                $incomeSetting->setYear(null);
+            if ($income->getYear() === $this) {
+                $income->setYear(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStartAt(): ?\DateTimeInterface
+    {
+        return $this->startAt;
+    }
+
+    public function setStartAt(?\DateTimeInterface $startAt): self
+    {
+        $this->startAt = $startAt;
+
+        return $this;
+    }
+
+    public function getEndAt(): ?\DateTimeInterface
+    {
+        return $this->endAt;
+    }
+
+    public function setEndAt(?\DateTimeInterface $endAt): self
+    {
+        $this->endAt = $endAt;
 
         return $this;
     }

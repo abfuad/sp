@@ -1,0 +1,58 @@
+{% if is_granted("ad_pymt") or is_granted("vw_pymt") or is_granted("vw_usr_grp")  %}
+    <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+    <i class="nav-icon fa fa-cog text-primary"></i>
+    <p>
+                {% trans %}
+             Income & Exp Setting
+                {% endtrans %}
+                <i class="right fa fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+           
+         
+        
+            {% if is_granted("ad_pymt") %}
+
+            
+        <li class="nav-item">
+        <a href="{{ path('app_income_type_index') }}" class="nav-link">
+
+            <i class="fa fa-tasks nav-icon"></i>
+            <p>
+                {% trans %}
+                Income Type
+                {% endtrans %}
+            </p>
+        </a>
+    </li>
+    <li class="nav-item">
+    <a href="{{ path('app_expense_type_index') }}" class="nav-link">
+
+        <i class="fa fa-tasks nav-icon"></i>
+        <p>
+            {% trans %}
+            Expense Type
+            {% endtrans %}
+        </p>
+    </a>
+</li>
+<li class="nav-item">
+<a href="{{ path('app_income_setting_index') }}" class="nav-link">
+
+    <i class="fa fa-tasks nav-icon"></i>
+    <p>
+        {% trans %}
+        Income Setting
+        {% endtrans %}
+    </p>
+</a>
+</li>
+        {% endif %}
+           
+
+        </ul>
+    </li>
+{% endif %}
+</li>

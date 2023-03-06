@@ -28,17 +28,15 @@
 				<th>Phone</th>
 				<th>Grade</th>
 				<th>Year</th>
-				{# <th >TotalFee</th>
-				                    <th >Paid</th>
-				                             #}
+				
 
 
-				<th>Month</th>
+				<th>Fee Type</th>
 
 
 				<th>ReceiptNumber</th>
 				<th>Amount</th>
-				<th>Status</th>
+				<th>IsPaid</th>
 
 
 				{# <th >CreatedBy</th>
@@ -64,18 +62,20 @@
                 <td class="align-middle">{{ data.registration.grade }}</td>
 
 
-                <td class="align-middle">{{ data.priceSetting }}</td>
-            <td class="align-middle">{{ data.month }}</td>
+            <td class="align-middle">{{ data.registration.year }}</td>
+        <td class="align-middle">{{ data.type }}</td>
                 <td class="align-middle">{{ data.receiptNumber }}</td>
                 <td class="align-middle"><span class="badge badge-info">{{ data.amount }}</span></td>
 
-            <td class="align-middle">{% if data.isPaid and data.registration.isFree == 0 %}
-        <span class="badge badge-success">Paid</span>
-        {% elseif data.registration.isFree %}
-    <span class="badge badge-info">FREE</span>
+            <td class="align-middle">{% if data.receiptNumber and data.registration.isFree == 0 %}
+        <span class="badge badge-success">YES</span>
+        {% elseif data.registration.isFree and data.receiptNumber %}
+    <span class="badge badge-info">YES(FREE)</span>
+    {% elseif data.registration.isFree and data.receiptNumber is null %}
+<span class="badge badge-info">NO(FREE)</span>
 
         {% else %}
-    <span class="badge badge-danger">Not Paid</span>
+    <span class="badge badge-danger">NO</span>
 
             {% endif %}</td>
             {# <td class="align-middle">{% if data.registration.isFree  %}

@@ -55,7 +55,7 @@ class PaymentSetting extends BaseEntity
     // }
 public function __toString()
 {
-    return $this->year;
+    return $this->year->__toString();
 }
     public function getYear(): ?PaymentYear
     {

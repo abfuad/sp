@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Budget;
+use App\Entity\BudgetExpensePlan;
+use App\Entity\BudgetIncomePlan;
 use App\Form\BudgetType;
 use App\Repository\BudgetRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -81,7 +83,19 @@ class BudgetController extends AbstractController
         
        
     }
+    #[Route('/{id}', name: 'app_budget_show', methods: ['GET'])]
+    public function show(Budget $budget): Response
+    {
+        $incomePlans=$this->em->getRepository(BudgetIncomePlan::class)->findBy(['budget'=>$budget]);
+        $expensePlans=$this->em->getRepository(BudgetExpensePlan::class)->findBy(['budget'=>$budget]);
 
+        return $this->render('budget/show.html.twig', [
+            'budget' => $budget,
+            'income_plans'=>$incomePlans,
+            'expense_plans'=> $expensePlans
+
+        ]);
+    }
    
 
     #[Route('/{id}', name: 'app_budget_delete', methods: ['POST'])]

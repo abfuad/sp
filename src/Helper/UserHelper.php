@@ -6,7 +6,8 @@ namespace App\Helper;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use Andegna\DateTime as AD;
+use Andegna\DateTimeFactory ;
 class UserHelper
 {
 
@@ -41,6 +42,10 @@ class UserHelper
             $pass[] = $alphabet[$n];
         }
         return implode($pass); //turn the array into a string
+    }
+    static function toEth($date){
+        $ethipic = new AD($date);
+       return $ethipic->getYear();
     }
     // public function getEmployeeIDNumber($joiningDate,$prefix)
     // {

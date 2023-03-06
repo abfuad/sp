@@ -1,50 +1,184 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Budget{% endblock %}
+{% block title %}
+	School Budget Details index
+
+{% endblock %}
+{% block maintitle %}
+
+	{% trans %}
+	School Budget Details
+	{% endtrans %}
+{% endblock %}
+{% block breadcrumb %}
+
+	<li class="breadcrumb-item ">
+		<a href="{{ path('app_budget_index') }}">
+			{% trans %}
+			School Budget
+			{% endtrans %}
+		</a>
+	</li>
+
+{% endblock %}
 
 {% block body %}
-    <h1>Budget</h1>
+	<div class="row ">
+		<div class="col-md-12 ">
+			<div class="card card-info card-outline ">
+				<div class="card-body">
+					<h3 class="d-inline mr-1 ml-5">
+						<strong>Year:
+						</strong>
+					</h3>
+					<h3 class="d-inline mr-5 ml-5">
+						<strong class="text-info">
+							{{budget.year}}</strong>
+					</h3>
+					<h3 class="d-inline  mr-2">
+						Total Budget:
+					</h3>
+					<h3 class="d-inline  ml-5">
+						<strong class="text-success">
+							{{budget.planValue}}</strong>
+					</h3>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ budget.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ budget.name }}</td>
-            </tr>
-            <tr>
-                <th>Code</th>
-                <td>{{ budget.code }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ budget.description }}</td>
-            </tr>
-            <tr>
-                <th>PlanValue</th>
-                <td>{{ budget.planValue }}</td>
-            </tr>
-            <tr>
-                <th>ActualValue</th>
-                <td>{{ budget.actualValue }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ budget.createdAt ? budget.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ budget.updatedAt ? budget.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_budget_index') }}">back to list</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card ">
+		<div class="card-header">
+			<h3 class="card-title" >Income Plan</h3>
 
-    <a href="{{ path('app_budget_edit', {'id': budget.id}) }}">edit</a>
+		</div>
 
-    {{ include('budget/_delete_form.html.twig') }}
+		<div class="card-body">
+
+
+			<div class="table-responsive">
+				<table class="table table-hover  projects table-bordered">
+					<thead>
+						<tr>
+							<th>
+								#
+							</th>
+							<th class="align-middle">Name</th>
+
+							<th class="align-middle">Income Category</th>
+							<th class="align-middle">Plan</th>
+
+
+							<th class="align-middle">Actual</th>
+							<th class="align-middle">Description</th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						{% set i = 1 %}
+						{% for data in income_plans %}
+							<tr>
+								<td>
+									{{ i }}
+									{% set i = i+1 %}
+								</td>
+								<td>{{ data.name }}
+								</td>
+
+								<td>{{ data.type}}
+								</td>
+								<td>{{ data.planValue}}
+								</td>
+								<td>{{ data.actualValue}}
+								</td>
+
+								<td>{{ data.description }}</td>
+
+
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="5">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+    <div class="card ">
+		<div class="card-header">
+			<h3 class="card-title" >Expense Plan</h3>
+
+		</div>
+
+		<div class="card-body">
+
+
+			<div class="table-responsive">
+				<table class="table table-hover  projects table-bordered">
+					<thead>
+						<tr>
+							<th>
+								#
+							</th>
+							<th class="align-middle">Name</th>
+
+							<th class="align-middle">Expense Category</th>
+							<th class="align-middle">Plan</th>
+
+
+							
+							<th class="align-middle">Description</th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						{% set i = 1 %}
+						{% for data in expense_plans %}
+							<tr>
+								<td>
+									{{ i }}
+									{% set i = i+1 %}
+								</td>
+								<td>{{ data.name }}
+								</td>
+
+								<td>{{ data.type}}
+								</td>
+								<td>{{ data.planValue}}
+								</td>
+								
+
+								<td>
+								<a href="{{ path('app_budget_expense_plan_show', {'id': data.id}) }}" title="view" class="btn btn-info btn-sm  "> <i class="fa fa-eye"></i></a>
+
+								</td>
+
+
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="5">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2({theme: 'bootstrap4'});
+});
+	</script>
+
 {% endblock %}

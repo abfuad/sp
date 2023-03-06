@@ -22,11 +22,12 @@ class IncomeSettingType extends AbstractType
                
                 'placeholder'=>'choose Income Type'
             ])
-            ->add('year',EntityType::class,[
-                'class'=>PaymentYear::class,
+            // ->add('year',EntityType::class,[
+            //     'class'=>PaymentYear::class,
                
-                'placeholder'=>'choose Year'
-            ])
+            //     'placeholder'=>'choose Year'
+            // ])
+            ->add('fee')
         ;
         BaseFormType::addCommonForm($builder);
 

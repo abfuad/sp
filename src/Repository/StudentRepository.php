@@ -49,7 +49,9 @@ class StudentRepository extends ServiceEntityRepository
     }
     public function filter($search=null)
     {
-        $qb=$this->createQueryBuilder('s');
+        $qb=$this->createQueryBuilder('s')
+        
+        ;
         if (isset($search['name'])) {
 
             $names = explode(" ", $search['name']);
@@ -78,6 +80,14 @@ class StudentRepository extends ServiceEntityRepository
         if (isset($search['gender'])) {
             $qb->andWhere('s.sex = :gnd')
                 ->setParameter('gnd', $search['gender']);
+        }
+        if (isset($search['not-registered'])) {
+            
+            $qb
+            ->leftJoin('s.studentRegistrations','r')
+            ->andWhere(' r.id  is null ')
+                // ->setParameter('cnt', 0)
+                ;
         }
         if (isset($search['grade'])) {
 

@@ -38,18 +38,7 @@ class IncomeRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function filter($search=null)
-    {
-        $qb=$this->createQueryBuilder('s');
-        if($search)
-            $qb->andWhere("s.name  LIKE '%".$search."%'");
-    
-            return 
-            $qb->orderBy('s.id', 'ASC')
-            ->getQuery()
-     
-        ;
-    }
+ 
 //    /**
 //     * @return Income[] Returns an array of Income objects
 //     */
@@ -74,4 +63,66 @@ class IncomeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function filter($search=[],$year=null)
+{
+    $qb=$this->createQueryBuilder('s')
+    ->join('s.registration','r')
+    ->join('s.student','st')
+    ;
+    if (isset($search['name'])) {
+
+ 
+        $names =  $search['name'];
+        
+            $qb->orWhere("st.firstName LIKE '%" . $names. "%' or st.idNumber LIKE '%" . $names . "%' or st.middleName LIKE '%" . $names . "%' or st.lastName LIKE '%" . $names . "%' ");
+        
+    }
+    if (isset($search['grade'])) {
+
+        $qb->andWhere('r.grade = :grd')
+        ->setParameter('grd',$search['grade']);
+    }
+    if (isset($search['year'])) {
+
+        $qb->andWhere('r.year = :yr')
+        ->setParameter('yr',$search['year']);
+    }
+    elseif(isset($search['year'])==false && $year!=null){
+
+        $qb->andWhere('r.year = :yr1')
+        ->setParameter('yr1',$year);
+    }
+    if (isset($search['student'])) {
+
+        $qb->andWhere('r.student = :st')
+        ->setParameter('st',$search['student']);
+    }
+    if (isset($search['status'])) {
+         $status=$search['status'];
+        
+         if($status==0)
+            $qb->andWhere('s.receiptNumber is null');
+            else
+            $qb->andWhere('s.receiptNumber is not NULL');
+
+         
+       
+    }
+    if (isset($search['type'])) {
+
+        $qb->andWhere('s.type = :mon')
+        ->setParameter('mon',$search['type']);
+    }
+    if (isset($search['isfree'])) {
+
+        $qb->andWhere('r.isFree = :pad')
+        ->setParameter('pad',$search['isfree']);
+    }
+        return 
+        $qb->orderBy('s.id', 'ASC')
+        ->getQuery()
+ 
+    ;
+}
 }

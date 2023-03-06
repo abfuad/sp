@@ -10,10 +10,15 @@
 <div class="help-block text-danger">{{form_errors(form.code)}}</div>
 </div>
 <div class="form-group ">
+	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.fee) }}</label>
+	{{ form_widget(form.fee,{'attr':{'class':'form-control '}}) }}
+<div class="help-block text-danger">{{form_errors(form.fee)}}</div>
+</div>
+{# <div class="form-group ">
 	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.year) }}</label>
 	{{ form_widget(form.year,{'attr':{'class':'form-control select2bs4'}}) }}
 <div class="help-block text-danger">{{form_errors(form.year)}}</div>
-</div>
+</div> #}
 <div class="form-group ">
 	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.type) }}</label>
 	{{ form_widget(form.type,{'attr':{'class':'form-control select2bs4'}}) }}

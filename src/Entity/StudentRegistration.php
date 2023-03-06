@@ -37,9 +37,13 @@ class StudentRegistration extends BaseEntity
     #[ORM\Column(nullable: true)]
     private ?bool $isCompleted = false;
 
+    #[ORM\OneToMany(mappedBy: 'registration', targetEntity: Income::class)]
+    private Collection $incomes;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
+        $this->incomes = new ArrayCollection();
     }
 
    
@@ -130,6 +134,36 @@ class StudentRegistration extends BaseEntity
     public function setIsCompleted(?bool $isCompleted): self
     {
         $this->isCompleted = $isCompleted;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Income>
+     */
+    public function getIncomes(): Collection
+    {
+        return $this->incomes;
+    }
+
+    public function addIncome(Income $income): self
+    {
+        if (!$this->incomes->contains($income)) {
+            $this->incomes->add($income);
+            $income->setRegistration($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIncome(Income $income): self
+    {
+        if ($this->incomes->removeElement($income)) {
+            // set the owning side to null (unless already changed)
+            if ($income->getRegistration() === $this) {
+                $income->setRegistration(null);
+            }
+        }
 
         return $this;
     }

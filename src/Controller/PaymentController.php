@@ -22,6 +22,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Andegna\DateTime as AD;
+use Andegna\DateTimeFactory ;
+use DateTime;
 
 #[Route('/payment')]
 class PaymentController extends AbstractController
@@ -31,7 +34,7 @@ class PaymentController extends AbstractController
     public function index(PaymentYearRepository $paymentYearRepository,PaymentSettingRepository $paymentSettingRepository,PrintHelper $printHelper,Request $request,StudentRegistrationRepository $studentRegistrationRepository,PaymentRepository $paymentRepository,PaginatorInterface $paginator): Response
     {
         $setting=$paymentSettingRepository->findOneBy(['isActive'=>1],['id'=>'DESC']);
-        $year=$setting?$paymentYearRepository->find($setting->getYear()->getId()):null;
+        $year=$setting!=null?$paymentYearRepository->find($setting->getYear()->getId()):'';
    
         if ($request->query->get('reset')) {
             return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
@@ -96,6 +99,9 @@ class PaymentController extends AbstractController
     #[Route('/new', name: 'app_payment_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PaymentRepository $paymentRepository): Response
     {
+        
+        
+
         $session = $request->getSession();
         $paymentSetting=$this->em->getRepository(PaymentSetting::class)->findAll();
         $months=$this->em->getRepository(PaymentMonth::class)->findAll();

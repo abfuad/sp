@@ -1,11 +1,11 @@
-
 {% extends 'base.html.twig' %}
 
 {% block title %}New Payment
 {% endblock %}
 {% block maintitle %}
 
-{% trans %}	New Payment{% endtrans %}
+	{% trans %}
+	New Payment{% endtrans %}
 {% endblock %}
 {% block breadcrumb %}
 
@@ -18,142 +18,159 @@
 {% block body %}
 	<div class="row">
 
-<div class="col-md-12">
-<div class="card card-info card-outline">
-<div class="card-body"><h3 class="d-inline mr-2"><strong class="text-info">Year: {{year}}</strong></h3>
-<h3 class="d-inline mr-3">Yearly Fee:<strong class="text-red"> {{year.amount}}</strong></h3>
-<h3 class="d-inline mr-3"> Month:   <strong class="text-primary">{{month}}</strong></h3>
-   <h3 class="d-inline "> Month Fee:<strong class="text-success"> {{year.amount/year.numberOfMonth}}</strong></h3>
-<h3 class="d-inline "> Grade:<strong class="text-info"> {{grade.code}}</strong></h3>
+		<div class="col-md-12">
+			<div class="card card-info card-outline">
+				<div class="card-body">
+					<h3 class="d-inline mr-2">
+						<strong class="text-info">Year:
+							{{year}}</strong>
+					</h3>
+					<h3 class="d-inline mr-3">Yearly Fee:<strong class="text-red">
+							{{year.amount}}</strong>
+					</h3>
+					<h3 class="d-inline mr-3">
+						Month:
+						<strong class="text-primary">{{month}}</strong>
+					</h3>
+					<h3 class="d-inline ">
+						Month Fee:<strong class="text-success">
+							{{year.amount/year.numberOfMonth}}</strong>
+					</h3>
+					<h3 class="d-inline ">
+						Grade:<strong class="text-info">
+							{{grade.code}}</strong>
+					</h3>
 
- <div class="float-right">
- <form action="" method="post" class="float-right mr-2 mb-2 d-inline">
- <input type="hidden" name="close" value="true">
- <button type="submit"  class="btn btn-danger"> Exit</button>
-</form>
-</div>
+					<div class="float-right">
+						<form action="" method="post" class="float-right mr-2 mb-2 d-inline">
+							<input type="hidden" name="close" value="true">
+							<button type="submit" class="btn btn-danger">
+								Exit</button>
+						</form>
+					</div>
 
-</div>
-</div>
-<div class="col-md-12">
-{{ include('payment/_form.html.twig') }}
-</div>
-<div class="col-md-12">
-<div class="card" >
-<div class="card-header">
-<h5 class="card-title">{% trans %}Latest 5 Payments{% endtrans %}</h5>
-
-
-</div>
-
-<div class="card-body">
-<div class="table-responsive">
-
-<table class="table table-hover  projects table-bordered">
-	<thead>
-		<tr>
-			<th>#</th>
-			<th class="align-middle">IDNumber</th>
-
-			<th class="align-middle">FullName</th>
-			<th class="align-middle">Sex</th>
-			<th class="align-middle">Age</th>
-			<th class="align-middle">Phone</th>
-			<th class="align-middle">Grade</th>
-			<th class="align-middle">Year</th>
+				</div>
+			</div>
+			<div class="col-md-12">
+				{{ include('payment/_form.html.twig') }}
+			</div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<h5 class="card-title">{% trans %}Latest 5 Payments{% endtrans %}</h5>
 
 
-			<th class="align-middle">Month</th>
+					</div>
+
+					<div class="card-body">
+						<div class="table-responsive">
+
+							<table class="table table-hover  projects table-bordered">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th class="align-middle">IDNumber</th>
+
+										<th class="align-middle">FullName</th>
+										<th class="align-middle">Sex</th>
+										<th class="align-middle">Age</th>
+										<th class="align-middle">Phone</th>
+										<th class="align-middle">Grade</th>
+										<th class="align-middle">Year</th>
 
 
-			<th class="align-middle">ReceiptNumber</th>
-			<th>Amount</th>
-			<th>Status</th>
-			 {# <th>IsFree</th> #}
+										<th class="align-middle">Month</th>
 
 
-			<th class="align-middle">CreatedBy</th>
-			<th class="align-middle">CreatedAt</th>
+										<th class="align-middle">ReceiptNumber</th>
+										<th>Amount</th>
+										<th>Status</th>
+										{# <th>IsFree</th> #}
 
 
-			<th class="align-middle">actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for data in datas %}
-			<tr>
-				<td>
-					{{loop.index}}
-
-				</td>
-				<td class="align-middle text-nowrap">{{ data.student.idNumber }}</td>
-
-				<td class="align-middle text-nowrap">{{ data.student.getFullName|upper }}</td>
-				<td class="align-middle">{{ data.student.sex }}</td>
-				<td class="align-middle">{{ data.student.age }}</td>
-				<td class="align-middle">{{ data.student.phone }}</td>
-				<td class="align-middle">{{ data.registration.grade }}</td>
+										<th class="align-middle">CreatedBy</th>
+										<th class="align-middle">CreatedAt</th>
 
 
-				<td class="align-middle">{{ data.priceSetting }}</td>
-			<td class="align-middle">{{ data.month }}</td>
-				<td class="align-middle">{{ data.receiptNumber }}</td>
-				<td class="align-middle"><span class="badge badge-info">{{ data.amount }}</span></td>
+										<th class="align-middle">actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for data in datas %}
+										<tr>
+											<td>
+												{{loop.index}}
 
-			<td class="align-middle">{% if data.isPaid and data.registration.isFree == 0 %}
-		<span class="badge badge-success">Paid</span>
-		{% elseif data.registration.isFree %}
-	<span class="badge badge-info">FREE</span>
+											</td>
+											<td class="align-middle text-nowrap">{{ data.student.idNumber }}</td>
 
-		{% else %}
-	<span class="badge badge-danger">Not Paid</span>
-
-			{% endif %}</td>
-			
-
-
-
-				<td class="align-middle">{{ data.createdBy }}</td>
-				{# <td class="align-middle"><a href="{{ vich_uploader_asset(data, 'documentFile') }}" target="_blank"> document</a></td> #}
-
-				<td class="align-middle">{{ data.createdAt ? data.createdAt|date('Y-m-d') : '' }}</td>
-				<td class="project-actions text-right">
-				<form class="d-inline" method="post" onsubmit="return confirm('Are you sure you want to cancel this payment?');">
-				<input type="hidden" name="undo" value="{{data.id}}">
-				<button class="btn btn-sm btn-danger" title="Cancel payment">
-					<i class="fa fa-undo"></i>
-				</button>
-			</form>
+											<td class="align-middle text-nowrap">{{ data.student.getFullName|upper }}</td>
+											<td class="align-middle">{{ data.student.sex }}</td>
+											<td class="align-middle">{{ data.student.age }}</td>
+											<td class="align-middle">{{ data.student.phone }}</td>
+											<td class="align-middle">{{ data.registration.grade }}</td>
 
 
-				</td>
-			</tr>
-		{% else %}
-			<tr>
-				<td colspan="13">no records found</td>
-			</tr>
-		{% endfor %}
-	</tbody>
-</table>
-</div>
-</div>
+											<td class="align-middle">{{ data.priceSetting }}</td>
+											<td class="align-middle">{{ data.month }}</td>
+											<td class="align-middle">{{ data.receiptNumber }}</td>
+											<td class="align-middle">
+												<span class="badge badge-info">{{ data.amount }}</span>
+											</td>
 
-</div>
-</div>
+											<td class="align-middle">
+												{% if data.isPaid and data.registration.isFree == 0 %}
+													<span class="badge badge-success">Paid</span>
+												{% elseif data.registration.isFree %}
+													<span class="badge badge-info">FREE</span>
+
+												{% else %}
+													<span class="badge badge-danger">Not Paid</span>
+
+												{% endif %}
+											</td>
 
 
+											<td class="align-middle">{{ data.createdBy }}</td>
+											{# <td class="align-middle"><a href="{{ vich_uploader_asset(data, 'documentFile') }}" target="_blank"> document</a></td> #}
 
-	</div>
+											<td class="align-middle">{{ data.createdAt ? data.createdAt|date('Y-m-d') : '' }}</td>
+											<td class="project-actions text-right">
+												<form class="d-inline" method="post" onsubmit="return confirm('Are you sure you want to cancel this payment?');">
+													<input type="hidden" name="undo" value="{{data.id}}">
+													<button class="btn btn-sm btn-danger" title="Cancel payment">
+														<i class="fa fa-undo"></i>
+													</button>
+												</form>
 
-	
-{% endblock %}
-{% block javascripts %}
-	<script src="{{asset('assets/plugins/datepicker/js/bootstrap-datepicker.js')}}">
-		<script src="{{ asset('assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
-		<script src="{{ asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
-	</script>
-	<script>
-		$(function () { // Initialize Select2 Elements
+
+											</td>
+										</tr>
+									{% else %}
+										<tr>
+											<td colspan="13">no records found</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+	{% endblock %}
+	{% block javascripts %}
+		<script src="{{asset('assets/plugins/datepicker/js/bootstrap-datepicker.js')}}">
+			<script src="{{ asset('assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
+			<script src="{{ asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
+		</script>
+		<script>
+			$(function () { // Initialize Select2 Elements
 $('.select2').select2()
 
 // Initialize Select2 Elements
@@ -162,6 +179,6 @@ $('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
 $('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
 $(".user_phone").mask("99999?99999");
 });
-	</script>
+		</script>
 
-{% endblock %}
+	{% endblock %}

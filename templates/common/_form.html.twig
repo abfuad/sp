@@ -6,8 +6,12 @@
 	{{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
 <div class="help-block text-danger">{{form_errors(form.name)}}</div>
 </div>
+
 <div class="form-group ">
-	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.code,"ShortName") }}</label>
+
+	<label class="col-sm-5 control-label no-padding-right">
+	
+	{{ form_label(form.code) }}</label>
 	{{ form_widget(form.code,{'attr':{'class':'form-control'}}) }}
 <div class="help-block text-danger">{{form_errors(form.code)}}</div>
 </div>

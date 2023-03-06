@@ -61,7 +61,9 @@ class PaymentRepository extends ServiceEntityRepository
     
             $qb->andWhere('r.year = :yr')
             ->setParameter('yr',$search['year']);
-        }else{
+        }
+        elseif(isset($search['year'])==false && $year!=null){
+
             $qb->andWhere('r.year = :yr1')
             ->setParameter('yr1',$year);
         }

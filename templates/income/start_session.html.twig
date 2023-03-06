@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payment{% endblock %}
+
+{% block body %}
+
+
+
+<div class="card ">
+
+		<div class="card-header">
+			<h5 class="card-title">{% trans %}Start payment{% endtrans %}</h5>
+
+			<div class="card-tools">
+				<a href="{{path('app_income_index')}}" class="btn btn-info btn-sm">{% trans %}back to list{% endtrans %}</a>
+
+
+			</div>
+		</div>
+
+
+		<div class="card-body">
+        <form action="" method="post" id="start">
+        <input type="hidden" name="start" value="true">
+        
+			<div class="row ">
+
+				<div class="form-group mt-2 col-md-4 col-sm-6 ">
+                <label for="">Choose Year</label>
+                <select name="year" id="" class="select2bs4 form-control" required>
+              <option value="">Select payment Year</option>
+              {% for year in years %}
+              <option value="{{year.id}}">{{year}}</option>
+                
+              {% endfor %}
+
+            </select>
+					
+				</div>
+				<div class="form-group mt-2 col-md-4 col-sm-6 ">
+            <label for="">Choose fee type</label>
+            <select name="fee-type" id="" class="select2bs4 form-control" required>
+            <option value="">Select Fee Type</option>
+            {% for fee in fee_types %}
+        <option value="{{fee.id}}">{{fee}}</option>
+          
+        {% endfor %}
+        </select>
+
+				</div>
+                <div class="form-group mt-2 col-md-4 col-sm-6 ">
+            <label for="">Choose Grade</label>
+            <select name="grade" id="" class="select2bs4 form-control" required>
+            <option value="">Select Grade</option>
+            {% for grade in grades %}
+        <option value="{{grade.id}}">{{grade}}</option>
+          
+        {% endfor %}
+        </select>
+
+				</div>
+          
+				
+
+
+				{# <div class="form-group mt-2 col-md-4 col-sm-6 ">
+									{{form_label(form.phone)}}
+									{{ form_widget(form.phone,{'attr':{'class':form_errors(form.phone)? 'form-control is-invalid user_phone':'form-control user_phone','placeholder':"Enter..."}}) }}
+									<div class="help-block text-danger">{{form_errors(form.phone)}}</div>
+								</div> #}
+
+
+			</div>
+        </form>
+		</div>
+		<div class="card-footer float-right">
+			<a href="{{app.request.headers.get('referer')}}" class="btn btn-info ">back</a>
+			<input type="submit" form="start" class="btn  btn-success float-right " value="Start"/>
+
+		</div>
+	</div>
+
+
+
+	
+
+{% endblock %}
+{% block javascripts %}
+	
+
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2()
+//$('.datepicker').datepicker()
+// Initialize Select2 Elements
+$('.select2bs4').select2({theme: 'bootstrap4'})
+//$('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
+});
+	</script>
+
+{% endblock %}

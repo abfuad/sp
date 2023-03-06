@@ -15,12 +15,11 @@ class IncomeSetting extends CommonEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?IncomeType $type = null;
 
-    #[ORM\ManyToOne(inversedBy: 'incomeSettings')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?PaymentYear $year = null;
-
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Income::class)]
     private Collection $incomes;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $fee = null;
 
     public function __construct()
     {
@@ -41,18 +40,7 @@ class IncomeSetting extends CommonEntity
         return $this;
     }
 
-    public function getYear(): ?PaymentYear
-    {
-        return $this->year;
-    }
-
-    public function setYear(?PaymentYear $year): self
-    {
-        $this->year = $year;
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, Income>
      */
@@ -79,6 +67,18 @@ class IncomeSetting extends CommonEntity
                 $income->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFee(): ?float
+    {
+        return $this->fee;
+    }
+
+    public function setFee(?float $fee): self
+    {
+        $this->fee = $fee;
 
         return $this;
     }
