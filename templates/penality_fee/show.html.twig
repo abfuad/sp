@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PenalityFee{% endblock %}
+
+{% block body %}
+    <h1>PenalityFee</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ penality_fee.id }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ penality_fee.amount }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ penality_fee.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ penality_fee.createdAt ? penality_fee.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ penality_fee.updatedAt ? penality_fee.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_penality_fee_index') }}">back to list</a>
+
+    <a href="{{ path('app_penality_fee_edit', {'id': penality_fee.id}) }}">edit</a>
+
+    {{ include('penality_fee/_delete_form.html.twig') }}
+{% endblock %}

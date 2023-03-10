@@ -44,9 +44,12 @@ class Student extends UserEntity
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Income::class)]
     private Collection $incomes;
 
+    #[ORM\ManyToOne(inversedBy: 'class')]
+    private ?Grade $class = null;
+
     public  const  NEW ='NEW';
     public  const  TRANSFERED ='TRANSFERED';
-   // public  const  COMPLETED ='COMPLETED';
+   public  const  COMPLETED ='COMPLETED';
     public  const  OTHERSCHOOL ='OTHERSCHOOL';
 
   public const STATUS=['New'=>Student::NEW,'Other School'=>Student::OTHERSCHOOL];
@@ -226,6 +229,18 @@ class Student extends UserEntity
                 $income->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClass(): ?Grade
+    {
+        return $this->class;
+    }
+
+    public function setClass(?Grade $class): self
+    {
+        $this->class = $class;
 
         return $this;
     }

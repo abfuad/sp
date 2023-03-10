@@ -50,6 +50,39 @@ class ExpenseRepository extends ServiceEntityRepository
      
         ;
     }
+    public function expenseReport($search=[])
+    {
+        $qb=$this->createQueryBuilder('s')
+        ->join('s.expensePlan','p')
+        ->join('p.budget','b')
+        ->select('sum(s.amount) as total')
+        ;
+
+        if(isset($search['expensePlan'])){
+            $qb->andWhere("s.expensePlan = :plan")
+            ->setParameter('plan',$search['expensePlan'])
+            ;
+
+        }
+        if(isset($search['year'])){
+            $qb->andWhere("b.year = :yr")
+            ->setParameter('yr',$search['year'])
+            ;
+
+        }
+        if(isset($search['type'])){
+            $qb->andWhere("p.type = :typ")
+            ->setParameter('typ',$search['type'])
+            ;
+
+        }
+    
+            return 
+            $qb
+            ->getQuery()->getSingleScalarResult();
+     
+        ;
+    }
 //    /**
 //     * @return Expense[] Returns an array of Expense objects
 //     */

@@ -1,0 +1,107 @@
+<div class="card ">
+		<div class="card-header">
+			<h3 class="card-title">Credit List</h3>
+            
+            <div class="card-tools">
+            <button type="button" class="btn btn-secondary btn-xs" >
+                <i class="fas fa-download"></i> PDF
+            </button>
+        </div>
+		</div>
+        
+
+		<div class="card-body">
+
+
+			<div class="table-responsive">
+				<table class="table table-hover  projects table-bordered">
+					<thead>
+						<tr>
+							<th>
+								#
+							</th>
+							<th class="align-middle">User</th>
+
+							<th class="align-middle">Amount</th>
+                             <th class="align-middle">IsReturn</th>
+
+
+							<th class="align-middle">Reason</th>
+							<th class="align-middle">Date</th>
+                        <th class="align-middle">Cashier</th>
+
+							<th class="align-middle">
+								Action</th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						{% set i = 1 %}
+						{% for data in budget_expense_plan.credits|sort|reverse %}
+							<tr>
+								<td>
+									{{ i }}
+									{% set i = i+1 %}
+								</td>
+								<td>{{ data.user|title }}
+								</td>
+								<td>{{ data.amount}}
+								</td>
+                                <td>
+                                    {% if data.status == 0 %}
+                                    <strong class="badge badge-danger">NO</strong>
+                                    {% else %}
+                                <strong class="badge badge-success">YES</strong>
+
+                                    {% endif %}
+                                </td>
+
+
+								<td>
+									{{data.description}}
+
+								</td>
+								<td>{{ data.createdAt|date('d-m-y')}}
+								</td>
+                                <td>
+									{{data.createdBy|title}}
+
+								</td>
+								<td>
+                                    <form class="d-inline" method="post">
+                                    <input type="hidden" name="credit_edit" value="{{data.id}}">
+                                    <button class="btn btn-sm btn-info" title="Edit">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </form>
+
+
+                                <form class="d-inline" method="post"  onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <input type="hidden" name="credit_remove" value="{{data.id}}">
+
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input
+                                    type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.id) }}">
+                                    <button class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+
+
+                            </td>
+                                </td>
+
+
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="5">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>

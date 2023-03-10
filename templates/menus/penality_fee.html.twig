@@ -1,0 +1,49 @@
+{% if is_granted("ad_pymt") or is_granted("vw_pymt") or is_granted("vw_usr_grp")  %}
+    <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+    {# <i class="fa-solid fa-circle-dollar-to-slot"></i> #}
+        
+            <i class="nav-icon fa fa-sack-dollar text-primary"></i>
+            <p>
+                {% trans %}
+             Penality Fee
+                {% endtrans %}
+                <i class="right fa fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+           
+            {% if is_granted("ad_pymt") %}
+                <li class="nav-item">
+                    <a href="{{ path('app_penality_fee_new') }}" class="nav-link">
+
+                        <i class="fa fa-plus nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            New Fee
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+            {% if is_granted("vw_pymt") %}
+
+                <li class="nav-item">
+                    <a href="{{ path('app_penality_fee_index') }}" class="nav-link">
+
+                        <i class="fa fa-tasks nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            Fee List
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+         
+           
+
+        </ul>
+    </li>
+{% endif %}
+</li>

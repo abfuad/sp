@@ -1,0 +1,228 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Penality Fee index
+
+
+{% endblock %}
+{% block maintitle %}
+
+	{% trans %}
+	Penality Fee
+
+	{% endtrans %}
+{% endblock %}
+{% block breadcrumb %}
+
+	<li class="breadcrumb-item ">
+		<a href="{{ path('app_credit_index') }}">
+			{% trans %}
+			Penality Fee
+
+			{% endtrans %}
+		</a>
+	</li>
+	
+{% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="card col-md card-primary card-outline">
+
+			<div class="card ">
+				<div class="card-header">
+
+					<form class="form-inline card-title" method="POST">
+						<div class="input-group ">
+							<input class="form-control" autocomplete="off" name="name" type="search" placeholder="Search" aria-label="Search">
+							<div class="input-group-append">
+								<button class=" input-group-text btn btn-navbar " type="submit">
+									<i class="fas fa-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
+
+					<div class="card-tools">
+						<button type="button" class="btn btn-tool" data-card-widget="collapse">
+							<i class="fas fa-minus"></i>
+						</button>
+					</div>
+					<!-- /.card-tools -->
+				</div>
+				<!-- /.card-header -->
+				<div class="card-body mb-0 pb-0">
+					{{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
+					) }}
+
+
+					<div class="row m-0 p-0">
+
+						<div class="form-group col-md-3">
+							<label class="col-sm-5 control-label no-padding-right">
+								{{ form_label(form.gender) }}
+							</label>
+							{{ form_widget(form.gender,{'attr':{'class':'select2 form-control' }}
+							) }}
+
+
+							<div class="help-block with-errors"></div>
+						</div>
+						<div class="form-group col-md-3">
+							<label class="col-sm-5 control-label no-padding-right">
+								{{ form_label(form.status) }}
+							</label>
+							<div class="row">
+								<div class="col-md-8">
+									{{ form_widget(form.status,{'attr':{'class':'form-control select2' }}
+									) }}
+
+
+								</div>
+								<div class="col-md-4">
+									<button class="btn btn-info btn-flat" type="submit">
+										Filter
+
+									</button>
+								</div>
+							</div>
+							<div class="help-block with-errors"></div>
+
+						</div>
+
+					</div>
+
+					{{ form_end(form) }}
+
+				</div>
+				<!-- /.card-body -->
+			</div>
+
+			<div class="card-body">
+				<div class="row">
+					Total :
+
+
+					{{ datas.getTotalItemCount }}
+					Users
+
+
+					<div class="table-responsive">
+						<table class="table table-hover  projects table-bordered">
+							<thead>
+								<tr>
+									<th>
+										#
+
+									</th>
+									<th class="align-middle">
+										User
+									</th>
+                                    <th class="align-middle">
+										Fee Type
+									</th>
+
+									<th class="align-middle">
+										Amount
+									</th>
+									<th class="align-middle">
+										ReceiptNumber
+									</th>
+
+									<th class="align-middle">
+										Reason
+									</th>
+									<th class="align-middle">
+										Date
+									</th>
+									<th class="align-middle">
+										Cashier
+									</th>
+
+									<th class="align-middle">
+										Action
+									</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								{% set i = 1 %}
+								{% for data in datas %}
+									<tr>
+										<td>
+											{{ i }}
+											{% set i = i+1 %}
+										</td>
+										<td>
+											{{ data.user|title }}
+										</td>
+                                        <td>
+											{{ data.type|title }}
+										</td>
+										<td>
+											{{ data.amount }}
+										</td>
+                                        <td>
+											{{ data.receiptNumber }}
+										</td>
+
+										<td>
+											{{ data.description }}
+
+										</td>
+										<td>
+											{{ data.createdAt|date('d-m-Y') }}
+										</td>
+										<td>
+											{{ data.createdBy|title }}
+
+										</td>
+										<td>
+											{# <a href="{{ path('app_budget_expense_plan_show', {'id': data.expensePlan.id}) }}" title="view" class="btn btn-info btn-sm  ">
+												<i class="fa fa-eye"></i>
+											</a>
+											 #}
+
+
+												<form class="d-inline" method="post" onsubmit="return confirm('Are you sure you want to paid this credit?');">
+													<input type="hidden" name="pay" value="{{data.id}}">
+													<button class="btn btn-sm btn-primary" title="pay">
+                                                <i class="fa fa-edit"></i>
+
+													</button>
+
+												</form>
+                                               
+                                                <form class="d-inline" method="post" onsubmit="return confirm('Are you sure you want to cancel this credit payment?');">
+													<input type="hidden" name="cancel-pay" value="{{data.id}}">
+													<button class="btn btn-sm btn-danger" title=" camcel payment ">
+														
+                                                    <i class="fa fa-trash"></i>
+													</button>
+
+												</form>
+											
+
+										</td>
+									</tr>
+								
+							
+						
+					{% else %}
+						<tr>
+							<td colspan="9">
+								no records found
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+
+		</div>
+		<div class="float-right" id="custompaginator">
+			{{ knp_pagination_render(datas) }}
+		</div>
+
+	</div>
+</div></div></div>{% endblock %}{% block javascripts %}<script>$(function () { // Initialize Select2 Elements
+$('.select2').select2({theme: 'bootstrap4'});
+});</script>{% endblock %}

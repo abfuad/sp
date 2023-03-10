@@ -1,0 +1,37 @@
+{% if is_granted("ad_pymt") or is_granted("vw_pymt") or is_granted("vw_usr_grp")  %}
+    <li class="nav-item has-treeview">
+        <a href="#" class="nav-link">
+    <i class="nav-icon fa fa-credit-card text-primary"></i>
+    <p>
+                {% trans %}
+             Credit
+                {% endtrans %}
+                <i class="right fa fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+           
+            
+            {% if is_granted("vw_pymt") %}
+
+                <li class="nav-item">
+                    <a href="{{ path('app_credit_index') }}" class="nav-link">
+
+                        <i class="fa fa-tasks nav-icon"></i>
+                        <p>
+                            {% trans %}
+                            Credit List
+                            {% endtrans %}
+                        </p>
+                    </a>
+                </li>
+            {% endif %}
+          
+
+        
+           
+
+        </ul>
+    </li>
+{% endif %}
+</li>

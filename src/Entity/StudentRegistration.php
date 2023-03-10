@@ -40,6 +40,9 @@ class StudentRegistration extends BaseEntity
     #[ORM\OneToMany(mappedBy: 'registration', targetEntity: Income::class)]
     private Collection $incomes;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $status = null;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
@@ -164,6 +167,18 @@ class StudentRegistration extends BaseEntity
                 $income->setRegistration(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

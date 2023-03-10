@@ -87,8 +87,9 @@
                                         </th>
                                     <th>Title</th>
                                             <th>Year</th>
-                                            <th>Plan</th>
-                                                <th>Accomp</th>
+                                            <th>budget</th>
+                                                <th>Income</th>
+													<th>Expense</th>
                                                 <th>description</th>
 
                                        
@@ -114,7 +115,9 @@
                                             <td>{{ data.planValue }}
 
                                             </td>
-                                            <td>{{data.actualValue}}</td>
+                                            <td>{{getTotalIncome(data.year)}}</td>
+											<td>{{getTotalExpense(data.year)}}</td>
+
                                             <td>{{data.description}}</td>
 
 

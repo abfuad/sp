@@ -45,7 +45,7 @@ class GradeRepository extends ServiceEntityRepository
         $qb->andWhere("s.name  LIKE '%".$search."%'");
 
         return 
-        $qb->orderBy('s.id', 'ASC')
+        $qb->orderBy('s.code', 'ASC')
         ->getQuery()
  
     ;

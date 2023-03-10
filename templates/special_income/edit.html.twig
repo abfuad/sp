@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SpecialIncome{% endblock %}
+
+{% block body %}
+    <h1>Edit SpecialIncome</h1>
+
+    {{ include('special_income/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_special_income_index') }}">back to list</a>
+
+    {{ include('special_income/_delete_form.html.twig') }}
+{% endblock %}

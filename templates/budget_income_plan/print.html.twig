@@ -1,0 +1,67 @@
+{% extends 'print.html.twig' %}
+
+{% block title %}
+	{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block maintitle %}
+	{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block body %}
+	<center>
+		<h2>
+			<b>
+				<u> TOWHID SCHOOL INCOME REPORT({{budget.year.code}})</u>
+			</b>
+		</h2>
+	</center>
+	<br>
+
+	<table  style="width:100%" >
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th class="align-middle">Name</th>
+
+            <th class="align-middle">Income Category</th>
+            <th class="align-middle">Plan</th>
+
+
+            <th class="align-middle">Actual</th>
+            <th class="align-middle">Description</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        {% set i = 1 %}
+        {% for data in income_plans %}
+            <tr>
+                <td>
+                    {{ i }}
+                    {% set i = i+1 %}
+                </td>
+                <td>{{ data.name }}
+                </td>
+
+                <td>{{ data.type}}
+                </td>
+                <td>{{ data.planValue}}
+                </td>
+                <td>{{ getIncomeBudget(data)}}
+                </td>
+
+                <td>{{ data.description }}</td>
+
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

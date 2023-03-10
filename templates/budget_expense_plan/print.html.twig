@@ -1,0 +1,79 @@
+{% extends 'print.html.twig' %}
+
+{% block title %}
+	{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block maintitle %}
+	{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block body %}
+	<center>
+		<h2>
+			<b>
+				<u>  TOWHID SCHOOL BUDGET EXPENSES REPORT({{budget.year.code}})</u>
+			</b>
+		</h2>
+	</center>
+	<br>
+
+	<table  style="width:100%" >
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th class="align-middle">Name</th>
+
+            <th class="align-middle">Expense Category</th>
+            <th class="align-middle">Budget</th>
+            <th class="align-middle">Used</th>
+           <th class="align-middle">Remaining</th>
+
+
+
+
+            
+            <th class="align-middle">Description</th>
+
+            
+
+
+        </tr>
+    </thead>
+    <tbody>
+        {% set i = 1 %}
+        {% for data in expense_plans %}
+            <tr>
+                <td>
+                    {{ i }}
+                    {% set i = i+1 %}
+                </td>
+                <td>{{ data.name }}
+                </td>
+
+                <td>{{ data.type}}
+                </td>
+                
+                <td>{{ data.planValue}}
+                </td>
+                <td><strong class="badge badge-danger">{{ getBudgetExpense(data)}}</strong>
+                </td>
+                <td><strong class="badge badge-success">{{ data.planValue-getBudgetExpense(data)}}</strong>
+                </td>
+                <td>{{ data.description}}
+                </td>
+                
+
+                
+
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

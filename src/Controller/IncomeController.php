@@ -22,6 +22,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Andegna\DateTime as AD;
 use Andegna\DateTimeFactory ;
+use App\Entity\IncomeType as EntityIncomeType;
+use App\Helper\UserHelper;
 use DateTime;
 
 #[Route('/income')]
@@ -31,17 +33,29 @@ class IncomeController extends AbstractController
     #[Route('/', name: 'app_income_index', methods: ['GET', 'POST'])]
     public function index(IncomeRepository $incomeRepository, Request $request, PaginatorInterface $paginator, PrintHelper $printHelper): Response
     {
+        $year = UserHelper::toEth(new DateTime('now'));
+
+        $activeYear = $this->em->getRepository(PaymentYear::class)->findOneBy(['code' => $year]);
+        $budget = $this->em->getRepository(Budget::class)->findOneBy(['year' => $activeYear]);
+        $feeGroup = $this->em->getRepository(EntityIncomeType::class)->findBy(['source'=>'Student']);
+        
+
+        $feeTypes = $this->em->getRepository(IncomeSetting::class)->findBy(['type'=>$feeGroup]);
+        
         $form = $this->createFormBuilder()
             ->setMethod("GET")
             ->add('year', EntityType::class, [
                 'class' => PaymentYear::class,
                 'placeholder' => 'Select year',
-                'required' => false
+                'empty_data' => $activeYear ? $activeYear->getId() : null,
+                'required' => false,
+                'data'=>$activeYear ? $activeYear: null
             ])
             ->add('type', EntityType::class, [
                 'class' => IncomeSetting::class,
                 'placeholder' => 'Select Fee Type',
-                'required' => false
+                'required' => false,
+                'choices' => $feeTypes
             ])
             ->add('grade', EntityType::class, [
                 'class' => Grade::class,
@@ -84,8 +98,12 @@ class IncomeController extends AbstractController
            
         $session = $request->getSession();
         $grades = $this->em->getRepository(Grade::class)->findAll();
-        $feeTypes = $this->em->getRepository(IncomeSetting::class)->findAll();
+        $feeGroup = $this->em->getRepository(EntityIncomeType::class)->findBy(['source'=>'Student']);
+
+        $feeTypes = $this->em->getRepository(IncomeSetting::class)->findBy(['type'=>$feeGroup]);
+        
         $years = $this->em->getRepository(PaymentYear::class)->findAll();
+        
         if ($session->get('income-start')) {
 
             $year = $this->em->getRepository(PaymentYear::class)->find($session->get('income-year')->getId());
@@ -99,7 +117,7 @@ class IncomeController extends AbstractController
                 $session->remove('income-year');
                 $session->remove('income-feetype');
                 $session->remove('income-grade');
-                $this->addFlash('success', ' successfuly Exit');
+                $this->addFlash('success', 'successfuly Exit');
                 return $this->redirectToRoute('app_income_new', [], Response::HTTP_SEE_OTHER);
             }
 
@@ -168,7 +186,7 @@ class IncomeController extends AbstractController
                     $income->setStudent($register->getStudent());
                     $income->setRegistration($register);
                     $income->setType($feeType);
-
+                    
                     $income->setYear($year);
                     $income->setAmount($feeType->getFee());
                     $this->em->persist($income);

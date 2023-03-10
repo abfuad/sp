@@ -17,6 +17,9 @@ class IncomeType extends CommonEntity
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: IncomeSetting::class)]
     private Collection $incomeSettings;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $source = null;
+
     public function __construct()
     {
         $this->budgetIncomePlans = new ArrayCollection();
@@ -81,6 +84,18 @@ class IncomeType extends CommonEntity
                 $incomeSetting->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSource(): ?string
+    {
+        return $this->source;
+    }
+
+    public function setSource(?string $source): self
+    {
+        $this->source = $source;
 
         return $this;
     }

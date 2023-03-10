@@ -1,0 +1,72 @@
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog " role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-primary">
+					<h5 class="modal-title" id="exampleModalLongTitle">
+						{% if edit  %}
+							Update Expense
+						{% else %}
+							New Expense
+
+
+						{% endif %}
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{{ form_start(form,{'attr': {'role':'form'}}) }}
+
+
+					<div class="form-group ">
+						<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.name) }}</label>
+						{{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+						<div class="help-block text-danger">{{form_errors(form.name)}}</div>
+					</div>
+
+					<div class="form-group d-none ">
+
+						<label class="col-sm-5 control-label no-padding-right">
+
+							{{ form_label(form.code) }}</label>
+						{{ form_widget(form.code,{'attr':{'class':'form-control '}}) }}
+						<div class="help-block text-danger">{{form_errors(form.code)}}</div>
+					</div>
+					<div class="form-group ">
+
+						<label class="col-sm-5 control-label no-padding-right ">
+
+							{{ form_label(form.amount) }}</label>
+						{{ form_widget(form.amount,{'attr':{'class':'form-control '}}) }}
+						<div class="help-block text-danger">{{form_errors(form.amount)}}</div>
+					</div>
+					<div class="form-group ">
+						<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.description,'Reason') }}</label>
+						{{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
+						<div class="help-block with-errors"></div>
+					</div>
+					
+
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					{% if not button_label is defined  %}
+						<button class="btn btn-info" onClick="return confirm('Are you sure you want to Submit?');">{{ button_label|default('Submit') }}</button>
+						{# <button class="btn  btn-primary " style="margin-right:20px;" type="reset">Reset</button> #}
+
+					{% else %}
+						<input
+						type="hidden" name="edit" value="{{edit}}">
+						{# <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) }}" class="btn btn-primary">
+													Cancel
+												</a> #}
+
+						<button class="btn btn-success mr-2" onClick="return confirm('Are you sure you want to Submit?');">{{ button_label|default('Submit') }}</button>
+					{% endif %}
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,45 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}New Special Fee
+{% endblock %}
+{% block maintitle %}
+
+{% trans %}	New Special Fee{% endtrans %}
+{% endblock %}
+{% block breadcrumb %}
+
+
+	<li class="breadcrumb-item ">
+		<a href="{{path('app_special_income_index')}}">{% trans %}Special Fee{% endtrans %}</a>
+	</li>
+	<li class="breadcrumb-item active">{% trans %}New {% endtrans %}</li>
+{% endblock %}
+{% block body %}
+	<div class="row">
+
+
+    {{ include('special_income/_form.html.twig') }}
+
+
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script src="{{asset('assets/plugins/datepicker/js/bootstrap-datepicker.js')}}">
+		<script src="{{ asset('assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
+		<script src="{{ asset('assets/plugins/jquery.maskedinput/jquery.maskedinput.min.js') }}"></script>
+	</script>
+	<script>
+		$(function () { // Initialize Select2 Elements
+ $('.select2').select2({theme: 'bootstrap4'});
+
+// Initialize Select2 Elements
+$('.select2bs4').select2({theme: 'bootstrap4'})
+$('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
+$('#dteofBirth').datepicker({format: 'mm-dd-yyyy'})
+$(".user_phone").mask("99999?99999");
+});
+	</script>
+
+{% endblock %}

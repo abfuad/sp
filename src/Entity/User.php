@@ -36,9 +36,17 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\ManyToMany(targetEntity: UserGroup::class, mappedBy: 'users')]
     private Collection $userGroups;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PenalityFee::class)]
+    private Collection $penalityFees;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Credit::class)]
+    private Collection $credits;
+
     public function __construct()
     {
         $this->userGroups = new ArrayCollection();
+        $this->penalityFees = new ArrayCollection();
+        $this->credits = new ArrayCollection();
     }
     public function __toString()
     {
@@ -162,6 +170,66 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     {
         if ($this->userGroups->removeElement($userGroup)) {
             $userGroup->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PenalityFee>
+     */
+    public function getPenalityFees(): Collection
+    {
+        return $this->penalityFees;
+    }
+
+    public function addPenalityFee(PenalityFee $penalityFee): self
+    {
+        if (!$this->penalityFees->contains($penalityFee)) {
+            $this->penalityFees->add($penalityFee);
+            $penalityFee->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePenalityFee(PenalityFee $penalityFee): self
+    {
+        if ($this->penalityFees->removeElement($penalityFee)) {
+            // set the owning side to null (unless already changed)
+            if ($penalityFee->getUser() === $this) {
+                $penalityFee->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Credit>
+     */
+    public function getCredits(): Collection
+    {
+        return $this->credits;
+    }
+
+    public function addCredit(Credit $credit): self
+    {
+        if (!$this->credits->contains($credit)) {
+            $this->credits->add($credit);
+            $credit->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCredit(Credit $credit): self
+    {
+        if ($this->credits->removeElement($credit)) {
+            // set the owning side to null (unless already changed)
+            if ($credit->getUser() === $this) {
+                $credit->setUser(null);
+            }
         }
 
         return $this;

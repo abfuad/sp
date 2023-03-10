@@ -4,7 +4,7 @@
     <i class="nav-icon fa fa-cog text-primary"></i>
     <p>
                 {% trans %}
-             Income & Exp Setting
+             Fee & Exp Setting
                 {% endtrans %}
                 <i class="right fa fa-angle-left"></i>
             </p>
@@ -22,7 +22,7 @@
             <i class="fa fa-tasks nav-icon"></i>
             <p>
                 {% trans %}
-                Income Type
+                Fee Group
                 {% endtrans %}
             </p>
         </a>
@@ -38,20 +38,23 @@
         </p>
     </a>
 </li>
-<li class="nav-item">
-<a href="{{ path('app_income_setting_index') }}" class="nav-link">
 
-    <i class="fa fa-tasks nav-icon"></i>
-    <p>
-        {% trans %}
-        Income Setting
-        {% endtrans %}
-    </p>
-</a>
-</li>
         {% endif %}
            
+        {% if is_granted("ad_pymt") %}
 
+        <li class="nav-item">
+        <a href="{{ path('app_income_setting_index') }}" class="nav-link">
+        
+            <i class="fa fa-tasks nav-icon"></i>
+            <p>
+                {% trans %}
+                Fee Setting
+                {% endtrans %}
+            </p>
+        </a>
+        </li>
+    {% endif %}
         </ul>
     </li>
 {% endif %}

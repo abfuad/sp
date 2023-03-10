@@ -6,6 +6,7 @@ use App\Entity\Budget;
 use App\Entity\BudgetExpensePlan;
 use App\Entity\BudgetIncomePlan;
 use App\Form\BudgetType;
+use App\Helper\PrintHelper;
 use App\Repository\BudgetRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -83,12 +84,24 @@ class BudgetController extends AbstractController
         
        
     }
-    #[Route('/{id}', name: 'app_budget_show', methods: ['GET'])]
-    public function show(Budget $budget): Response
+    #[Route('/{id}', name: 'app_budget_show', methods: ['GET','POST'])]
+    public function show(Budget $budget,Request $request,PrintHelper $printHelper): Response
     {
         $incomePlans=$this->em->getRepository(BudgetIncomePlan::class)->findBy(['budget'=>$budget]);
         $expensePlans=$this->em->getRepository(BudgetExpensePlan::class)->findBy(['budget'=>$budget]);
+        if ($request->request->get('print_income')) {
+            $printHelper->print('budget_income_plan/print.html.twig', [
+                "income_plans" => $incomePlans,
+                'budget'=>$budget
 
+            ], 'TOWHID SCHOOL INCOME REPORT', 'landscape', 'A4');
+        }
+        if ($request->request->get('print_exp')) {
+            $printHelper->print('budget_expense_plan/print.html.twig', [
+                'expense_plans'=> $expensePlans,
+                'budget'=>$budget
+            ], 'TOWHID SCHOOL EXPENSE REPORT', 'landscape', 'A4');
+        }
         return $this->render('budget/show.html.twig', [
             'budget' => $budget,
             'income_plans'=>$incomePlans,

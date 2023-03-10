@@ -30,12 +30,20 @@ class Budget extends CommonEntity
     #[ORM\OneToMany(mappedBy: 'budget', targetEntity: BudgetExpensePlan::class)]
     private Collection $budgetExpensePlans;
 
+    #[ORM\OneToMany(mappedBy: 'budget', targetEntity: SpecialIncome::class)]
+    private Collection $specialIncomes;
+
+    #[ORM\OneToMany(mappedBy: 'budget', targetEntity: PenalityFee::class)]
+    private Collection $penalityFees;
+
    
     public function __construct()
     {
         $this->budgetIncomePlans = new ArrayCollection();
         $this->budgetExpensePlans = new ArrayCollection();
         // $this->incomes = new ArrayCollection();
+        $this->specialIncomes = new ArrayCollection();
+        $this->penalityFees = new ArrayCollection();
     }
 
 
@@ -129,6 +137,66 @@ class Budget extends CommonEntity
             // set the owning side to null (unless already changed)
             if ($budgetExpensePlan->getBudget() === $this) {
                 $budgetExpensePlan->setBudget(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SpecialIncome>
+     */
+    public function getSpecialIncomes(): Collection
+    {
+        return $this->specialIncomes;
+    }
+
+    public function addSpecialIncome(SpecialIncome $specialIncome): self
+    {
+        if (!$this->specialIncomes->contains($specialIncome)) {
+            $this->specialIncomes->add($specialIncome);
+            $specialIncome->setBudget($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpecialIncome(SpecialIncome $specialIncome): self
+    {
+        if ($this->specialIncomes->removeElement($specialIncome)) {
+            // set the owning side to null (unless already changed)
+            if ($specialIncome->getBudget() === $this) {
+                $specialIncome->setBudget(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PenalityFee>
+     */
+    public function getPenalityFees(): Collection
+    {
+        return $this->penalityFees;
+    }
+
+    public function addPenalityFee(PenalityFee $penalityFee): self
+    {
+        if (!$this->penalityFees->contains($penalityFee)) {
+            $this->penalityFees->add($penalityFee);
+            $penalityFee->setBudget($this);
+        }
+
+        return $this;
+    }
+
+    public function removePenalityFee(PenalityFee $penalityFee): self
+    {
+        if ($this->penalityFees->removeElement($penalityFee)) {
+            // set the owning side to null (unless already changed)
+            if ($penalityFee->getBudget() === $this) {
+                $penalityFee->setBudget(null);
             }
         }
 

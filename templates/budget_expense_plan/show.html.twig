@@ -1,46 +1,212 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}BudgetExpensePlan{% endblock %}
+{% block title %}
+	School Budget Details index
+
+{% endblock %}
+{% block maintitle %}
+
+
+	{{budget_expense_plan.type}}
+	Budget
+{% endblock %}
+{% block breadcrumb %}
+
+	<li class="breadcrumb-item ">
+		<a href="{{ path('app_budget_index') }}">
+			Budget
+		</a>
+	</li>
+	<li class="breadcrumb-item ">
+		<a href="{{ path('app_budget_index') }}">
+			{{budget_expense_plan.type}}
+		</a>
+	</li>
+
+{% endblock %}
 
 {% block body %}
-    <h1>BudgetExpensePlan</h1>
+<a href="{{path('app_budget_show',{'id':budget_expense_plan.budget.id})}}" class="btn btn-info  d-inline">{% trans %}back{% endtrans %}</a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ budget_expense_plan.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ budget_expense_plan.name }}</td>
-            </tr>
-            <tr>
-                <th>Code</th>
-                <td>{{ budget_expense_plan.code }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ budget_expense_plan.description }}</td>
-            </tr>
-            <tr>
-                <th>PlanValue</th>
-                <td>{{ budget_expense_plan.planValue }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ budget_expense_plan.createdAt ? budget_expense_plan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ budget_expense_plan.updatedAt ? budget_expense_plan.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<div class="row ">
 
-    <a href="{{ path('app_budget_expense_plan_index') }}">back to list</a>
+		<div class="col-md-12 ">
 
-    <a href="{{ path('app_budget_expense_plan_edit', {'id': budget_expense_plan.id}) }}">edit</a>
+			<div class="text-center mb-2">
+				<button type="button" id="modalButton" class="btn btn-outline-primary" data-toggle="modal" data-target="#exampleModalCenter">
+					<i class="fa fa-plus"></i>
+					New Expense
+				</button>
+				<button type="button" id="creditButton" class="btn btn-outline-info" data-toggle="modal" data-target="#creditModal">
+				<i class="fa fa-plus"></i>
+				New Credit
+			</button>
+			</div>
+			
+			<div class="card card-info card-outline ">
+				<div class="card-body">
+					<h3 class="d-inline mr-1 ml-2">
+						<strong>Year:
+						</strong>
+					</h3>
+					<h3 class="d-inline mr-3 ml-2">
+						<strong class="text-info">
+							{{budget_expense_plan.budget.year}}</strong>
+					</h3>
 
-    {{ include('budget_expense_plan/_delete_form.html.twig') }}
+					<h3 class="d-inline  mr-3">
+						Budget:
+						<strong class="text-primary">
+							{{budget_expense_plan.planValue}}</strong>
+					</h3>
+
+					<h3 class="d-inline  mr-3 ">
+					Used:
+						<strong class="text-danger">
+							{{budget_expense_plan.planValue-remain}}</strong>
+					</h3>
+                    {# <br> #}
+                    <h3 class="d-inline  ">
+						Remaining:
+						<strong class="text-success">
+							{{remain}}</strong>
+					</h3>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card ">
+		<div class="card-header">
+			<h3 class="card-title">Expenses</h3>
+            
+            <div class="card-tools">
+            <button type="button" class="btn btn-secondary btn-xs" >
+                <i class="fas fa-download"></i> PDF
+            </button>
+        </div>
+		</div>
+        
+
+		<div class="card-body">
+
+
+			<div class="table-responsive">
+				<table class="table table-hover  projects table-bordered">
+					<thead>
+						<tr>
+							<th>
+								#
+							</th>
+							<th class="align-middle">Name</th>
+
+							<th class="align-middle">Amount</th>
+
+
+							<th class="align-middle">Reason</th>
+							<th class="align-middle">Date</th>
+                        <th class="align-middle">Cashier</th>
+
+							<th class="align-middle">
+								Action</th>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						{% set i = 1 %}
+						{% for data in budget_expense_plan.expenses|sort|reverse %}
+							<tr>
+								<td>
+									{{ i }}
+									{% set i = i+1 %}
+								</td>
+								<td>{{ data.name }}
+								</td>
+								<td>{{ data.amount}}
+								</td>
+
+
+								<td>
+									{{data.description}}
+
+								</td>
+								<td>{{ data.createdAt|date('d-m-y')}}
+								</td>
+                                <td>
+									{{data.createdBy|title}}
+
+								</td>
+								<td>
+                                    <form class="d-inline" method="post">
+                                    <input type="hidden" name="edit" value="{{data.id}}">
+                                    <button class="btn btn-sm btn-info" title="Edit">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </form>
+
+
+                                <form class="d-inline" method="post"  onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <input type="hidden" name="remove" value="{{data.id}}">
+
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input
+                                    type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.id) }}">
+                                    <button class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+
+
+                            </td>
+                                </td>
+
+
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="5">no records found</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+	{% include "budget_expense_plan/credit_card.html.twig" %}
+
+	
+
+	{% if edit or credit_edit  %}
+		{% set button_label = 'Update' %}
+	{% endif %}
+	{% if credit_form is defined %}
+	{% include "budget_expense_plan/credit_modal.html.twig" %}
+	{% endif %}
+	{% if form is defined %}
+	{% include "budget_expense_plan/expense_modal.html.twig" %}
+	{% endif %}
+	
+
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2({theme: 'bootstrap4'});
+
+{% if edit %}
+$('#modalButton').trigger('click');
+    
+{% endif %}
+{% if credit_edit %}
+$('#creditButton').trigger('click');
+    
+{% endif %}
+
+});
+	</script>
+
 {% endblock %}

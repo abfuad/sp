@@ -25,9 +25,13 @@ class BudgetExpensePlan extends CommonEntity
     #[ORM\OneToMany(mappedBy: 'expensePlan', targetEntity: Expense::class)]
     private Collection $expenses;
 
+    #[ORM\OneToMany(mappedBy: 'expensePlan', targetEntity: Credit::class)]
+    private Collection $credits;
+
     public function __construct()
     {
         $this->expenses = new ArrayCollection();
+        $this->credits = new ArrayCollection();
     }
 
     
@@ -91,6 +95,36 @@ class BudgetExpensePlan extends CommonEntity
             // set the owning side to null (unless already changed)
             if ($expense->getExpensePlan() === $this) {
                 $expense->setExpensePlan(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Credit>
+     */
+    public function getCredits(): Collection
+    {
+        return $this->credits;
+    }
+
+    public function addCredit(Credit $credit): self
+    {
+        if (!$this->credits->contains($credit)) {
+            $this->credits->add($credit);
+            $credit->setExpensePlan($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCredit(Credit $credit): self
+    {
+        if ($this->credits->removeElement($credit)) {
+            // set the owning side to null (unless already changed)
+            if ($credit->getExpensePlan() === $this) {
+                $credit->setExpensePlan(null);
             }
         }
 

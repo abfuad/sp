@@ -18,10 +18,14 @@ class Grade extends CommonEntity
     #[ORM\OneToMany(mappedBy: 'grade', targetEntity: StudentRegistration::class)]
     private Collection $studentRegistrations;
 
+    #[ORM\OneToMany(mappedBy: 'class', targetEntity: Student::class)]
+    private Collection $class;
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
         $this->studentRegistrations = new ArrayCollection();
+        $this->class = new ArrayCollection();
     }
 
   
@@ -80,6 +84,36 @@ class Grade extends CommonEntity
             // set the owning side to null (unless already changed)
             if ($studentRegistration->getGrade() === $this) {
                 $studentRegistration->setGrade(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function getClass(): Collection
+    {
+        return $this->class;
+    }
+
+    public function addClass(Student $class): self
+    {
+        if (!$this->class->contains($class)) {
+            $this->class->add($class);
+            $class->setClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClass(Student $class): self
+    {
+        if ($this->class->removeElement($class)) {
+            // set the owning side to null (unless already changed)
+            if ($class->getClass() === $this) {
+                $class->setClass(null);
             }
         }
 

@@ -23,6 +23,8 @@
 {% endblock %}
 
 {% block body %}
+<a href="{{path('app_budget_index')}}" class="btn btn-info  d-inline mb-2">{% trans %}back{% endtrans %}</a>
+
 	<div class="row ">
 		<div class="col-md-12 ">
 			<div class="card card-info card-outline ">
@@ -51,6 +53,14 @@
 	<div class="card ">
 		<div class="card-header">
 			<h3 class="card-title" >Income Plan</h3>
+			<div class="card-tools">
+            <form method="post">
+			<input type="hidden" name="print_income" value="true">
+            <button type="submit" class="btn btn-secondary btn-xs" >
+                <i class="fas fa-download"></i> PDF
+            </button>
+		</form>
+		</div>
 
 		</div>
 
@@ -91,7 +101,7 @@
 								</td>
 								<td>{{ data.planValue}}
 								</td>
-								<td>{{ data.actualValue}}
+								<td>{{ getIncomeBudget(data)}}
 								</td>
 
 								<td>{{ data.description }}</td>
@@ -109,10 +119,17 @@
 			</div>
 		</div>
 	</div>
-    <div class="card ">
+    <div class="card">
 		<div class="card-header">
 			<h3 class="card-title" >Expense Plan</h3>
-
+			<div class="card-tools">
+			<form method="post">
+			<input type="hidden" name="print_exp" value="true">
+            <button type="submit" class="btn btn-secondary btn-xs" >
+                <i class="fas fa-download"></i> PDF
+            </button>
+		</form>
+		</div>
 		</div>
 
 		<div class="card-body">
@@ -128,11 +145,18 @@
 							<th class="align-middle">Name</th>
 
 							<th class="align-middle">Expense Category</th>
-							<th class="align-middle">Plan</th>
+							<th class="align-middle">Budget</th>
+						    <th class="align-middle">Used</th>
+						   <th class="align-middle">Remaining</th>
+
+
 
 
 							
 							<th class="align-middle">Description</th>
+						<th class="align-middle">Action</th>
+
+							
 
 
 						</tr>
@@ -150,7 +174,14 @@
 
 								<td>{{ data.type}}
 								</td>
+								
 								<td>{{ data.planValue}}
+								</td>
+								<td><strong class="badge badge-danger">{{ getBudgetExpense(data)}}</strong>
+								</td>
+								<td><strong class="badge badge-success">{{ data.planValue-getBudgetExpense(data)}}</strong>
+								</td>
+								<td>{{ data.description}}
 								</td>
 								
 

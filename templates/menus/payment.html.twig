@@ -1,10 +1,10 @@
 {% if is_granted("ad_pymt") or is_granted("vw_pymt") or is_granted("vw_usr_grp")  %}
     <li class="nav-item has-treeview">
         <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-credit-card text-primary"></i>
-            <p>
+    <i class="nav-icon fa fa-credit-card text-primary"></i>
+    <p>
                 {% trans %}
-              Payment
+             Student Fee
                 {% endtrans %}
                 <i class="right fa fa-angle-left"></i>
             </p>
@@ -18,7 +18,7 @@
                         <i class="fa fa-plus nav-icon"></i>
                         <p>
                             {% trans %}
-                            New Payment
+                            New Fee
                             {% endtrans %}
                         </p>
                     </a>
@@ -32,26 +32,13 @@
                         <i class="fa fa-tasks nav-icon"></i>
                         <p>
                             {% trans %}
-                            Payment List
+                            Fee List
                             {% endtrans %}
                         </p>
                     </a>
                 </li>
             {% endif %}
-            {% if is_granted("ad_pymt") %}
-
-            <li class="nav-item">
-                <a href="{{ path('app_payment_setting_index') }}" class="nav-link">
-
-                    <i class="fa fa-tasks nav-icon"></i>
-                    <p>
-                        {% trans %}
-                        Payment Setting
-                        {% endtrans %}
-                    </p>
-                </a>
-            </li>
-        {% endif %}
+           
            
 
         </ul>

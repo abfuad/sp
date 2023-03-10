@@ -120,8 +120,44 @@ public function filter($search=[],$year=null)
         ->setParameter('pad',$search['isfree']);
     }
         return 
-        $qb->orderBy('s.id', 'ASC')
+        $qb->orderBy('s.id')
+        ->addOrderBy('st.firstName','ASC')
+        ->addOrderBy('st.middleName','ASC')
+        ->addOrderBy('st.lastName','ASC')
         ->getQuery()
+ 
+    ;
+}
+public function getIncomeReport($search=[])
+{
+    $qb=$this->createQueryBuilder('s')
+    ->join('s.incomePlan','p')
+    ->join('p.budget','b')
+    ->select('sum(s.amount) as total')
+    ;
+
+    if(isset($search['incomePlan'])){
+        $qb->andWhere("s.incomePlan = :plan")
+        ->setParameter('plan',$search['incomePlan'])
+        ;
+
+    }
+    if(isset($search['year'])){
+        $qb->andWhere("s.year = :yr")
+        ->setParameter('yr',$search['year'])
+        ;
+
+    }
+    if(isset($search['type'])){
+        $qb->andWhere("p.type = :typ")
+        ->setParameter('typ',$search['type'])
+        ;
+
+    }
+
+        return 
+        $qb
+        ->getQuery()->getSingleScalarResult();
  
     ;
 }

@@ -15,7 +15,7 @@ class ExpenseType extends AbstractType
            
             ->add('amount')
            
-            ->add('expensePlan')
+           
         ;
         BaseFormType::addCommonForm($builder);
     }

@@ -12,7 +12,7 @@ class UserInfoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $role=["System Admin" => "System Admin","General Manager"=>"General Manager","Data Encoder"=>"Data Encoder"];
+        $role=["System Admin" => "System Admin","General Manager"=>"General Manager","Data Encoder"=>"Data Encoder","Employee"=>"Employee"];
 
        BaseFormType::userForm($builder);
       $builder ->add('roles', ChoiceType::class,["choices" => $role,'mapped'=>false,"multiple"=>true,"placeholder"=>"Select Role"]);

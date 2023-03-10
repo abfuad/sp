@@ -15,6 +15,16 @@
 	{{ form_widget(form.code,{'attr':{'class':'form-control'}}) }}
 <div class="help-block text-danger">{{form_errors(form.code)}}</div>
 </div>
+{% if form.source is defined %}
+<div class="form-group ">
+
+<label class="col-sm-5 control-label no-padding-right">
+
+{{ form_label(form.source) }}</label>
+{{ form_widget(form.source,{'attr':{'class':'form-control select2bs4'}}) }}
+<div class="help-block text-danger">{{form_errors(form.source)}}</div>
+</div>
+{% endif %}
 <div class="form-group ">
 	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.description) }}</label>
 	{{ form_widget(form.description,{'attr':{'class':'form-control'}}) }}
