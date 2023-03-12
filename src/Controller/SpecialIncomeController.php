@@ -8,6 +8,7 @@ use App\Entity\IncomeType;
 use App\Entity\PaymentYear;
 use App\Entity\SpecialIncome;
 use App\Form\SpecialIncomeType;
+use App\Helper\PrintHelper;
 use App\Helper\UserHelper;
 use App\Repository\SpecialIncomeRepository;
 use DateTime;
@@ -23,11 +24,15 @@ class SpecialIncomeController extends AbstractController
     use BaseControllerTrait;
 
     #[Route('/', name: 'app_special_income_index', methods: ['GET','POST'])]
-    public function index(SpecialIncomeRepository $specialIncomeRepository,Request $request,PaginatorInterface $paginator): Response
+    public function index(PrintHelper $printHelper,SpecialIncomeRepository $specialIncomeRepository,Request $request,PaginatorInterface $paginator): Response
     {
         $queryBuilder =$specialIncomeRepository->filter( $request->request->get('name'));
 
-
+        if ($request->request->get('pdf')) {
+            $printHelper->print('special_income/print.html.twig', [
+                "datas" => $queryBuilder->getResult()
+            ], 'TOWHID SCHOOL SPECIAL INCOME REPORT', 'landscape', 'A4');
+        }
         $data = $paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
@@ -59,6 +64,7 @@ class SpecialIncomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $specialIncomeRepository->save($specialIncome, true);
+            $this->addFlash('success', "Saved Successfuly");
 
             return $this->redirectToRoute('app_special_income_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -80,16 +86,30 @@ class SpecialIncomeController extends AbstractController
     #[Route('/{id}/edit', name: 'app_special_income_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, SpecialIncome $specialIncome, SpecialIncomeRepository $specialIncomeRepository): Response
     {
-        $form = $this->createForm(SpecialIncomeType::class, $specialIncome);
+        
+        $year = UserHelper::toEth(new DateTime('now'));
+       
+        $activeYear = $this->em->getRepository(PaymentYear::class)->findOneBy(['code' => $year]);
+        $budget = $this->em->getRepository(Budget::class)->findOneBy(['year' => $activeYear]);
+        $feeGroup = $this->em->getRepository(IncomeType::class)->findBy(['source'=>'Others']);
+        
+
+        $feeTypes = $this->em->getRepository(IncomeSetting::class)->findBy(['type'=>$feeGroup]);
+        
+       
+        $form = $this->createForm(SpecialIncomeType::class, $specialIncome,[
+            'feetypes'=>$feeTypes
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $specialIncomeRepository->save($specialIncome, true);
+            $this->addFlash('success', "Updated Successfuly");
 
             return $this->redirectToRoute('app_special_income_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('special_income/edit.html.twig', [
+        return $this->render('special_income/edit.html.twig', [
             'special_income' => $specialIncome,
             'form' => $form,
         ]);
@@ -101,6 +121,8 @@ class SpecialIncomeController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$specialIncome->getId(), $request->request->get('_token'))) {
             $specialIncomeRepository->remove($specialIncome, true);
         }
+        $this->addFlash('success', "Deleted Successfuly");
+
 
         return $this->redirectToRoute('app_special_income_index', [], Response::HTTP_SEE_OTHER);
     }

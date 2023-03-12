@@ -15,7 +15,15 @@ class UserInfoType extends AbstractType
         $role=["System Admin" => "System Admin","General Manager"=>"General Manager","Data Encoder"=>"Data Encoder","Employee"=>"Employee"];
 
        BaseFormType::userForm($builder);
-      $builder ->add('roles', ChoiceType::class,["choices" => $role,'mapped'=>false,"multiple"=>true,"placeholder"=>"Select Role"]);
+      $builder ->add('roles', ChoiceType::class,["choices" => $role,'mapped'=>false,"multiple"=>true,"placeholder"=>"Select Role"])
+      ->add('accountNumber',null,[
+        'required'=>false
+      ])
+      ->add('salary',null,[
+        'required'=>false
+      ])
+      ;
+
 
 
     }

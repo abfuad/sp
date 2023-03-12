@@ -23,7 +23,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Andegna\DateTime as AD;
 use Andegna\DateTimeFactory ;
 use App\Entity\IncomeType as EntityIncomeType;
+use App\Entity\Student;
 use App\Helper\UserHelper;
+use App\Repository\StudentRegistrationRepository;
 use DateTime;
 
 #[Route('/income')]
@@ -92,10 +94,12 @@ class IncomeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_income_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, IncomeRepository $incomeRepository, PaginatorInterface $paginator): Response
+    public function new(Request $request, StudentRegistrationRepository $studentRegistrationRepository,IncomeRepository $incomeRepository, PaginatorInterface $paginator): Response
     {
-        $ethipic = new AD(new DateTime('now'));
-           
+        
+        $year = UserHelper::toEth(new DateTime('now'));
+
+        $activeYear = $this->em->getRepository(PaymentYear::class)->findOneBy(['code' => $year]);
         $session = $request->getSession();
         $grades = $this->em->getRepository(Grade::class)->findAll();
         $feeGroup = $this->em->getRepository(EntityIncomeType::class)->findBy(['source'=>'Student']);
@@ -109,21 +113,21 @@ class IncomeController extends AbstractController
             $year = $this->em->getRepository(PaymentYear::class)->find($session->get('income-year')->getId());
             $grade = $this->em->getRepository(Grade::class)->find($session->get('income-grade')->getId());
             $feeType = $this->em->getRepository(IncomeSetting::class)->find($session->get('income-feetype')->getId());
-
+            $students = $this->em->getRepository(Student::class)->filter(['year'=>$year,'grade'=>$grade])->getResult();
 
             if ($request->request->get('close')) {
 
                 $session->remove('income-start');
                 $session->remove('income-year');
-                $session->remove('income-feetype');
+                // $session->remove('income-feetype');
                 $session->remove('income-grade');
                 $this->addFlash('success', 'successfuly Exit');
                 return $this->redirectToRoute('app_income_new', [], Response::HTTP_SEE_OTHER);
             }
 
-            if ($request->request->get('cancel')) {
+            if ($request->query->get('cancel')) {
 
-                $income = $this->em->getRepository(Income::class)->find($request->request->get('cancel'));
+                $income = $this->em->getRepository(Income::class)->find($request->query->get('cancel'));
                 $income->setReceiptNumber(null);
                 $this->em->flush();
                 $this->addFlash('success', 'successfuly Canceled');
@@ -131,17 +135,17 @@ class IncomeController extends AbstractController
             }
 
 
-            if ($request->request->get('paid')) {
-                $receiptno = $request->request->get('receipt');
+            if ($request->query->get('paid')) {
+                $receiptno = $request->query->get('receipt');
                 $income = $this->em->getRepository(Income::class)->findOneBy(['receiptNumber' => $receiptno]);
                 if ($income) {
                     $this->addFlash('danger', 'sorry this receipt number is already registered');
                     //  return $this->redirectToRoute('app_income_new', [], Response::HTTP_SEE_OTHER);
                 } else {
-                    $income = $this->em->getRepository(Income::class)->find($request->request->get('paid'));
+                    $income = $this->em->getRepository(Income::class)->find($request->query->get('paid'));
                     $budget = $this->em->getRepository(Budget::class)->findOneBy(['year' => $year]);
 
-                    $incomePlan = $this->em->getRepository(BudgetIncomePlan::class)->findOneBy(['type' => $feeType->gettype(), 'budget' => $budget]);
+                    $incomePlan = $this->em->getRepository(BudgetIncomePlan::class)->findOneBy(['type' => $income->getType()->getType(), 'budget' => $budget]);
 
                     $income->setReceiptNumber($receiptno);
                     $income->setIncomePlan($incomePlan);
@@ -150,10 +154,35 @@ class IncomeController extends AbstractController
                     $this->addFlash('success', 'successfuly Paid');
                 }
             }
+               
+        $form = $this->createFormBuilder()
+        ->setMethod("GET")
+        
+        ->add('type', EntityType::class, [
+            'class' => IncomeSetting::class,
+            'placeholder' => 'Select Fee Type',
+            'required' => false,
+            'choices' => $feeTypes
+        ])
+        ->add('student', EntityType::class, [
+            'class' => Student::class,
+            'placeholder' => 'Select Student',
+            'required' => false,
+            "choices" => $students
+        ])
+
+
+        ->add("status", ChoiceType::class, ["choices" => ["All" => null, "Paid" => 1, "UnPaid" => 0]]);
+    $form = $form->getForm();
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $queryBuilder = $incomeRepository->filter(array_merge($form->getData(),['year' => $year, 'grade' => $grade]));
+    } else
+    $queryBuilder = $this->em->getRepository(Income::class)->filter([ 'year' => $year, 'grade' => $grade, 'name' => $request->request->get('name')]);
 
 
 
-            $queryBuilder = $this->em->getRepository(Income::class)->filter(['type' => $feeType, 'year' => $year, 'grade' => $grade, 'name' => $request->request->get('name')]);
+
             $data = $paginator->paginate(
                 $queryBuilder,
                 $request->query->getInt('page', 1),
@@ -162,7 +191,7 @@ class IncomeController extends AbstractController
             return $this->render('income/new.html.twig', [
                 'year' => $year,
                 'grade' => $grade,
-                'fee_type' => $feeType,
+                'form'=>$form,
                 'datas' => $data
 
             ]);
@@ -171,7 +200,7 @@ class IncomeController extends AbstractController
         if ($request->request->get('start')) {
             $grade = $this->em->getRepository(Grade::class)->find($request->request->get('grade'));
             $year = $this->em->getRepository(PaymentYear::class)->find($request->request->get('year'));
-            $feeType = $this->em->getRepository(IncomeSetting::class)->find($request->request->get('fee-type'));
+            // $feeType = $this->em->getRepository(IncomeSetting::class)->find($request->request->get('fee-type'));
             $registrations = $this->em->getRepository(StudentRegistration::class)->findBy(['grade' => $grade, 'year' => $year]);
             // if(count($registrations)<1){
             //     $this->addFlash('danger', 'sorry! no student is registered in the grade and year u selected please first register it!');
@@ -180,32 +209,36 @@ class IncomeController extends AbstractController
 
             // }
             foreach ($registrations as $register) {
-                $income = $this->em->getRepository(Income::class)->findOneBy(['registration' => $register, 'type' => $feeType]);
+                foreach ($feeTypes as $fee) {
+                   
+               
+                $income = $this->em->getRepository(Income::class)->findOneBy(['registration' => $register, 'type' => $fee]);
                 if (!$income) {
                     $income = new Income();
                     $income->setStudent($register->getStudent());
                     $income->setRegistration($register);
-                    $income->setType($feeType);
+                    $income->setType($fee);
                     
                     $income->setYear($year);
-                    $income->setAmount($feeType->getFee());
+                    $income->setAmount($fee->getFee());
                     $this->em->persist($income);
                     $this->em->flush();
                 }
             }
+        }
 
             $session->set('income-year', $year);
 
             $session->set('income-grade', $grade);
 
-            $session->set('income-feetype', $feeType);
+            // $session->set('income-feetype', $feeType);
             $session->set('income-start', true);
 
             $this->addFlash('success', 'started successfuly');
             return $this->redirectToRoute('app_income_new', [], Response::HTTP_SEE_OTHER);
 
 
-            $incomes = $this->em->getRepository(Income::class)->filter(['type' => $feeType, 'year' => $year, 'grade' => $grade, 'isfree' => 0])->getResult();
+            // $incomes = $this->em->getRepository(Income::class)->filter([ 'year' => $year, 'grade' => $grade, 'isfree' => 0])->getResult();
         }
         return $this->render('income/start_session.html.twig', [
             'years' => $years,

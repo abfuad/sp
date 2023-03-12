@@ -8,6 +8,7 @@ use App\Entity\IncomeType;
 use App\Entity\PaymentYear;
 use App\Entity\PenalityFee;
 use App\Form\PenalityFeeType;
+use App\Helper\PrintHelper;
 use App\Helper\UserHelper;
 use App\Repository\PenalityFeeRepository;
 use DateTime;
@@ -23,7 +24,7 @@ class PenalityFeeController extends AbstractController
 {
     use BaseControllerTrait;
     #[Route('/', name: 'app_penality_fee_index', methods: ['GET','POST'])]
-    public function index(PenalityFeeRepository $penalityFeeRepository,Request $request,PaginatorInterface $paginator): Response
+    public function index(PrintHelper $printHelper,PenalityFeeRepository $penalityFeeRepository,Request $request,PaginatorInterface $paginator): Response
     { $form = $this->createFormBuilder()
         ->setMethod("GET")
 
@@ -36,7 +37,11 @@ class PenalityFeeController extends AbstractController
         $queryBuilder = $penalityFeeRepository->filter($form->getData(), $this->getUser());
     } else
         $queryBuilder = $penalityFeeRepository->filter(['name' => $request->request->get('name')]);
-
+        if ($request->query->get('pdf')) {
+            $printHelper->print('penality_fee/print.html.twig', [
+                "datas" => $queryBuilder->getResult()
+            ], 'TOWHID SCHOOL EMPLOYEE PENALITY REPORT', 'landscape', 'A4');
+        }
 
     $data = $paginator->paginate(
         $queryBuilder,
@@ -69,11 +74,12 @@ class PenalityFeeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $penalityFeeRepository->save($penalityFee, true);
+            $this->addFlash('success', "Saved Successfuly");
 
             return $this->redirectToRoute('app_penality_fee_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('penality_fee/new.html.twig', [
+        return $this->render('penality_fee/new.html.twig', [
             'penality_fee' => $penalityFee,
             'form' => $form,
         ]);
@@ -90,16 +96,29 @@ class PenalityFeeController extends AbstractController
     #[Route('/{id}/edit', name: 'app_penality_fee_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, PenalityFee $penalityFee, PenalityFeeRepository $penalityFeeRepository): Response
     {
-        $form = $this->createForm(PenalityFeeType::class, $penalityFee);
+        $year = UserHelper::toEth(new DateTime('now'));
+       
+        $activeYear = $this->em->getRepository(PaymentYear::class)->findOneBy(['code' => $year]);
+        $budget = $this->em->getRepository(Budget::class)->findOneBy(['year' => $activeYear]);
+        $feeGroup = $this->em->getRepository(IncomeType::class)->findBy(['source'=>'Employee']);
+
+        $feeTypes = $this->em->getRepository(IncomeSetting::class)->findBy(['type'=>$feeGroup]);
+        
+        $form = $this->createForm(PenalityFeeType::class, $penalityFee,[
+            'budget'=>$budget,
+            'feetypes'=>$feeTypes
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $penalityFeeRepository->save($penalityFee, true);
+            $this->addFlash('success', "Updated Successfuly");
+
 
             return $this->redirectToRoute('app_penality_fee_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('penality_fee/edit.html.twig', [
+        return $this->render('penality_fee/edit.html.twig', [
             'penality_fee' => $penalityFee,
             'form' => $form,
         ]);
@@ -111,6 +130,8 @@ class PenalityFeeController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$penalityFee->getId(), $request->request->get('_token'))) {
             $penalityFeeRepository->remove($penalityFee, true);
         }
+        $this->addFlash('success', "Deleted Successfuly");
+
 
         return $this->redirectToRoute('app_penality_fee_index', [], Response::HTTP_SEE_OTHER);
     }

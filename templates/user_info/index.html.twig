@@ -118,7 +118,16 @@
 									Phone
 									{% endtrans %}
 								</th>
-
+								<th>
+									{% trans %}
+									AccountNumber
+									{% endtrans %}
+								</th>
+								<th>
+									{% trans %}
+									Salary
+									{% endtrans %}
+								</th>
 								<th>
 									{% trans %}
 									Status
@@ -153,6 +162,12 @@
 									</td>
 									<td>
 										{{ user.phone }}
+									</td>
+									<td>
+										{{ user.accountNumber }}
+									</td>
+									<td>
+										{{ user.salary }}
 									</td>
 									<td>
 										{% if is_granted("edt_usr") %}

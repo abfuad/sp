@@ -13,6 +13,12 @@ class UserInfo extends UserEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255,nullable:true)]
+    private ?string $accountNumber = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $salary = null;
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -21,6 +27,30 @@ class UserInfo extends UserEntity
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAccountNumber(): ?string
+    {
+        return $this->accountNumber;
+    }
+
+    public function setAccountNumber(string $accountNumber): self
+    {
+        $this->accountNumber = $accountNumber;
+
+        return $this;
+    }
+
+    public function getSalary(): ?float
+    {
+        return $this->salary;
+    }
+
+    public function setSalary(?float $salary): self
+    {
+        $this->salary = $salary;
 
         return $this;
     }

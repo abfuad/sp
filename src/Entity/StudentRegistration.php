@@ -48,7 +48,11 @@ class StudentRegistration extends BaseEntity
         $this->payments = new ArrayCollection();
         $this->incomes = new ArrayCollection();
     }
-
+    public function __toString()
+    {
+      return $this->student->__toString();
+    }
+      
    
 
     public function getYear(): ?PaymentYear

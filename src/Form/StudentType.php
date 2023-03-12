@@ -33,7 +33,9 @@ class StudentType extends AbstractType
             ])
             
         
-        ->add('status', ChoiceType::class,["choices" => Student::STATUS,"placeholder"=>"Select Status"]);
+        ->add('status', ChoiceType::class,["choices" => Student::STATUS,"placeholder"=>"Select Status",
+        'required'=>false
+    ]);
 
         ;
         BaseFormType::userForm($builder);

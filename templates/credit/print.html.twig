@@ -1,0 +1,105 @@
+{% extends 'print.html.twig' %}
+
+{% block title %}
+	{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block maintitle %}
+	{{app.request.server.get("SYSTEM_NAME")|title}}
+{% endblock %}
+{% block body %}
+	<center>
+		<h2>
+			<b>
+				<u>
+					TOWHID SCHOOL EMPLOYEE CREDIT REPORT</u>
+			</b>
+		</h2>
+	</center>
+	<br>
+
+	<table style="width:100%">
+		<thead>
+			<tr>
+
+				<th>
+					#
+
+				</th>
+				<th class="align-middle">
+					Employee
+				</th>
+
+				<th class="align-middle">
+					Amount
+				</th>
+				<th class="align-middle">
+					isPaid
+				</th>
+
+				<th class="align-middle">
+					Reason
+				</th>
+				<th class="align-middle">
+					Date
+				</th>
+				<th class="align-middle">
+					Cashier
+				</th>
+
+
+			</tr>
+		</thead>
+		<tbody>
+			
+			{% set i = 1 %}
+								{% for data in datas %}
+									<tr>
+										<td>
+											{{ i }}
+											{% set i = i+1 %}
+										</td>
+										<td>
+											{{ data.user|title }}
+										</td>
+										<td>
+											{{ data.amount }}
+										</td>
+										<td>
+											{% if data.status == 0 %}
+												<strong class="badge badge-danger">
+													NO
+												</strong>
+											{% else %}
+												<strong class="badge badge-success">
+													YES
+												</strong>
+
+											{% endif %}
+										</td>
+
+										<td>
+											{{ data.description }}
+
+										</td>
+										<td>
+											{{ data.createdAt|date('d-m-y') }}
+										</td>
+										<td>
+											{{ data.createdBy|title }}
+
+										</td>
+                                    </tr>
+								
+							
+						
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="5">
+                                                no records found
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

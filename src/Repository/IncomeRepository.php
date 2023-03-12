@@ -98,6 +98,11 @@ public function filter($search=[],$year=null)
         $qb->andWhere('r.student = :st')
         ->setParameter('st',$search['student']);
     }
+    if (isset($search['registration'])) {
+
+        $qb->andWhere('s.registration = :rg')
+        ->setParameter('rg',$search['registration']);
+    }
     if (isset($search['status'])) {
          $status=$search['status'];
         
@@ -120,8 +125,7 @@ public function filter($search=[],$year=null)
         ->setParameter('pad',$search['isfree']);
     }
         return 
-        $qb->orderBy('s.id')
-        ->addOrderBy('st.firstName','ASC')
+        $qb->orderBy('st.firstName','ASC')
         ->addOrderBy('st.middleName','ASC')
         ->addOrderBy('st.lastName','ASC')
         ->getQuery()

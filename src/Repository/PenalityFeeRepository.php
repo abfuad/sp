@@ -75,15 +75,45 @@ class PenalityFeeRepository extends ServiceEntityRepository
             $qb->andWhere('u.sex = :gnd')
                 ->setParameter('gnd', $search['gender']);
         }
-        // if (isset($search['status'])) {
-        //     $qb
-        //         ->andWhere('c.status = :isA')
-        //         ->setParameter('isA', $search['status']);
-        // }
+        if (isset($search['status'])) {
+            $status=$search['status'];
+           
+            if($status==0)
+               $qb->andWhere('c.receiptNumber is null');
+               else
+               $qb->andWhere('c.receiptNumber is not NULL');
+   
+            
+        }
       
 
-        return $qb->orderBy('c.id', 'ASC')
+        return $qb->orderBy('c.id', 'DESC')
             ->getQuery();
+    }
+    public function getUserPenalityFee($user)
+    {
+        // dd($search);
+        // $em = $this->getEntityManager();
+        $qb = $this->createQueryBuilder('c')
+         ->select('sum(c.amount)' )
+         ->andWhere('c.receiptNumber is null')
+        ;
+
+       
+        if ($user) {
+            $qb->andWhere('c.user = :usr')
+                ->setParameter('usr', $user);
+        }
+       
+        
+   
+            
+   
+      
+
+        return 
+        $qb
+        ->getQuery()->getSingleScalarResult();
     }
 //    /**
 //     * @return PenalityFee[] Returns an array of PenalityFee objects

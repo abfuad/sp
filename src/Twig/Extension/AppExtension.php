@@ -2,8 +2,10 @@
 
 namespace App\Twig\Extension;
 
+use App\Entity\Credit;
 use App\Entity\Expense;
 use App\Entity\Income;
+use App\Entity\PenalityFee;
 use App\Twig\Runtime\AppExtensionRuntime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -44,6 +46,9 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getIncomeBudget', [$this, 'getIncomeBudget']),
             new TwigFunction('getTotalExpense', [$this, 'getTotalExpense']),
             new TwigFunction('getTotalIncome', [$this, 'getTotalIncome']),
+            new TwigFunction('getUserCredit', [$this, 'getUserCredit']),
+            new TwigFunction('getUserPenalityFee', [$this, 'getUserPenalityFee']),
+
 
 
 
@@ -63,6 +68,14 @@ class AppExtension extends AbstractExtension
     }
     public function getTotalIncome($year){
         $total=$this->entityManager->getRepository(Income::class)->getIncomeReport(['year'=>$year]);
+        return $total;
+    }
+    public function getUserCredit($user){
+        $expense=$this->entityManager->getRepository(Credit::class)->getUserCredit($user);
+        return $expense;
+    }
+    public function getUserPenalityFee($user){
+        $total=$this->entityManager->getRepository(PenalityFee::class)->getUserPenalityFee($user);
         return $total;
     }
 }

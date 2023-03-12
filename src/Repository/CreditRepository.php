@@ -85,6 +85,31 @@ class CreditRepository extends ServiceEntityRepository
         return $qb->orderBy('c.id', 'ASC')
             ->getQuery();
     }
+    public function getUserCredit($user)
+    {
+        // dd($search);
+        // $em = $this->getEntityManager();
+        $qb = $this->createQueryBuilder('c')
+         ->select('sum(c.amount)' )
+         ->andWhere('c.status = 0')
+        ;
+
+       
+        if ($user) {
+            $qb->andWhere('c.user = :usr')
+                ->setParameter('usr', $user);
+        }
+       
+        
+   
+            
+   
+      
+
+        return 
+        $qb
+        ->getQuery()->getSingleScalarResult();
+    }
 //    /**
 //     * @return Credit[] Returns an array of Credit objects
 //     */

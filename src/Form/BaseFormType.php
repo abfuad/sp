@@ -33,7 +33,9 @@ class BaseFormType
          ->add('firstName',TextType::class)
          ->add('middleName',TextType::class)
         ->add('lastName',TextType::class)
-        ->add('phone',TelType::class)
+        ->add('phone',TelType::class,[
+            'required'=>false
+        ])
 
     
         ->add('kebele',null,[
@@ -41,7 +43,9 @@ class BaseFormType
         ])
         ->add('sex', ChoiceType::class,["choices" => ["Select Sex"=>null,"Male" => "M","Female"=>"F"]])
 
-        ->add('age',IntegerType::class)
+        ->add('age',IntegerType::class,[
+            'required'=>false
+        ])
        
                         ;
     }

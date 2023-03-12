@@ -35,14 +35,14 @@
 						Grade:<strong class="text-info">
 							{{grade}}</strong>
 					</h3>
-					<h3 class="d-inline mr-3">
+					{# <h3 class="d-inline mr-3">
 						Fee Type:
 						<strong class="text-primary">{{fee_type}}</strong>
 					</h3>
 					<h3 class="d-inline ">
 						Amount:<strong class="text-success">
 							{{fee_type.fee}}</strong>
-					</h3>
+					</h3> #}
 
 
 					<div class="float-right">
@@ -59,63 +59,62 @@
 	</div>
 
 	{% embed 'common/index.html.twig' %}
+	{% block filter_form %}
+    {{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
+    ) }}
+    <div class="row">
+        
+        <div class="form-group col-md-4">
+            <label class="col-sm-5 control-label no-padding-right">
+                {{ form_label(form.student) }}
+            </label>
+            {{ form_widget(form.student,{'attr':{'class':'select2 form-control' }}
+            ) }}
 
-		{# {% block filter_form %}
-							{{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
-							) }}
-							<div class="row">
-				
-								<div class="form-group col-md-4">
-									<label class="col-sm-5 control-label no-padding-right">
-										{{ form_label(form.year) }}
-									</label>
-									{{ form_widget(form.year,{'attr':{'class':'select2bs4 form-control' }}
-									) }}
-				
-									<div class="help-block with-errors"></div>
-								</div>
-				
-								<div class="form-group col-md-4">
-									<label class="">
-										{{ form_label(form.grade) }}
-									</label>
-									{{ form_widget(form.grade,{'attr':{'class':'form-control select2bs4 ' }}
-									) }}
-				
-									<div class="help-block with-errors"></div>
-								</div>
-				
-				
-								<div class="form-group col-md-4">
-				
-									<div class="row">
-										<div class="col-md-8">
-											<label class="">
-												{{ form_label(form.gender) }}
-											</label>
-											{{ form_widget(form.gender,{'attr':{'class':'select2bs4 form-control' }}
-											) }}
-				
-										</div>
-										<div class="col-md-2 mt-4">
-											<button class="btn btn-info btn-sm  btn-flat mt-3" type="submit">
-												Filter
-											</button>
-										</div>
-										<div class="col-md-2 mt-4">
-											<input type="submit" class="btn btn-warning btn-sm btn-flat mt-3" value="Clear" name="reset"/>
-				
-										</div>
-									</div>
-									<div class="help-block with-errors"></div>
-				
-								</div>
-								<div class="form-group col-md-12 float-right">
-									<input type="submit" class="btn btn-secondary float-right  " value="PDF" name="pdf">
-								</div>
-							</div>
-							{{ form_end(form) }}
-						{% endblock %} #}
+            <div class="help-block with-errors"></div>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="col-sm-5 control-label no-padding-right">
+                {{ form_label(form.type,'Fee Type') }}
+            </label>
+            {{ form_widget(form.type,{'attr':{'class':'select2 form-control' }}
+            ) }}
+
+            <div class="help-block with-errors"></div>
+        </div>
+        
+    
+    
+        <div class="form-group col-md-4">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <label class="col-sm-5 control-label no-padding-right">
+                        {{ form_label(form.status) }}
+                    </label>
+                    {{ form_widget(form.status,{'attr':{'class':'select2 form-control' }}
+                    ) }}
+
+                </div>
+                <div class="col-md-2 mt-4">
+                    <button class="btn btn-info btn-sm  btn-flat mt-3" type="submit">
+                        Filter
+                    </button>
+                </div>
+                <div class="col-md-2 mt-4">
+                    <input type="submit" class="btn btn-warning btn-sm btn-flat mt-3" value="Clear" name="reset"/>
+
+                </div>
+            </div>
+            <div class="help-block with-errors"></div>
+
+        </div>
+        {# <div class="form-group col-md-2 float-right">
+      <input type="submit" class="btn btn-secondary float-right mt-5 " value="PDF" name="pdf">
+        </div> #}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
 
 		{% block table %}
 			<thead>
@@ -179,7 +178,7 @@
 							{% if data.receiptNumber %}
 								{{data.receiptNumber}}
 							{% else %}
-								<form action="" method="post" id="form{{data.id}}" onsubmit="return confirm('Are you sure you want to submit this payment?');">
+								<form action="" method="get" id="form{{data.id}}" onsubmit="return confirm('Are you sure you want to submit this payment?');">
 									<input type="hidden" name="paid" value="{{data.id}}">
 									<input type="text" name="receipt" placeholder="enter receipt no" required>
 								</form>
@@ -189,7 +188,7 @@
 						<td class="project-actions text-right">
 
 							{% if data.receiptNumber %}
-								<form action="" method="post" onsubmit="return confirm('Are you sure you want to cancel this payment?');">
+								<form action="" method="get" onsubmit="return confirm('Are you sure you want to cancel this payment?');">
 									<input type="hidden" name="cancel" value="{{data.id}}">
 									<button type="submit" class="btn btn-danger btn-sm" title="undo">
 										<i class="fa fa-undo "></i>
@@ -218,7 +217,7 @@
 {% block javascripts %}
 	<script>
 		$(function () { // Initialize Select2 Elements
-$('.select2').select2()
+$('.select2').select2({theme: 'bootstrap4'})
 
 // $('.select2').select2({theme: 'bootstrap4'});
 

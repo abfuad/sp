@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Credit;
+use App\Entity\User;
+use App\Entity\UserInfo;
 use App\Form\CreditType;
 use App\Helper\PrintHelper;
 use App\Repository\CreditRepository;
@@ -16,9 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/credit')]
 class CreditController extends AbstractController
 {
+    use BaseControllerTrait;
     #[Route('/', name: 'app_credit_index', methods: ['GET','POST'])]
     public function index(CreditRepository $creditRepository,PrintHelper $printHelper,Request $request,PaginatorInterface $paginator): Response
     {
+        $users=$this->em->getRepository(User::class)->findBy(['isActive'=>true]);
         if($request->request->get('pay')){
         $id=$request->request->get('pay');
         $credit=$creditRepository->find($id);
@@ -46,12 +50,22 @@ class CreditController extends AbstractController
     } else
         $queryBuilder = $creditRepository->findCredit(['name' => $request->request->get('name')]);
 
-
+        if ($request->query->get('pdf')) {
+            $printHelper->print('credit/print.html.twig', [
+                "datas" => $queryBuilder->getResult()
+            ], 'TOWHID SCHOOL CREDIT REPORT', 'landscape', 'A4');
+        }
+        if ($request->query->get('salary')) {
+            $printHelper->print('credit/print_salary.html.twig', [
+                "datas" => $users
+            ], 'TOWHID SCHOOL EMPLOYEE SALARY', 'landscape', 'A4');
+        }
     $data = $paginator->paginate(
         $queryBuilder,
         $request->query->getInt('page', 1),
         18
     );
+
    
         return $this->render('credit/index.html.twig', [
             'datas' => $data,
