@@ -77,31 +77,33 @@
 
 									</th>
 									<th class="align-middle">
-										Name
+								{% trans %}Name{% endtrans %}
 									</th>
                                     <th class="align-middle">
-										Fee Type
+								{% trans %}Fee Type{% endtrans %}
+										
 									</th>
 
 									<th class="align-middle">
-										Amount
+								{% trans %}	Amount{% endtrans %}
+									
 									</th>
 									<th class="align-middle">
-										ReceiptNumber
-									</th>
-
-									<th class="align-middle">
-										Reason
-									</th>
-									<th class="align-middle">
-										Date
-									</th>
-									<th class="align-middle">
-										Cashier
+								{% trans %}ReceiptNumber{% endtrans %}
 									</th>
 
 									<th class="align-middle">
-										Action
+								{% trans %}Reason{% endtrans %}
+									</th>
+									<th class="align-middle">
+								{% trans %}Date{% endtrans %}
+									</th>
+									<th class="align-middle">
+								{% trans %}	Cashier{% endtrans %}
+									</th>
+
+									<th class="align-middle">
+								{% trans %}	Action{% endtrans %}
 									</th>
 
 								</tr>
@@ -157,7 +159,7 @@
 					{% else %}
 						<tr>
 							<td colspan="9">
-								no records found
+						{% trans %}no records found{% endtrans %}
 							</td>
 						</tr>
 					{% endfor %}

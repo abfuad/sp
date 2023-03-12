@@ -126,28 +126,28 @@
 
 									</th>
 									<th class="align-middle">
-										User
+								{% trans %}User{% endtrans %}
 									</th>
 
 									<th class="align-middle">
-										Amount
+								{% trans %}	Amount{% endtrans %}
 									</th>
 									<th class="align-middle">
-										isPaid
-									</th>
-
-									<th class="align-middle">
-										Reason
-									</th>
-									<th class="align-middle">
-										Date
-									</th>
-									<th class="align-middle">
-										Cashier
+								{% trans %}isPaid{% endtrans %}
 									</th>
 
 									<th class="align-middle">
-										Action
+								{% trans %}	Reason{% endtrans %}
+									</th>
+									<th class="align-middle">
+								{% trans %}Date{% endtrans %}
+									</th>
+									<th class="align-middle">
+								{% trans %}Cashier{% endtrans %}
+									</th>
+
+									<th class="align-middle">
+								{% trans %}Action{% endtrans %}
 									</th>
 
 								</tr>
@@ -200,7 +200,7 @@
 												<form class="d-inline" method="post" onsubmit="return confirm('Are you sure you want to paid this credit?');">
 													<input type="hidden" name="pay" value="{{data.id}}">
 													<button class="btn btn-sm btn-primary" title="pay">
-														Pay
+										{% trans %}	Pay{% endtrans %}
 													</button>
 
 												</form>

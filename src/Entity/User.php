@@ -42,6 +42,9 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Credit::class)]
     private Collection $credits;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $locale = null;
+
     public function __construct()
     {
         $this->userGroups = new ArrayCollection();
@@ -231,6 +234,18 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
                 $credit->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    public function setLocale(?string $locale): self
+    {
+        $this->locale = $locale;
 
         return $this;
     }

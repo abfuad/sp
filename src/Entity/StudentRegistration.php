@@ -40,9 +40,15 @@ class StudentRegistration extends BaseEntity
     #[ORM\OneToMany(mappedBy: 'registration', targetEntity: Income::class)]
     private Collection $incomes;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $status = null;
-
+    #[ORM\Column(length: 255,nullable:true)]
+    private ?string $status = null;
+    public  const  TRANSFERED ='TRANSFERED';
+    public  const  COMPLETED ='COMPLETED';
+     public  const  DROPOUT ='DROPOUT';
+ 
+   public const STATUS=['Transfered'=>Student::TRANSFERED,'Completed'=>Student::COMPLETED,'Drop out'=>Student::DROPOUT];
+ 
+ 
     public function __construct()
     {
         $this->payments = new ArrayCollection();
@@ -175,12 +181,12 @@ class StudentRegistration extends BaseEntity
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?string
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 

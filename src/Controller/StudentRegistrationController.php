@@ -327,7 +327,7 @@ class StudentRegistrationController extends AbstractController
             return $this->redirectToRoute('app_student_registration_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('student_registration/edit.html.twig', [
+        return $this->render('student_registration/edit.html.twig', [
             'student_registration' => $studentRegistration,
             'form' => $form,
         ]);

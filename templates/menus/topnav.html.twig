@@ -24,7 +24,7 @@
 			</a>
 			<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
-				<form class="text-light" id="language"  method="post" {% if app.user %} action="{{ path('app_home')}}" {% else %} action="{{ path('app_home')}}" {% endif %}>
+				<form class="text-light" id="language"  method="post" {% if app.user %} action="{{ path('change_locale')}}" {% else %} action="{{ path('change_locale')}}" {% endif %}>
 					<div class="input-group input-group-sm">
 						<select name="lang" id="lang" class="form-control ">
 
@@ -57,13 +57,13 @@
 		
 		<li  class="nav-item">
 			<a href="{{ path('app_logout')}}" class="nav-link">
-				<i class="fa fa-sign-out-alt" aria-hidden="true"></i>Logout
+				<i class="fa fa-sign-out-alt" aria-hidden="true"></i>{% trans %}Logout{% endtrans %}
 			</a>
 		</li>
 		{% else %}
 			<li  class="nav-item">
 			<a href="{{ path('app_login')}}" class="nav-link">
-				<i class="fa fa-sign-in-alt" aria-hidden="true"></i>Login
+				<i class="fa fa-sign-in-alt" aria-hidden="true"></i>{% trans %}Login{% endtrans %}
 			</a>
 		</li>
 		{% endif %}

@@ -51,8 +51,9 @@ class Student extends UserEntity
     public  const  TRANSFERED ='TRANSFERED';
    public  const  COMPLETED ='COMPLETED';
     public  const  OTHERSCHOOL ='OTHERSCHOOL';
+    public  const  DROPOUT ='DROPOUT';
 
-  public const STATUS=['New'=>Student::NEW,'Other School'=>Student::OTHERSCHOOL];
+  public const STATUS=['New'=>Student::NEW,'Other School'=>Student::OTHERSCHOOL,'Transfered'=>Student::TRANSFERED,'Completed'=>Student::COMPLETED,'Drop out'=>Student::DROPOUT];
 
 
     

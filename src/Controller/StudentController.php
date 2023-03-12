@@ -7,6 +7,7 @@ use App\Entity\PaymentYear;
 use App\Entity\Student;
 use App\Form\StudentType;
 use App\Helper\PrintHelper;
+use App\Helper\UserHelper;
 use App\Repository\StudentRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -63,8 +64,11 @@ class StudentController extends AbstractController
 
 
         if ($request->query->get('pdf')) {
+            $results=$reportQuery->getResult();
+          
+
             $printHelper->print('student/print.html.twig', [
-                "datas" => $reportQuery->getResult()
+                "datas" => $results
             ], 'TOWHID SCHOOL STUDENT PAYMENT REPORT', 'landscape', 'A4');
         }
         $data = $paginator->paginate(

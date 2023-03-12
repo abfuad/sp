@@ -8,6 +8,7 @@ use App\Entity\Student;
 use App\Entity\StudentRegistration;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,6 +32,8 @@ class StudentRegistrationType extends AbstractType
                 'placeholder'=>'Select Grade',
              
             ])
+            ->add('status', ChoiceType::class,["choices" => StudentRegistration::STATUS,"placeholder"=>"Select Status",
+        'required'=>false])
         ;
     }
 

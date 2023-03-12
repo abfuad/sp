@@ -35,13 +35,17 @@
 					{{ form_widget(form.grade,{'attr':{'class':form_errors(form.grade)? 'form-control is-invalid select2bs4':'form-control select2bs4','placeholder':"Enter..."}}) }}
 					<div class="help-block text-danger">{{form_errors(form.grade)}}</div>
 				</div>
+				
 				<div class="form-group mt-2 col-md-4 col-sm-6 ">
-<label class="">					{{form_label(form.isFree)}} {{ form_widget(form.isFree,{'attr':{'class':form_errors(form.isFree)? 'form-control is-invalid user_age':'form-control d-inline user_age','placeholder':"Enter..."}}) }}</label>
-					
-					<div class="help-block text-danger">{{form_errors(form.isFree)}}</div>
-				</div>
-
-
+				{{form_label(form.status)}}
+				{{ form_widget(form.status,{'attr':{'class':form_errors(form.status)? 'form-control is-invalid select2bs4':'form-control select2bs4','placeholder':"Enter..."}}) }}
+				<div class="help-block text-danger">{{form_errors(form.status)}}</div>
+			</div>
+			<div class="form-group mt-2 col-md-4 col-sm-6 ">
+		<label class="">					{{form_label(form.isFree)}} {{ form_widget(form.isFree,{'attr':{'class':form_errors(form.isFree)? 'form-control is-invalid user_age':'form-control d-inline user_age','placeholder':"Enter..."}}) }}</label>
+							
+							<div class="help-block text-danger">{{form_errors(form.isFree)}}</div>
+						</div>
 				{# <div class="form-group mt-2 col-md-4 col-sm-6 ">
 									{{form_label(form.phone)}}
 									{{ form_widget(form.phone,{'attr':{'class':form_errors(form.phone)? 'form-control is-invalid user_phone':'form-control user_phone','placeholder':"Enter..."}}) }}

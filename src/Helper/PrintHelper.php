@@ -38,6 +38,7 @@ class PrintHelper
 
     function print($twig, $data = null, $name = "print", $orientation = null, $paper = "A4", $header=true,$footer = true)
     {
+        // UserHelper::setExecutionTime();
         
         $orientation = $orientation ? $orientation : "portrait";
         $orientation = strtolower($orientation);

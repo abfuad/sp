@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="or" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="Qztx6KX" resname="User Group">
+        <source>User Group</source>
+        <target>Garee Fayyadamaa</target>
+      </trans-unit>
+      <trans-unit id="RkxP.QG" resname="Edit">
+        <source>Edit</source>
+        <target>Gulaali</target>
+      </trans-unit>
+      <trans-unit id="wdySxoD" resname="Add New">
+        <source>Add New</source>
+        <target>Haaraa Dabaluu</target>
+      </trans-unit>
+      <trans-unit id="R8601Fp" resname="User Group List">
+        <source>User Group List</source>
+        <target>Tarree Garee Fayyadamaa</target>
+      </trans-unit>
+      <trans-unit id="Um4Ah8w" resname="Description">
+        <source>Description</source>
+        <target>Ibsa</target>
+      </trans-unit>
+      <trans-unit id="ZM.xMZ0" resname="Action">
+        <source>Action</source>
+        <target>Gocha</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Bahi</target>
+      </trans-unit>
+      <trans-unit id="nWMiwfT" resname="Login">
+        <source>Login</source>
+        <target>seeni</target>
+      </trans-unit>
+      <trans-unit id="OnhpU4i" resname="Home">
+        <source>Home</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="ZQ8ozM4" resname="School Budget Details">
+        <source>School Budget Details</source>
+        <target>Ibsa Baajata</target>
+      </trans-unit>
+      <trans-unit id="dEiSRSc" resname="School Budget">
+        <source>School Budget</source>
+        <target>Baajata Mana Barnoota</target>
+      </trans-unit>
+      <trans-unit id="PEgjRvN" resname="back">
+        <source>back</source>
+        <target>Deebii</target>
+      </trans-unit>
+      <trans-unit id="NK4Tb2U" resname="New Special Fee">
+        <source>New Special Fee</source>
+        <target>Kaffaltii Addaa Haaraa</target>
+      </trans-unit>
+      <trans-unit id="mMngX56" resname="Special Fee">
+        <source>Special Fee</source>
+        <target>Kaffaltii Adabbii</target>
+      </trans-unit>
+      <trans-unit id="GP3VSbL" resname="New">
+        <source>New</source>
+        <target>Haaraa Dabaluu</target>
+      </trans-unit>
+      <trans-unit id="8wKPMtp" resname="Special Fee Information">
+        <source>Special Fee Information</source>
+        <target>Odeeffannoo Kaffaltii Addaa</target>
+      </trans-unit>
+      <trans-unit id="U0M9PNE" resname="back to list">
+        <source>back to list</source>
+        <target>Deebii</target>
+      </trans-unit>
+      <trans-unit id="2ytYLM1" resname="Edit Special Fee">
+        <source>Edit Special Fee</source>
+        <target>Kaffaltii Addaa Gulaali</target>
+      </trans-unit>
+      <trans-unit id="CRh.go8" resname="Special  Fee">
+        <source>Special  Fee</source>
+        <target>Kaffaltii Addaa</target>
+      </trans-unit>
+      <trans-unit id="lYeqfoP" resname="New Penality Fee">
+        <source>New Penality Fee</source>
+        <target>Kaffaltii Adabbii Haaraa</target>
+      </trans-unit>
+      <trans-unit id="8f1yxad" resname="Penality Fee">
+        <source>Penality Fee</source>
+        <target>Kaffaltii Adabbii</target>
+      </trans-unit>
+      <trans-unit id="IiLkcCJ" resname="Penality Fee Information">
+        <source>Penality Fee Information</source>
+        <target>Odeeffannoo Kaffaltii Adabbii</target>
+      </trans-unit>
+      <trans-unit id="7UHn_5f" resname="Edit Penality Fee">
+        <source>Edit Penality Fee</source>
+        <target> Kaffaltii Adabbii Gulaali</target>
+      </trans-unit>
+      <trans-unit id=".ISim7h" resname="Student Payment">
+        <source>Student Payment</source>
+        <target>Kaffaltii Barataa</target>
+      </trans-unit>
+      <trans-unit id="yRsVIt6" resname="Start payment">
+        <source>Start payment</source>
+        <target>Kaffaltii Jalqabii</target>
+      </trans-unit>
+      <trans-unit id="DrFy5UN" resname="Special Income">
+        <source>Special Income</source>
+        <target>Galii Addaa</target>
+      </trans-unit>
+      <trans-unit id="V4MKej6" resname="New Income">
+        <source>New Income</source>
+        <target>Galii Haaraa</target>
+      </trans-unit>
+      <trans-unit id="Q4ooP_F" resname="Income List">
+        <source>Income List</source>
+        <target>Tarree Galii</target>
+      </trans-unit>
+      <trans-unit id=".kXzoa3" resname="User Management">
+        <source>User Management</source>
+        <target>Oggansa Fayyadamaa</target>
+      </trans-unit>
+      <trans-unit id="MVJ_u5A" resname="New User">
+        <source>New User</source>
+        <target>Fayyadamaa Haaraa</target>
+      </trans-unit>
+      <trans-unit id="sIwK89t" resname="User List">
+        <source>User List</source>
+        <target>Tarree Fayyadamaa </target>
+      </trans-unit>
+      <trans-unit id="8pHDJhk" resname="Budget &amp; Plan">
+        <source>Budget &amp; Plan</source>
+        <target><![CDATA[Baajata & Karoora]]></target>
+      </trans-unit>
+      <trans-unit id="YYiG02i" resname="Budget List">
+        <source>Budget List</source>
+        <target>Tarree Baajata</target>
+      </trans-unit>
+      <trans-unit id="1AqvgQl" resname="Income Plan">
+        <source>Income Plan</source>
+        <target>Karoora Galii </target>
+      </trans-unit>
+      <trans-unit id="LG33d.5" resname="Expense Plan">
+        <source>Expense Plan</source>
+        <target>Karoora Baasii</target>
+      </trans-unit>
+      <trans-unit id="D8jt_OV" resname="New Fee">
+        <source>New Fee</source>
+        <target>Kaffaltii Haaraa</target>
+      </trans-unit>
+      <trans-unit id="heun5nm" resname="Fee List">
+        <source>Fee List</source>
+        <target>Tarree Kaffaltii</target>
+      </trans-unit>
+      <trans-unit id="xMhxkwr" resname="System Setting">
+        <source>System Setting</source>
+        <target>Haala Mijjeessuu</target>
+      </trans-unit>
+      <trans-unit id="bNLjMYV" resname="School">
+        <source>School</source>
+        <target>Mana Barnoota</target>
+      </trans-unit>
+      <trans-unit id="SHlrH43" resname="Fiscal Year">
+        <source>Fiscal Year</source>
+        <target>Bara Baajataa</target>
+      </trans-unit>
+      <trans-unit id="g0Vn_lq" resname="Payment Month">
+        <source>Payment Month</source>
+        <target>__Payment Month</target>
+      </trans-unit>
+      <trans-unit id="g54g_zW" resname="Grade">
+        <source>Grade</source>
+        <target>Kutaa</target>
+      </trans-unit>
+      <trans-unit id="DsIQSUl" resname="Fee &amp; Exp Setting">
+        <source>Fee &amp; Exp Setting</source>
+        <target><![CDATA[Galii & Basii Mijjeessuu]]></target>
+      </trans-unit>
+      <trans-unit id="nu74rnq" resname="Fee Group">
+        <source>Fee Group</source>
+        <target>Garee Kaffaltii</target>
+      </trans-unit>
+      <trans-unit id="tQL6fMy" resname="Expense Type">
+        <source>Expense Type</source>
+        <target> Gosa Baasii</target>
+      </trans-unit>
+      <trans-unit id="6lsZXbo" resname="Fee Setting">
+        <source>Fee Setting</source>
+        <target>Kaffaltii  Mijjeessuu</target>
+      </trans-unit>
+      <trans-unit id="_xh10KX" resname="Credit">
+        <source>Credit</source>
+        <target> Liqaa</target>
+      </trans-unit>
+      <trans-unit id="c73kJd8" resname="Credit List">
+        <source>Credit List</source>
+        <target>Tarree Liqaa</target>
+      </trans-unit>
+      <trans-unit id="KhZNVBV" resname="Student">
+        <source>Student</source>
+        <target>Barataa</target>
+      </trans-unit>
+      <trans-unit id="m0uRqxB" resname="New Student">
+        <source>New Student</source>
+        <target>Barataa Haaraa</target>
+      </trans-unit>
+      <trans-unit id="NZaFXNv" resname="Student List">
+        <source>Student List</source>
+        <target>Tarree Barataa </target>
+      </trans-unit>
+      <trans-unit id="9VAqGpk" resname="Promote Student">
+        <source>Promote Student</source>
+        <target>Barataa Dabarsuu</target>
+      </trans-unit>
+      <trans-unit id="dtjcUBU" resname="Student Fee">
+        <source>Student Fee</source>
+        <target> Kaffaltii Barataa</target>
+      </trans-unit>
+      <trans-unit id=".TBU6d5" resname="New Registration">
+        <source>New Registration</source>
+        <target>Galmee Haaraa</target>
+      </trans-unit>
+      <trans-unit id="L8uGvqi" resname="Student Registration">
+        <source>Student Registration</source>
+        <target>Galmee Barataa</target>
+      </trans-unit>
+      <trans-unit id=".wigF.q" resname="Edit Student">
+        <source>Edit Student</source>
+        <target>Barataa Gulaali</target>
+      </trans-unit>
+      <trans-unit id="8m0c.Vo" resname="Start Student Registration">
+        <source>Start Student Registration</source>
+        <target>Galmee Barataa Jalqa</target>
+      </trans-unit>
+      <trans-unit id="tRLZfny" resname="User">
+        <source>User</source>
+        <target>Fayyadamaa</target>
+      </trans-unit>
+      <trans-unit id="2dF7gmS" resname="User Information">
+        <source>User Information</source>
+        <target>Odeeffannoo Fayyadamaa</target>
+      </trans-unit>
+      <trans-unit id="jgDN9x_" resname="Full Name">
+        <source>Full Name</source>
+        <target>Maqaa Guutuu</target>
+      </trans-unit>
+      <trans-unit id="Y9zriAC" resname="Phone">
+        <source>Phone</source>
+        <target>Bilbilaa</target>
+      </trans-unit>
+      <trans-unit id="YjxyDPx" resname="AccountNumber">
+        <source>AccountNumber</source>
+        <target>__AccountNumber</target>
+      </trans-unit>
+      <trans-unit id="iIuU8zB" resname="Salary">
+        <source>Salary</source>
+        <target>Mindaa</target>
+      </trans-unit>
+      <trans-unit id="kg5BPH1" resname="Status">
+        <source>Status</source>
+        <target>Haala</target>
+      </trans-unit>
+      <trans-unit id="FHNqLrn" resname="Role">
+        <source>Role</source>
+        <target>__Role</target>
+      </trans-unit>
+      <trans-unit id="sX3fMgq" resname="Student Information">
+        <source>Student Information</source>
+        <target>Odeeffannoo Barataa</target>
+      </trans-unit>
+      <trans-unit id="UCz6jEL" resname="New Payment">
+        <source>New Payment</source>
+        <target>Kaffaltii Haaraa</target>
+      </trans-unit>
+      <trans-unit id="cEjzizP" resname="Payment">
+        <source>Payment</source>
+        <target>Kaffaltii</target>
+      </trans-unit>
+      <trans-unit id="fTwipnx" resname="Latest 5 Payments">
+        <source>Latest 5 Payments</source>
+        <target>__Latest 5 Payments</target>
+      </trans-unit>
+      <trans-unit id="HrJYiVf" resname="Payment Information">
+        <source>Payment Information</source>
+        <target>Odeeffannoo Kaffaltii</target>
+      </trans-unit>
+      <trans-unit id="yQRveje" resname="description">
+        <source>description</source>
+        <target>Ibsa</target>
+      </trans-unit>
+      <trans-unit id="OSkXL8g" resname="New Income Plan">
+        <source>New Income Plan</source>
+        <target>Karoora Galii Haaraa</target>
+      </trans-unit>
+      <trans-unit id="NA9GMDP" resname="Code">
+        <source>Code</source>
+        <target>Codii</target>
+      </trans-unit>
+      <trans-unit id="DlcMpvq" resname="Source">
+        <source>Source</source>
+        <target>Madda</target>
+      </trans-unit>
+      <trans-unit id="BzwWNMS" resname="status">
+        <source>status</source>
+        <target>Haala</target>
+      </trans-unit>
+      <trans-unit id="lT3W8rR" resname="Sex">
+        <source>Sex</source>
+        <target>Saala</target>
+      </trans-unit>
+      <trans-unit id="Obc3DzC" resname="Age">
+        <source>Age</source>
+        <target>Umrii</target>
+      </trans-unit>
+      <trans-unit id="1EOSb1g" resname="EntranceYear">
+        <source>EntranceYear</source>
+        <target>Baraa Seensaa</target>
+      </trans-unit>
+      <trans-unit id="Kw3N1AA" resname="actions">
+        <source>actions</source>
+        <target>Gocha</target>
+      </trans-unit>
+      <trans-unit id="3NHVIj9" resname="Name">
+        <source>Name</source>
+        <target>Maqaa</target>
+      </trans-unit>
+      <trans-unit id="mlcABRF" resname="Fee Type">
+        <source>Fee Type</source>
+        <target>Gosaa Kaffaltii</target>
+      </trans-unit>
+      <trans-unit id="SeltfN9" resname="Amount">
+        <source>Amount</source>
+        <target>Hangaa</target>
+      </trans-unit>
+      <trans-unit id="XTtaLdw" resname="ReceiptNumber">
+        <source>ReceiptNumber</source>
+        <target>__ReceiptNumber</target>
+      </trans-unit>
+      <trans-unit id="_Bq4NN5" resname="Reason">
+        <source>Reason</source>
+        <target>Sababaa</target>
+      </trans-unit>
+      <trans-unit id="mcQKtAW" resname="Date">
+        <source>Date</source>
+        <target>Guyyaa</target>
+      </trans-unit>
+      <trans-unit id="rpyITOc" resname="Cashier">
+        <source>Cashier</source>
+        <target>Kan Galmesse</target>
+      </trans-unit>
+      <trans-unit id="D5lam8." resname="no records found">
+        <source>no records found</source>
+        <target>__no records found</target>
+      </trans-unit>
+      <trans-unit id="fozSBW2" resname="Title">
+        <source>Title</source>
+        <target>Mataa Duree</target>
+      </trans-unit>
+      <trans-unit id="wet4qaP" resname="CreatedBy">
+        <source>CreatedBy</source>
+        <target>Kan Galmesse</target>
+      </trans-unit>
+      <trans-unit id="_NU_9fk" resname="CreatedAt">
+        <source>CreatedAt</source>
+        <target>Guyyaa</target>
+      </trans-unit>
+      <trans-unit id="B8foUW8" resname="isPaid">
+        <source>isPaid</source>
+        <target>Kaffalee</target>
+      </trans-unit>
+      <trans-unit id="cjr6OU2" resname="Pay">
+        <source>Pay</source>
+        <target>Kaffalii</target>
+      </trans-unit>
+      <trans-unit id="ifaDJWD" resname="Year">
+        <source>Year</source>
+        <target>Baraa</target>
+      </trans-unit>
+      <trans-unit id="CvlqjtY" resname="budget">
+        <source>budget</source>
+        <target>Baajata</target>
+      </trans-unit>
+      <trans-unit id="UVlduRk" resname="Income">
+        <source>Income</source>
+        <target>Galii</target>
+      </trans-unit>
+      <trans-unit id="oEF7qAE" resname="Expense">
+        <source>Expense</source>
+        <target>Baasii</target>
+      </trans-unit>
+      <trans-unit id="BzGmOhv" resname="FullName">
+        <source>FullName</source>
+        <target>Maqaa Gutuu</target>
+      </trans-unit>
+      <trans-unit id="Eaemr4S" resname="isFree">
+        <source>isFree</source>
+        <target>Bilisaa</target>
+      </trans-unit>
+      <trans-unit id="50dBzmu" resname="FeeType">
+        <source>FeeType</source>
+        <target>Gosaa Kaffaltii</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

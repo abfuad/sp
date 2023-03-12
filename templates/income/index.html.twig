@@ -32,7 +32,15 @@
     {{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
     ) }}
     <div class="row">
-        
+	<div class="form-group col-md-4">
+	<label class="col-sm-5 control-label no-padding-right">
+		{{ form_label(form.student) }}
+	</label>
+	{{ form_widget(form.student,{'attr':{'class':'select2 form-control' }}
+	) }}
+
+	<div class="help-block with-errors"></div>
+</div>
         <div class="form-group col-md-4">
             <label class="col-sm-5 control-label no-padding-right">
                 {{ form_label(form.year) }}
@@ -99,26 +107,26 @@
 				<tr>
 					<th>#</th>
 					<th class="align-middle">{{ knp_pagination_sortable(datas, 'IDNumber', 's.idNumber') }}</th>
-					<th class="align-middle">{{ knp_pagination_sortable(datas, 'FullName', 's.firstName') }}</th>
+					{# <th class="align-middle">{{ knp_pagination_sortable(datas, 'FullName', 's.firstName') }}</th> #}
 
-					{# <th class="align-middle">FullName</th> #}
-					<th class="align-middle">Sex</th>
+					<th class="align-middle">{% trans %}FullName{% endtrans %}</th>
+					<th class="align-middle">{% trans %}Sex{% endtrans %}</th>
 
-					<th class="align-middle">Year</th>
-					<th class="align-middle">Grade</th>
-
-
-					<th class="align-middle">isFree</th>
-
-					<th class="align-middle">FeeType</th>
-					<th class="align-middle">Amount</th>
-					<th class="align-middle">isPaid</th>
+					<th class="align-middle">{% trans %}Year{% endtrans %}</th>
+					<th class="align-middle">{% trans %}Grade{% endtrans %}</th>
 
 
-					<th class="align-middle">ReceiptNumber</th>
+					<th class="align-middle">{% trans %}isFree{% endtrans %}</th>
+
+					<th class="align-middle">{% trans %}FeeType{% endtrans %}</th>
+					<th class="align-middle">{% trans %}Amount{% endtrans %}</th>
+					<th class="align-middle">{% trans %}isPaid{% endtrans %}</th>
 
 
-					<th class="align-middle">actions</th>
+					<th class="align-middle">{% trans %}ReceiptNumber{% endtrans %}</th>
+
+
+					<th class="align-middle">{% trans %}actions{% endtrans %}</th>
 				</tr>
 			</thead>
 			<tbody>

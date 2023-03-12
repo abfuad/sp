@@ -51,6 +51,7 @@ class StudentRepository extends ServiceEntityRepository
     {
         $qb=$this->createQueryBuilder('s')
         ->leftJoin('s.studentRegistrations','r')
+        ->leftJoin('s.class','c')
         ;
         if (isset($search['name'])) {
 
@@ -101,8 +102,16 @@ class StudentRepository extends ServiceEntityRepository
         }
             return 
             $qb
+            
             // ->orderBy('s.id', 'ASC')
-            ->orderBy('s.firstName','ASC')
+            // ->groupBy('c.id')
+            ->orderBy('c.id','ASC')
+            ->addOrderBy('s.firstName','ASC')
+
+            ->addOrderBy('s.middleName','ASC')
+        ->addOrderBy('s.lastName','ASC')
+        //->addOrderBy('c.id','ASC')
+       
             ->getQuery()
      
         ;

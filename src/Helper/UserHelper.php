@@ -47,6 +47,12 @@ class UserHelper
         $ethipic = new AD($date);
        return $ethipic->getYear();
     }
+    static function setExecutionTime(){
+        ini_set('max_execution_time', '300'); 
+        // ini_set("pcre.backtrack_limit", "2000000000000");
+        ini_set('memory_limit', '3G'); // 3 Gigabytes
+       return 1;;
+    }
     // public function getEmployeeIDNumber($joiningDate,$prefix)
     // {
         // $year=Utils::fromGCToEth($joiningDate)->format("y");

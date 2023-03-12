@@ -63,7 +63,11 @@
     {{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
     ) }}
     <div class="row">
-        
+        <input type="hidden" name="receipt" id="receipt">
+		<input type="hidden" name="paid" id="paid">
+		<input type="hidden" name="cancel" id="cancel">
+
+
         <div class="form-group col-md-4">
             <label class="col-sm-5 control-label no-padding-right">
                 {{ form_label(form.student) }}
@@ -109,9 +113,9 @@
             <div class="help-block with-errors"></div>
 
         </div>
-        {# <div class="form-group col-md-2 float-right">
-      <input type="submit" class="btn btn-secondary float-right mt-5 " value="PDF" name="pdf">
-        </div> #}
+        <div class="form-group col-md-12 float-right">
+      <input type="submit" class="btn btn-secondary float-right  " value="PDF" name="pdf">
+        </div>
     </div>
     {{ form_end(form) }}
 {% endblock %}
@@ -126,8 +130,8 @@
 					{# <th class="align-middle">FullName</th> #}
 					<th class="align-middle">Sex</th>
 
-					<th class="align-middle">Year</th>
-					<th class="align-middle">Grade</th>
+					{# <th class="align-middle">Year</th>
+					<th class="align-middle">Grade</th> #}
 
 
 					<th class="align-middle">isFree</th>
@@ -159,9 +163,9 @@
 						<td class="align-middle text-nowrap">{{ data.student.getFullName|upper }}</td>
 						<td class="align-middle">{{ data.student.sex }}</td>
 
-						<td class="align-middle">{{ data.registration.year }}</td>
+						{# <td class="align-middle">{{ data.registration.year }}</td>
 
-						<td class="align-middle">{{ data.registration.grade }}</td>
+						<td class="align-middle">{{ data.registration.grade }}</td> #}
 						<td class="align-middle">
 							<span class="badge {{data.registration.isFree?'badge-info':'badge-danger'}}">{{ data.registration.isFree==true?'Yes':'No' }}</span>
 						</td>
@@ -178,27 +182,24 @@
 							{% if data.receiptNumber %}
 								{{data.receiptNumber}}
 							{% else %}
-								<form action="" method="get" id="form{{data.id}}" onsubmit="return confirm('Are you sure you want to submit this payment?');">
-									<input type="hidden" name="paid" value="{{data.id}}">
-									<input type="text" name="receipt" placeholder="enter receipt no" required>
-								</form>
+								
+									<input type="text" data-id ="{{data.id}}" class="receipt_input" placeholder="enter receipt no" form="filteruserform">
+								
 
 							{% endif %}
 						</td>
 						<td class="project-actions text-right">
 
 							{% if data.receiptNumber %}
-								<form action="" method="get" onsubmit="return confirm('Are you sure you want to cancel this payment?');">
-									<input type="hidden" name="cancel" value="{{data.id}}">
-									<button type="submit" class="btn btn-danger btn-sm" title="undo">
+								
+									<button type="submit"  data-id="{{data.id}}"  class="btn btn-danger btn-sm cancelButton"  title="undo" onClick="return confirm('Are you sure you want to cancel this payment?');">
 										<i class="fa fa-undo "></i>
 										Undo
 									</button>
 
-								</form>
 
 							{% else %}
-								<input type="submit" name="pay" value="pay" class="btn btn-primary" form="form{{data.id}}">
+								<input type="submit" data-id="{{data.id}}" value="pay" class="btn btn-primary payButton" form="filteruserform">
 							{% endif %}
 
 
@@ -222,8 +223,35 @@ $('.select2').select2({theme: 'bootstrap4'})
 // $('.select2').select2({theme: 'bootstrap4'});
 
 $('.select2bs4').select2({theme: 'bootstrap4'})
+$('input.payButton').click(function(){
+
+		
+	let	id=$(this).attr('data-id');
+		$(`input.receipt_input[data-id=${id}]`).val();
+		if($(`input.receipt_input[data-id=${id}]`).val()){
+			$('#paid').val(id);
+			$('#receipt').val($(`input.receipt_input[data-id=${id}]`).val());
+
+
+		}
+		else{
+			$(`input.receipt_input[data-id=${id}]`).prop('required',true);
+			return;
+
+		}
+
+
+		//alert($(`input.receipt_input[data-id=${id}]`).val());
+})
+$('button.cancelButton').click(function(){
+	let id=$(this).attr('data-id');
+	$('#cancel').val(id);
+	$('#filteruserform').submit();
+
+})
 
 });
+
 	</script>
 
 {% endblock %}

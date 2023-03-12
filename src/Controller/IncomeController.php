@@ -43,7 +43,8 @@ class IncomeController extends AbstractController
         
 
         $feeTypes = $this->em->getRepository(IncomeSetting::class)->findBy(['type'=>$feeGroup]);
-        
+        $students = $this->em->getRepository(Student::class)->filter(['year'=>$activeYear,])->getResult();
+
         $form = $this->createFormBuilder()
             ->setMethod("GET")
             ->add('year', EntityType::class, [
@@ -53,6 +54,13 @@ class IncomeController extends AbstractController
                 'required' => false,
                 'data'=>$activeYear ? $activeYear: null
             ])
+            ->add('student', EntityType::class, [
+                'class' => Student::class,
+                'placeholder' => 'Select Student',
+                'required' => false,
+                "choices" => $students
+            ])
+    
             ->add('type', EntityType::class, [
                 'class' => IncomeSetting::class,
                 'placeholder' => 'Select Fee Type',
@@ -94,7 +102,7 @@ class IncomeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_income_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, StudentRegistrationRepository $studentRegistrationRepository,IncomeRepository $incomeRepository, PaginatorInterface $paginator): Response
+    public function new(PrintHelper $printHelper,Request $request, StudentRegistrationRepository $studentRegistrationRepository,IncomeRepository $incomeRepository, PaginatorInterface $paginator): Response
     {
         
         $year = UserHelper::toEth(new DateTime('now'));
@@ -112,8 +120,8 @@ class IncomeController extends AbstractController
 
             $year = $this->em->getRepository(PaymentYear::class)->find($session->get('income-year')->getId());
             $grade = $this->em->getRepository(Grade::class)->find($session->get('income-grade')->getId());
-            $feeType = $this->em->getRepository(IncomeSetting::class)->find($session->get('income-feetype')->getId());
-            $students = $this->em->getRepository(Student::class)->filter(['year'=>$year,'grade'=>$grade])->getResult();
+            // $feeType = $this->em->getRepository(IncomeSetting::class)->find($session->get('income-feetype')->getId());
+            $students = $this->em->getRepository(Student::class)->filter(['year'=>$year,'class'=>$grade])->getResult();
 
             if ($request->request->get('close')) {
 
@@ -180,6 +188,11 @@ class IncomeController extends AbstractController
     } else
     $queryBuilder = $this->em->getRepository(Income::class)->filter([ 'year' => $year, 'grade' => $grade, 'name' => $request->request->get('name')]);
 
+    if ($request->query->get('pdf')) {
+        $printHelper->print('payment/print.html.twig', [
+            "datas" => $queryBuilder->getResult()
+        ], 'TOWHID SCHOOL STUDENT PAYMENT REPORT', 'landscape', 'A4');
+    }
 
 
 
