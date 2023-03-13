@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserCard{% endblock %}
+
+{% block body %}
+    <h1>UserCard</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user_card.id }}</td>
+            </tr>
+            <tr>
+                <th>IsReturned</th>
+                <td>{{ user_card.isReturned ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ user_card.quantity }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ user_card.createdAt ? user_card.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ user_card.updatedAt ? user_card.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_card_index') }}">back to list</a>
+
+    <a href="{{ path('app_user_card_edit', {'id': user_card.id}) }}">edit</a>
+
+    {{ include('user_card/_delete_form.html.twig') }}
+{% endblock %}

@@ -45,11 +45,15 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $locale = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserCard::class)]
+    private Collection $userCards;
+
     public function __construct()
     {
         $this->userGroups = new ArrayCollection();
         $this->penalityFees = new ArrayCollection();
         $this->credits = new ArrayCollection();
+        $this->userCards = new ArrayCollection();
     }
     public function __toString()
     {
@@ -246,6 +250,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public function setLocale(?string $locale): self
     {
         $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserCard>
+     */
+    public function getUserCards(): Collection
+    {
+        return $this->userCards;
+    }
+
+    public function addUserCard(UserCard $userCard): self
+    {
+        if (!$this->userCards->contains($userCard)) {
+            $this->userCards->add($userCard);
+            $userCard->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserCard(UserCard $userCard): self
+    {
+        if ($this->userCards->removeElement($userCard)) {
+            // set the owning side to null (unless already changed)
+            if ($userCard->getUser() === $this) {
+                $userCard->setUser(null);
+            }
+        }
 
         return $this;
     }

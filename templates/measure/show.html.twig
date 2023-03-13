@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Measure{% endblock %}
+
+{% block body %}
+    <h1>Measure</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ measure.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ measure.name }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ measure.code }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ measure.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ measure.createdAt ? measure.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ measure.updatedAt ? measure.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_measure_index') }}">back to list</a>
+
+    <a href="{{ path('app_measure_edit', {'id': measure.id}) }}">edit</a>
+
+    {{ include('measure/_delete_form.html.twig') }}
+{% endblock %}

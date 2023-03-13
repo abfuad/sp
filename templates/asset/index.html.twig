@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Asset index
+
+{% endblock %}
+{% block maintitle %}
+
+	{% trans %}
+	Asset
+	{% endtrans %}
+{% endblock %}
+{% block breadcrumb %}
+
+	<li class="breadcrumb-item ">
+		<a href="{{ path('app_asset_index') }}">
+			{% trans %}
+			Asset
+			{% endtrans %}
+		</a>
+	</li>
+
+{% endblock %}
+
+{% block body %}
+
+	{% embed 'common/index.html.twig' %}
+	{% block filter_form %}
+			{{ form_start(form,{'attr': {'role':'form','id':'filteruserform' }}
+			) }}
+			<div class="row">
+				
+				<div class="form-group col-md-5">
+					<label class="col-sm-5 control-label no-padding-right">
+						{{ form_label(form.measure) }}
+					</label>
+					{{ form_widget(form.measure,{'attr':{'class':'select2 form-control' }}
+					) }}
+
+					<div class="help-block with-errors"></div>
+				</div>
+				
+				
+			
+				<div class="form-group col-md-7">
+
+					<div class="row">
+						<div class="col-md-8">
+							<label class="col-sm-5 control-label no-padding-right">
+								{{ form_label(form.type) }}
+							</label>
+							{{ form_widget(form.type,{'attr':{'class':'select2 form-control' }}
+							) }}
+
+						</div>
+						<div class="col-md-2 mt-4">
+							<button class="btn btn-info btn-sm  btn-flat mt-3" type="submit">
+								Filter
+							</button>
+						</div>
+						<div class="col-md-2 mt-4">
+							<input type="submit" class="btn btn-warning btn-sm btn-flat mt-3" value="Clear" name="reset"/>
+
+						</div>
+					</div>
+					<div class="help-block with-errors"></div>
+
+				</div>
+				<div class="form-group col-md-2 float-right">
+              <input type="submit" class="btn btn-secondary float-right mt-5 " value="PDF" name="pdf">
+				</div>
+			</div>
+			{{ form_end(form) }}
+		{% endblock %}
+	
+		{% block table %}
+			<thead>
+				<tr>
+					<th>#</th>
+
+				
+                <th class="align-middle">{% trans %}Name{% endtrans %}</th>
+
+					<th class="align-middle">{% trans %}Unit{% endtrans %}</th>
+					<th class="align-middle">{% trans %}isFixed{% endtrans %}</th>
+					<th class="align-middle">{% trans %}Quantity{% endtrans %}</th>
+                     <th class="align-middle">{% trans %}StockIn{% endtrans %}</th>
+                    <th class="align-middle">{% trans %}StockOut{% endtrans %}</th>
+
+
+					
+					
+
+					<th class="align-middle">{% trans %}actions{% endtrans %}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% set i =  datas.getItemNumberPerPage() * (datas.getCurrentPageNumber() -1) %}
+				{% for data in datas %}
+				{% set i = i+1 %}
+					<tr>
+						<td>
+							{{i}}
+
+						</td>
+						<td class="align-middle text-nowrap">{{ data.name }}</td>
+
+						<td class="align-middle text-nowrap">{{ data.unit }}</td>
+						<td class="align-middle">{{ data.isFixed?'YES':'NO' }}</td>
+						<td class="align-middle">{{ getTotalAsset(data) }}</td>
+						<td class="align-middle">{{ getTotalAsset(data)-getStockOutAsset(data) }}</td>
+                    <td class="align-middle">{{ getStockOutAsset(data) }}</td>
+
+						
+						{# <td class="align-middle"><a href="{{ vich_uploader_asset(data, 'documentFile') }}" target="_blank"> document</a></td> #}
+
+						{# <td class="align-middle">{{ data.createdAt ? data.createdAt|date('Y-m-d') : '' }}</td> #}
+						<td class="project-actions text-right">
+							{# <a href="{{ path('app_student_show', {'id': data.id}) }}" title="view" class="btn btn-info btn-sm d-inline text-nowrap">
+								<i class="fa fa-eye mr-1"></i>View</a>
+							<a href="{{ path('app_student_edit', {'id': data.id}) }}" title="edit" class="btn btn-warning btn-sm mt-1">
+								<i class="fa fa-edit mr-1">Edit</i>
+							</a> #}
+							
+
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="13">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		{% endblock %}
+	{% endembed %}
+
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$(function () { // Initialize Select2 Elements
+$('.select2').select2({theme: 'bootstrap4'});
+});
+	</script>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AssetCategory{% endblock %}
+
+{% block body %}
+    <h1>Create new AssetCategory</h1>
+
+    {{ include('asset_category/_form.html.twig') }}
+
+    <a href="{{ path('app_asset_category_index') }}">back to list</a>
+{% endblock %}

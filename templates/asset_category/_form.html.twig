@@ -1,0 +1,44 @@
+{{ form_start(form,{'attr': {'role':'form'}}) }}
+<div class="form-group ">
+	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.name) }}</label>
+	{{ form_widget(form.name,{'attr':{'class':'form-control '}}) }}
+<div class="help-block text-danger">{{form_errors(form.name)}}</div>
+</div>
+<div class="form-group ">
+	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.code) }}</label>
+	{{ form_widget(form.code,{'attr':{'class':'form-control '}}) }}
+<div class="help-block text-danger">{{form_errors(form.code)}}</div>
+</div>
+<div class="form-group ">
+	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.unit) }}</label>
+	{{ form_widget(form.unit,{'attr':{'class':'form-control select2bs4'}}) }}
+<div class="help-block text-danger">{{form_errors(form.unit)}}</div>
+</div>
+
+<div class="form-group ">
+	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.isFixed) }}</label>
+	{{ form_widget(form.isFixed,{'attr':{'class':'form-control'}}) }}
+<div class="help-block text-danger">{{form_errors(form.isFixed)}}</div>
+</div>
+<div class="form-group ">
+	<label class="col-sm-5 control-label no-padding-right">{{ form_label(form.description) }}</label>
+	{{ form_widget(form.description,{'attr':{'class':'form-control '}}) }}
+<div class="help-block text-danger">{{form_errors(form.description)}}</div>
+</div>
+<div class="form-group">
+	{% if not button_label is defined  %}
+		<button class="btn btn-info">{{ button_label|default('Register') }}</button>
+		<button class="btn  btn-primary " style="margin-right:20px;" type="reset">Reset</button>
+
+	{% else %}
+		<input type="hidden" name="edit" value="{{edit}}">
+		<a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) }}" class="btn btn-primary">
+			Cancel
+		</a>
+
+		<button class="btn btn-success mr-2">{{ button_label|default('Register') }}</button>
+	{% endif %}
+</div>
+
+
+{{ form_end(form) }}

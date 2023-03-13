@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AssetGroup{% endblock %}
+
+{% block body %}
+    <h1>AssetGroup</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ asset_group.id }}</td>
+            </tr>
+            <tr>
+                <th>IsFixed</th>
+                <td>{{ asset_group.isFixed ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ asset_group.quantity }}</td>
+            </tr>
+            <tr>
+                <th>StockIn</th>
+                <td>{{ asset_group.stockIn }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ asset_group.createdAt ? asset_group.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ asset_group.updatedAt ? asset_group.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_asset_group_index') }}">back to list</a>
+
+    <a href="{{ path('app_asset_group_edit', {'id': asset_group.id}) }}">edit</a>
+
+    {{ include('asset_group/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AssetGroup index{% endblock %}
+
+{% block body %}
+    <h1>AssetGroup index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>IsFixed</th>
+                <th>Quantity</th>
+                <th>StockIn</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for asset_group in asset_groups %}
+            <tr>
+                <td>{{ asset_group.id }}</td>
+                <td>{{ asset_group.isFixed ? 'Yes' : 'No' }}</td>
+                <td>{{ asset_group.quantity }}</td>
+                <td>{{ asset_group.stockIn }}</td>
+                <td>{{ asset_group.createdAt ? asset_group.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ asset_group.updatedAt ? asset_group.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_asset_group_show', {'id': asset_group.id}) }}">show</a>
+                    <a href="{{ path('app_asset_group_edit', {'id': asset_group.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_asset_group_new') }}">Create new</a>
+{% endblock %}

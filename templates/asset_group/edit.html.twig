@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AssetGroup{% endblock %}
+
+{% block body %}
+    <h1>Edit AssetGroup</h1>
+
+    {{ include('asset_group/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_asset_group_index') }}">back to list</a>
+
+    {{ include('asset_group/_delete_form.html.twig') }}
+{% endblock %}
