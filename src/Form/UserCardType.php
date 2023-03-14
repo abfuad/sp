@@ -12,11 +12,13 @@ class UserCardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isReturned')
+            // ->add('isReturned')
             ->add('quantity')
             
             ->add('user')
-            ->add('asset')
+            // ->add('asset')
+            ->add('description')
+
         ;
     }
 

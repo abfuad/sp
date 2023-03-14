@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserCardRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserCardRepository::class)]
@@ -25,6 +26,9 @@ class UserCard extends BaseEntity
     #[ORM\ManyToOne(inversedBy: 'userCards')]
     #[ORM\JoinColumn(nullable: false)]
     private ?AssetCategory $asset = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
    
 
@@ -74,6 +78,18 @@ class UserCard extends BaseEntity
     public function setAsset(?AssetCategory $asset): self
     {
         $this->asset = $asset;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

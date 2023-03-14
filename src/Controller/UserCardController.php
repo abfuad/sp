@@ -24,6 +24,12 @@ class UserCardController extends AbstractController
     #[Route('/', name: 'app_user_card_index', methods: ['GET', "POST"])]
     public function index(PrintHelper $printHelper,UserCardRepository $userCardRepository,AssetRepository $assetRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        if($request->request->get('return')){
+            $userCard=$userCardRepository->find($request->request->get('return'));
+            $userCard->setIsReturned(true);
+            $userCardRepository->save($userCard,true);
+            $this->addFlash('success','successfuly returned');
+        }
         $form = $this->createFormBuilder()
         ->setMethod("GET")
         ->add('category', EntityType::class, [
@@ -71,7 +77,7 @@ class UserCardController extends AbstractController
             return $this->redirectToRoute('app_user_card_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user_card/new.html.twig', [
+        return $this->render('user_card/new.html.twig', [
             'user_card' => $userCard,
             'form' => $form,
         ]);
@@ -97,7 +103,7 @@ class UserCardController extends AbstractController
             return $this->redirectToRoute('app_user_card_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user_card/edit.html.twig', [
+        return $this->render('user_card/edit.html.twig', [
             'user_card' => $userCard,
             'form' => $form,
         ]);

@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Asset;
+use App\Entity\AssetCategory;
 use App\Entity\Measure;
+use App\Entity\UserCard;
 use App\Form\AssetType;
+use App\Form\UserCardType;
 use App\Helper\PrintHelper;
 use App\Repository\AssetCategoryRepository;
 use App\Repository\AssetRepository;
+use App\Repository\UserCardRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -97,9 +101,96 @@ class AssetController extends AbstractController
             return $this->redirectToRoute('app_asset_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('asset/edit.html.twig', [
+        return $this->render('asset/edit.html.twig', [
             'asset' => $asset,
             'form' => $form,
+        ]);
+    }
+    #[Route('/{id}/transaction', name: 'app_asset_transaction', methods: ['GET', 'POST'])]
+    public function transaction(Request $request, AssetCategory $category, AssetRepository $assetRepository,UserCardRepository $userCardRepository): Response
+    {
+        if($request->request->get('card_remove')){
+            $id=$request->request->get('card_remove');
+            $userCard=$userCardRepository->findOneBy(['id'=>$id]);
+            $userCardRepository->remove($userCard,true);
+            $this->addFlash('success', "Deleted Successfuly");
+    
+    
+            return $this->redirectToRoute('app_asset_transaction',['id'=>$category->getId()]);
+        }
+        $userCard = new UserCard();
+        $userCardForm = $this->createForm(UserCardType::class, $userCard);
+        $userCardForm->handleRequest($request);
+
+        if ($userCardForm->isSubmitted() && $userCardForm->isValid()) {
+           $userCard->setAsset($category);
+           $userCard->setIsReturned(0);
+           $this->em->persist($userCard);
+           $this->em->flush();
+           $this->addFlash('success', "Registered Successfuly");
+           return $this->redirectToRoute('app_asset_transaction',['id'=>$category->getId()]);
+        }
+        
+        if($request->request->get('remove')){
+        $id=$request->request->get('remove');
+        $asset=$assetRepository->findOneBy(['id'=>$id]);
+        $assetRepository->remove($asset,true);
+        $this->addFlash('success', "Deleted Successfuly");
+
+
+        return $this->redirectToRoute('app_asset_transaction',['id'=>$category->getId()]);
+    }
+    if($request->request->get('edit')){
+              
+
+        $id=$request->request->get('edit');
+        $asset=$assetRepository->findOneBy(['id'=>$id]);
+       
+
+        $form = $this->createForm(AssetType::class, $asset);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $this->em->flush();
+            $this->addFlash('success', "Updated Successfuly");
+
+
+            return $this->redirectToRoute('app_asset_transaction',['id'=>$category->getId()]);
+        }
+       
+       
+        return $this->render('asset/show.html.twig', [
+            'category' => $category,
+            'form' => $form,
+            'edit'=>$id,
+            
+            'card_edit'=>false,
+
+
+        ]);
+
+    }
+        $asset = new Asset();
+        $form = $this->createForm(AssetType::class, $asset);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           $asset->setCategory($category);
+           
+           $this->em->persist($asset);
+           $this->em->flush();
+           $this->addFlash('success', "Registered Successfuly");
+            return $this->redirectToRoute('app_asset_transaction',['id'=>$category->getId()]);
+        }
+
+        return $this->render('asset/show.html.twig', [
+            'category' => $category,
+            'form'=>$form,
+            'edit'=>false,
+            'card_edit'=>false,
+            'card_form'=>$userCardForm
+
+          
         ]);
     }
 

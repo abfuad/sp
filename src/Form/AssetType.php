@@ -18,11 +18,12 @@ class AssetType extends AbstractType
         $builder
             ->add('quantity')
             
-            ->add('category',EntityType::class,[
-                'class'=>AssetCategory::class,
-                'placeholder'=>'Select asset name',
-                // 'mapped'=>false,
-            ])
+            // ->add('category',EntityType::class,[
+            //     'class'=>AssetCategory::class,
+            //     'placeholder'=>'Select asset name',
+            //     // 'mapped'=>false,
+            // ])
+            ->add('description')
             // ->add('unit',EntityType::class,[
             //     'class'=>Measure::class,
             //     'placeholder'=>'Select Measurement',
