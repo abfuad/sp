@@ -45,7 +45,7 @@ class IncomeController extends AbstractController
         $feeTypes = $this->em->getRepository(IncomeSetting::class)->findBy(['type'=>$feeGroup]);
         $students = $this->em->getRepository(Student::class)->filter(['year'=>$activeYear,])->getResult();
 
-        $form = $this->createFormBuilder()
+        $form1 = $this->createFormBuilder()
             ->setMethod("GET")
             ->add('year', EntityType::class, [
                 'class' => PaymentYear::class,
@@ -67,20 +67,20 @@ class IncomeController extends AbstractController
                 'required' => false,
                 'choices' => $feeTypes
             ])
-            ->add('grade', EntityType::class, [
-                'class' => Grade::class,
-                'placeholder' => 'Select Grade',
-                'required' => false
-            ])
+            // ->add('grade', EntityType::class, [
+            //     'class' => Grade::class,
+            //     'placeholder' => 'Select Grade',
+            //     'required' => false
+            // ])
 
 
-            ->add("status", ChoiceType::class, ["choices" => ["All" => null, "Paid" => 1, "UnPaid" => 0]]);
-        $form = $form->getForm();
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $queryBuilder = $incomeRepository->filter($form->getData());
+            ->add("status", ChoiceType::class, ["choices" => ["All" => null, "Paid" => 1, "UnPaid" => 0]])->getForm();
+        // $form = $form->getForm();
+        $form1->handleRequest($request);
+        if ($form1->isSubmitted() ) {
+            $queryBuilder = $incomeRepository->filter($form1->getData());
         } else
-            $queryBuilder = $incomeRepository->filter(['name' => $request->request->get('name')]);
+            $queryBuilder = $incomeRepository->filter(['name' => $request->request->get('name'),'year'=>$activeYear]);
 
         if ($request->query->get('pdf')) {
             $printHelper->print('payment/print.html.twig', [
@@ -96,7 +96,7 @@ class IncomeController extends AbstractController
         return $this->render('income/index.html.twig', [
 
             'datas' => $data,
-            'form' => $form
+            'form' => $form1
 
         ]);
     }

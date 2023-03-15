@@ -64,11 +64,11 @@ class IncomeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-public function filter($search=[],$year=null)
+public function filter($search=[])
 {
     $qb=$this->createQueryBuilder('s')
     ->join('s.registration','r')
-    ->join('s.student','st')
+    ->join('r.student','st')
     ;
     if (isset($search['name'])) {
 
@@ -88,21 +88,21 @@ public function filter($search=[],$year=null)
         $qb->andWhere('r.year = :yr')
         ->setParameter('yr',$search['year']);
     }
-    elseif(isset($search['year'])==false && $year!=null){
+    // elseif(isset($search['year'])==false && $year!=null){
 
-        $qb->andWhere('r.year = :yr1')
-        ->setParameter('yr1',$year);
-    }
+    //     $qb->andWhere('r.year = :yr1')
+    //     ->setParameter('yr1',$year);
+    // }
     if (isset($search['student'])) {
 
-        $qb->andWhere('r.student = :st')
-        ->setParameter('st',$search['student']);
+        $qb->andWhere('st.id = :str')
+        ->setParameter('str',$search['student']);
     }
-    if (isset($search['registration'])) {
+    // if (isset($search['registration'])) {
 
-        $qb->andWhere('s.registration = :rg')
-        ->setParameter('rg',$search['registration']);
-    }
+    //     $qb->andWhere('s.registration = :rg')
+    //     ->setParameter('rg',$search['registration']);
+    // }
     if (isset($search['status'])) {
          $status=$search['status'];
         
@@ -124,11 +124,13 @@ public function filter($search=[],$year=null)
         $qb->andWhere('r.isFree = :pad')
         ->setParameter('pad',$search['isfree']);
     }
+
         return 
         $qb->orderBy('st.firstName','ASC')
         ->addOrderBy('st.middleName','ASC')
         ->addOrderBy('st.lastName','ASC')
         ->getQuery()
+        
  
     ;
 }

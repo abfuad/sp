@@ -92,7 +92,7 @@ class StudentRegistrationController extends AbstractController
                     $register->setStudent($student);
                     $register->setIsCompleted(false);
                     $register->setIsFree(false);
-                    $register->getStudent()->setClass($register->getGrade());
+                    $register->getStudent()->setClass($student->getGrade());
                     $this->em->persist($register);
 
                     $this->em->flush();

@@ -7,11 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: IncomeRepository::class)]
-#[UniqueEntity(
-    fields: ['student', 'type'],
-    errorPath: 'student',
-    message: 'This Student is already payed this fee.',
-)]
+// #[UniqueEntity(
+//     fields: ['student', 'type'],
+//     errorPath: 'student',
+//     message: 'This Student is already payed this fee.',
+// )]
 class Income extends BaseEntity
 {
     

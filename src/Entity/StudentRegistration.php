@@ -9,11 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: StudentRegistrationRepository::class)]
-#[UniqueEntity(
-    fields: ['student', 'grade','year'],
-    errorPath: 'student',
-    message: 'This Student is already registered.',
-)]
+// #[UniqueEntity(
+//     fields: ['student', 'grade','year'],
+//     errorPath: 'student',
+//     message: 'This Student is already registered.',
+// )]
 class StudentRegistration extends BaseEntity
 {
   
@@ -56,7 +56,7 @@ class StudentRegistration extends BaseEntity
     }
     public function __toString()
     {
-      return $this->student->__toString();
+      return $this->student;
     }
       
    

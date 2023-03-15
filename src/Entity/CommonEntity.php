@@ -34,13 +34,14 @@ class CommonEntity implements BlameableInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
 
     private ?string $description = null;
-    public function __toString()
-    {
-        return $this->name;
-    }
+    
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function __toString()
+    {
+        return $this->name;
     }
 
     public function getName(): ?string
